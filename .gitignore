@@ -35,3 +35,6 @@
 *.ilk
 *.pdb
 *vscode
+
+# Unix-like binary
+arc
