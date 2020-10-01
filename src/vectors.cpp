@@ -171,6 +171,7 @@ Vector6 Vector6::add(Vector6& v) {
     double dx = x + v.x;
     double dy = y + v.y;
     double dz = z + v.z;
+    return Vector6 {da, db, dc, dx, dy, dz};
 }
 
 // Scale by a scalar value using element-wise multiplication
