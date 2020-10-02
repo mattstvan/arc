@@ -1,9 +1,6 @@
 #ifndef UTCTIME_H
 #define UTCTIME_H
-
-#ifndef string
 #include <string>
-#endif
 
 // UTC Date and Time
 class UTCTime {
