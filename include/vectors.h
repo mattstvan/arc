@@ -1,9 +1,6 @@
 #ifndef VECTORS_H
 #define VECTORS_H
-
-#ifndef array
 #include <array>
-#endif
 
 // Three-element vector
 class Vector3 {

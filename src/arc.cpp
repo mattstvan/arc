@@ -1,9 +1,16 @@
 #include <vectors.h>
 #include <utctime.h>
+#include <cartesian.h>
+#include <celestial.h>
+#include <ctime>
+
+using namespace std;
 
 int main() {
-
-    UTCTime test;
-    test.print();
+    ICRF icrf;
+    icrf.print();
+    UTCTime epoch = UTCTime {50000.0};
+    ICRF icrf2 = ICRF {};
+    icrf2.print();
     return 0;
 }
