@@ -24,13 +24,14 @@ ICRF class methods
 */
 
 void ICRF::print() {
-    std::cout << "[ICRF]" << std::endl;
-    std::cout << "- Central Body:" << std::endl;
+    std::cout << "[ICRF] {" << std::endl;
+    std::cout << "Central Body: ";
     central_body.print();
-    std::cout << "- Epoch:" << std::endl;
+    std::cout << "Epoch: ";
     epoch.print();
-    std::cout << "- Position:" << std::endl;
+    std::cout << "Position: ";
     position.print();    
-    std::cout << "- Velocity" << std::endl;
+    std::cout << "Velocity: ";
     velocity.print();
+    std::cout << "}" << std::endl;
 }

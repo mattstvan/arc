@@ -22,8 +22,7 @@ Vector3::Vector3(double x, double y, double z) {
 
 // Print to std::cout
 void Vector3::print() {
-    std::cout << "[Vector3]" << std::endl;
-    std::cout << " X: " << x << "\n Y: " << y << "\n Z: " << z << std::endl;
+    std::cout << "[Vector3] { X: " << x << ", Y: " << y << ", Z: " << z << " }" << std::endl;
 }
 
 // Calculate the magnitude
@@ -158,9 +157,7 @@ Vector6::Vector6(Vector3& a, Vector3& b) {
 
 // Print to std::cout
 void Vector6::print() {
-    std::cout << "[Vector6]" << std::endl;
-    std::cout << " A: " << a << "\n B: " << b << "\n C: " << c << std::endl;
-    std::cout << " X: " << x << "\n Y: " << y << "\n Z: " << z << std::endl;
+    std::cout << "[Vector6] { A: " << a << ", B: " << b << ", C: " << c << ", X: " << x << ", Y: " << y << ", Z: " << z << " }" << std::endl;
 }
 
 // Add another Vector6 using element-wise addition

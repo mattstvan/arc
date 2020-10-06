@@ -23,8 +23,7 @@ UTCTime::UTCTime(long seconds) {
 
 // Print to std::cout
 void UTCTime::print() {
-    std::cout << "[UTCTime]\n Seconds since J2000: " << seconds_since_j2000 << std::endl;
-    std::cout << " ISO: " << to_iso() << std::endl;
+    std::cout << "[UTCTime] { Seconds since J2000: " << seconds_since_j2000 << ", ISO: " << to_iso() << " }" << std::endl;
 }
 
 // Convert to `struct tm' representation of *TIMER in Universal Coordinated Time

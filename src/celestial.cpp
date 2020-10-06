@@ -26,7 +26,7 @@ Celestial body methods
 
 // Print to std::cout
 void CelestialBody::print() {
-    std::cout << "[CelestialBody]\n ID: " << id << "\n Name: " << get_name() << std::endl;
+    std::cout << "[CelestialBody] { ID: " << id << ", Name: " << get_name() << " }" << std::endl;
 }
 
 // Return the common name of the body as a String
