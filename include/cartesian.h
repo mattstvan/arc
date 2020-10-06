@@ -26,6 +26,12 @@ class Cartesian {
 // Cartesian state in the International Celestial Reference Frame (~J2000)
 class ICRF: public Cartesian {
     public:
+
+    // Default constructor (call base class)
+    ICRF(){};
+
+    // Direct constructor
+    ICRF(CelestialBody body, UTCTime epoch, Vector3 pos, Vector3 vel);
     
     // Print to std::cout
     void print();

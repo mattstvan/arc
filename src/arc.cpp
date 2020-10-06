@@ -3,14 +3,10 @@
 #include <cartesian.h>
 #include <celestial.h>
 #include <ctime>
-
-using namespace std;
+#include <iostream>
 
 int main() {
     ICRF icrf;
     icrf.print();
-    UTCTime epoch = UTCTime {50000.0};
-    ICRF icrf2 = ICRF {};
-    icrf2.print();
     return 0;
 }

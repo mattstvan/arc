@@ -9,6 +9,12 @@ std::string get_body_name(int id) {
             return std::string{"Sun"};
         case 199:
             return std::string{"Mercury"};
+        case 299:
+            return std::string{"Venus"};
+        case 399:
+            return std::string{"Earth"};
+        case 301:
+            return std::string{"Luna"};
         default:
             return std::string("Unknown");
     }
