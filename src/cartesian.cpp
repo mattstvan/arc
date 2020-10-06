@@ -5,6 +5,7 @@
 Cartesian base class methods
 */
 
+// Default constructor
 Cartesian::Cartesian() {
     this->central_body = SUN;
     this->epoch = UTCTime{};
@@ -12,6 +13,7 @@ Cartesian::Cartesian() {
     this->velocity = Vector3{};
 }
 
+// Direct constructor
 Cartesian::Cartesian(CelestialBody body, UTCTime epoch, Vector3 pos, Vector3 vel) {
     this->central_body = body;
     this->epoch = epoch;
@@ -23,6 +25,7 @@ Cartesian::Cartesian(CelestialBody body, UTCTime epoch, Vector3 pos, Vector3 vel
 ICRF class methods
 */
 
+// Print to std::cout
 void ICRF::print() {
     std::cout << "[ICRF] {" << std::endl;
     std::cout << "Central Body: ";
