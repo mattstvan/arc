@@ -1,9 +1,5 @@
-#include <iostream>
 #include <vectors.h>
 #include <utctime.h>
-#include <ctime>
-
-using namespace std;
 
 int main() {
 

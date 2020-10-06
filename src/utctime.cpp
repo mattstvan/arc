@@ -27,11 +27,16 @@ void UTCTime::print() {
     std::cout << " ISO: " << to_iso() << std::endl;
 }
 
+// Convert to `struct tm' representation of *TIMER in Universal Coordinated Time
+tm* UTCTime::to_tm() {
+    time_t t = (long)(seconds_since_j2000 + 946727935.816);
+    return gmtime(&t);
+}
+
 // Format date as ISO string
 std::string UTCTime::to_iso() {
-    time_t t = (long)(seconds_since_j2000 + 946727935.816);
-    auto nt = gmtime(&t);
+    tm* t = to_tm();
     char buffer[256];
-    strftime(buffer, sizeof(buffer), "%Y-%m-%dT%H:%M:%S", nt);
+    strftime(buffer, sizeof(buffer), "%Y-%m-%dT%H:%M:%S", t);
     return std::string {buffer};
 }

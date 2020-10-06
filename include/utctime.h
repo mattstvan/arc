@@ -1,9 +1,7 @@
 #ifndef UTCTIME_H
 #define UTCTIME_H
-
-#ifndef string
 #include <string>
-#endif
+#include <ctime>
 
 // UTC Date and Time
 class UTCTime {
@@ -21,6 +19,9 @@ class UTCTime {
 
     // Print to std::cout
     void print();
+
+    // Convert to `struct tm' representation of *TIMER in Universal Coordinated Time
+    tm* to_tm();
 
     // Format date using strftime parameters
     std::string to_iso();
