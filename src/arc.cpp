@@ -7,6 +7,5 @@
 
 int main() {
     ICRF icrf;
-    icrf.print();
     return 0;
 }
