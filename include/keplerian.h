@@ -4,7 +4,7 @@
 #include <utctime.h>
 #include <cartesian.h>
 
-// Keplerian elements orbital elements
+// Keplerian orbital elements
 class KeplerianElements {
     public:
         // Central body of the orbit these elements represent
@@ -32,6 +32,9 @@ class KeplerianElements {
 
     // Constructor using Cartesian instance
     KeplerianElements(Cartesian& vector);
+
+    // Print to std::cout
+    void print();
 };
 
 #endif
