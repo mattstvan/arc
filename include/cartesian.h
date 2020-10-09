@@ -38,6 +38,9 @@ class ICRF : public Cartesian {
 
   // Print to std::cout
   void print();
+
+  // Convert position/velocity vectors into the sun-centered ICRF frame
+  ICRF to_solar();
 };
 
 #endif

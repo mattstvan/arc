@@ -1,5 +1,6 @@
 #ifndef KEPLERIAN_H
 #define KEPLERIAN_H
+#include <math.h>
 #include <cartesian.h>
 #include <celestial.h>
 #include <utctime.h>
