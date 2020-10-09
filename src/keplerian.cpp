@@ -1,6 +1,5 @@
 #define _USE_MATH_DEFINES
 #include <keplerian.h>
-#include <math.h>
 
 #include <iostream>
 
