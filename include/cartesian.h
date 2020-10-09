@@ -34,7 +34,7 @@ class ICRF: public Cartesian {
     ICRF(){};
 
     // Direct constructor
-    ICRF(CelestialBody body, UTCTime epoch, Vector3 pos, Vector3 vel);
+    ICRF(CelestialBody body, UTCTime epoch, Vector3 pos, Vector3 vel) : Cartesian { body, epoch, pos, vel } {};
     
     // Print to std::cout
     void print();
