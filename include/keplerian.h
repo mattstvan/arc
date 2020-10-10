@@ -45,7 +45,7 @@ class KeplerianElements {
   void print();
 
   // Compute mean motion
-  double KeplerianElements::mean_motion();
+  double mean_motion();
 
   // Propagate the True Anomaly of the elements to a specified epoch
   KeplerianElements propagate_to(UTCTime t);

@@ -36,7 +36,7 @@ class UTCTime {
   std::string format(char fmt[]);
 
   // Format date usding strftime paramaters, adding fractional seconds
-  std::string UTCTime::format_fractional(char fmt[]);
+  std::string format_fractional(char fmt[]);
 
   // Format date as ISO 8601
   std::string to_iso();
