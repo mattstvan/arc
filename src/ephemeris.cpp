@@ -1,4 +1,5 @@
 #include <ephemeris.h>
+
 #include <iostream>
 #include <sstream>
 
@@ -44,5 +45,16 @@ std::vector<std::string> Ephemeris::format_stk() {
   std::stringstream body_str;
   body_str << "CentralBody " << central_body.get_name();
   lines.push_back(body_str.str());
+  lines.push_back("CoordinateSystem ICRF");
+  lines.push_back("EphemerisTimePosVel");
+  for (ICRF state : states) {
+    double tplus = state.epoch.difference(epoch);
+    std::stringstream point_line;
+    point_line << tplus << " " << state.position.x << " " << state.position.y
+               << " " << state.position.z << " " << state.velocity.x << " "
+               << state.velocity.y << " " << state.velocity.z;
+    lines.push_back(point_line.str());
+  }
+  lines.push_back("END Ephemeris");
   return lines;
 }
