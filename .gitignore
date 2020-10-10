@@ -38,3 +38,6 @@
 
 # Unix-like binary
 arc
+
+# Test data files
+/*.e

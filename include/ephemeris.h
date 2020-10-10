@@ -31,6 +31,9 @@ class Ephemeris {
 
   // Create ASCII ephemeris in STK format
   std::vector<std::string> format_stk();
+
+  // Write ephemeris to file using STK format
+  void write_stk(char filename[]);
 };
 
 #endif

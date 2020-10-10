@@ -1,4 +1,5 @@
 #include <ephemeris.h>
+#include <file_io.h>
 
 /*
 Ephemeris class methods
@@ -56,4 +57,13 @@ std::vector<std::string> Ephemeris::format_stk() {
   }
   lines.push_back("END Ephemeris");
   return lines;
+}
+
+// Write ephemeris to file using STK format
+void Ephemeris::write_stk(char filename[]) {
+  int result = write_lines_to_file(format_stk(), filename);
+  if (result == 1) {
+    std::cout << "Unable to write Ephemeris to file location: " << filename
+              << std::endl;
+  }
 }

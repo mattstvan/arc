@@ -13,11 +13,8 @@ int main() {
   KeplerianElements kep{icrf};
   kep.print();
   kep.propagate_to(UTCTime {5566.9}).print();
-  Ephemeris ephem;\
+  Ephemeris ephem;
   ephem.states.push_back(icrf);
-  ephem.print();
-  for (std::string line : ephem.format_stk()) {
-    std::cout << line << std::endl;
-  }
+  ephem.write_stk("Test.e");
   return 0;
 }
