@@ -117,7 +117,7 @@ KeplerianElements KeplerianElements::propagate_to(UTCTime t) {
   double n = mean_motion();
   // Make an initial estimate of the Eccentric Anomaly and improve it using True
   // Anomaly
-  double ecc_anom = cos(e * cos(v)) / (1.0 + e * cos(v));
+  double ecc_anom = acos((e + cos(v)) / (1.0 + e * cos(v)));
   ecc_anom = match_half_plane(ecc_anom, v);
   // Make an initial estimate of the Mean Anomaly and improve it using Eccentric
   // Anomaly
@@ -143,4 +143,18 @@ KeplerianElements KeplerianElements::propagate_to(UTCTime t) {
   v_final = match_half_plane(v_final, ecc_anom);
   // Create new Keplerian state
   return KeplerianElements{central_body, t, a, e, i, o, w, v_final};
+}
+
+/*
+Keplerian propagator methods
+*/
+
+// Direct constructor
+KeplerianPropagator::KeplerianPropagator(KeplerianElements state) {
+  this->initial_state = state;
+}
+
+// Propagate the inital state to specified epoch
+ICRF KeplerianPropagator::propagate(UTCTime epoch) {
+  return initial_state.propagate_to(epoch);
 }
