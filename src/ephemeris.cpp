@@ -13,11 +13,10 @@ Ephemeris::Ephemeris() {
 }
 
 // Direct constructor
-Ephemeris::Ephemeris(std::vector<ICRF> states, UTCTime epoch,
-                     CelestialBody body) {
+Ephemeris::Ephemeris(std::vector<ICRF> states) {
   this->states = states;
-  this->epoch = epoch;
-  this->central_body = body;
+  this->epoch = states[0].epoch;
+  this->central_body = states[0].central_body;
 }
 
 // Print to std::cout

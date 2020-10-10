@@ -3,6 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <celestial.h>
 #include <utctime.h>
+#include <propagator.h>
 
 #include <cmath>
 #include <iostream>
@@ -48,6 +49,19 @@ class KeplerianElements {
 
   // Propagate the True Anomaly of the elements to a specified epoch
   KeplerianElements propagate_to(UTCTime t);
+};
+
+// Propagator using Kepler's method
+class KeplerianPropagator: public Propagator {
+  public:
+   // Initial KeplerianElements state
+   KeplerianElements initial_state;
+
+  // Direct constructor
+  KeplerianPropagator(KeplerianElements state);
+
+  // Propagate the inital state to specified epoch
+  ICRF propagate(UTCTime epoch);
 };
 
 #endif

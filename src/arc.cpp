@@ -1,20 +1,24 @@
 #include <cartesian.h>
 #include <celestial.h>
+#include <ephemeris.h>
 #include <keplerian.h>
+#include <propagator.h>
 #include <utctime.h>
 #include <vectors.h>
-#include <ephemeris.h>
+
 #include <ctime>
 #include <iostream>
 
 int main() {
-  ICRF icrf{EARTH, UTCTime{}, Vector3{-698891.686, 6023436.003, 3041793.014},
-            Vector3{-4987.520, -3082.634, 4941.720}};
-  KeplerianElements kep{icrf};
-  ICRF icrf2 {kep};
-  icrf.print();
-  icrf2.print();
-  std::cout << icrf.position.distance(icrf2.position) << std::endl;
-  std::cout << icrf.velocity.distance(icrf2.velocity) << std::endl;
+  ICRF icrf =
+      ICRF{EARTH, UTCTime{}, Vector3{-698891.686, 6023436.003, 3041793.014},
+           Vector3{-4987.520, -3082.634, 4941.720}};
+  KeplerianElements kep = KeplerianElements{icrf};
+  KeplerianPropagator prop = KeplerianPropagator{kep};
+  UTCTime start = UTCTime {};
+  UTCTime stop = UTCTime {86400.0};
+  std::vector<ICRF> states = prop.step(start, stop, 60.0);
+  Ephemeris eph = Ephemeris {states};
+  eph.write_stk("Test.e");
   return 0;
 }

@@ -1,5 +1,6 @@
 #ifndef EPHEMERIS_H
 #define EPHEMERIS_H
+#include <propagator.h>
 #include <cartesian.h>
 #include <celestial.h>
 #include <utctime.h>
@@ -24,7 +25,7 @@ class Ephemeris {
   Ephemeris();
 
   // Direct constructor
-  Ephemeris(std::vector<ICRF> states, UTCTime epoch, CelestialBody body);
+  Ephemeris(std::vector<ICRF> states);
 
   // Print to std::cout
   void print();
