@@ -1,5 +1,6 @@
 #ifndef KEPLERIAN_H
 #define KEPLERIAN_H
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include <cartesian.h>
 #include <celestial.h>
@@ -37,6 +38,12 @@ class KeplerianElements {
 
   // Print to std::cout
   void print();
+
+  // Compute mean motion
+  double KeplerianElements::mean_motion();
+
+  // Propagate the True Anomaly of the elements to a specified epoch
+  KeplerianElements propagate_to(UTCTime t);
 };
 
 #endif

@@ -1,5 +1,5 @@
-#define _USE_MATH_DEFINES
 #include <keplerian.h>
+#include <math_utils.h>
 
 #include <iostream>
 
@@ -103,4 +103,19 @@ void KeplerianElements::print() {
   std::cout << " O: " << o * (180.0 / M_PI) << std::endl;
   std::cout << " W: " << w * (180.0 / M_PI) << std::endl;
   std::cout << " V: " << v * (180.0 / M_PI) << std::endl;
+}
+
+// Compute mean motion
+double KeplerianElements::mean_motion() {
+  sqrt(central_body.mu / pow(a, 3.0));
+}
+
+  // Propagate the True Anomaly of the elements to a specified epoch
+KeplerianElements KeplerianElements::propagate_to(UTCTime t) {
+  // Get delta between the requested time and the initial state epoch
+  double delta = t.difference(epoch);
+  // Calculate mean motion
+  double n = mean_motion();
+  // Make an initial estimate of the Eccentric Anomaly and improve it using True Anomaly
+  double ecc_anom = cos(e * cos(v)) / (1.0 + e * cos(v));
 }
