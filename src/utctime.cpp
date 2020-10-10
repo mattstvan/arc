@@ -28,6 +28,21 @@ tm* UTCTime::to_tm() {
   return gmtime(&t);
 }
 
+// Increment time by a desired number of seconds
+UTCTime UTCTime::increment(double seconds) {
+  return UTCTime {seconds_since_j2000 + seconds};
+}
+
+// Calculate the difference between the instance and another UTCTime
+double UTCTime::difference(UTCTime other) {
+  return seconds_since_j2000 - other.seconds_since_j2000;
+}
+
+// Evaluates to true if UTCTime is equal to another
+bool UTCTime::equals(UTCTime other) {
+  return seconds_since_j2000 == other.seconds_since_j2000;
+}
+
 // Format date as ISO string
 std::string UTCTime::to_iso() {
   tm* t = to_tm();

@@ -26,6 +26,15 @@ class UTCTime {
 
   // Format date using strftime parameters
   std::string to_iso();
+
+  // Increment time by a desired number of seconds
+  UTCTime increment(double seconds);
+
+  // Calculate the difference between the instance and another UTCTime
+  double difference(UTCTime other);
+
+  // Evaluates to true if UTCTime is equal to another
+  bool equals(UTCTime other);
 };
 
 #endif
