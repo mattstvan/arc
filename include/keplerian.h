@@ -1,9 +1,9 @@
 #ifndef KEPLERIAN_H
 #define KEPLERIAN_H
 #define _USE_MATH_DEFINES
-#include <math.h>
 #include <cartesian.h>
 #include <celestial.h>
+#include <math.h>
 #include <utctime.h>
 
 // Keplerian orbital elements
