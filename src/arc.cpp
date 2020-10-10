@@ -3,7 +3,7 @@
 #include <keplerian.h>
 #include <utctime.h>
 #include <vectors.h>
-
+#include <ephemeris.h>
 #include <ctime>
 #include <iostream>
 
@@ -13,5 +13,7 @@ int main() {
   KeplerianElements kep{icrf};
   kep.print();
   kep.propagate_to(UTCTime {5566.9}).print();
+  Ephemeris ephem;
+  ephem.print();
   return 0;
 }
