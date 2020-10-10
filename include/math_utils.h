@@ -1,5 +1,6 @@
 #ifndef MATH_UTILS_H
 #define MATH_UTILS_H
+#define _USE_MATH_DEFINES
 #include <vector>
 #include <math.h>
 
@@ -14,6 +15,19 @@ double eval_poly(double x, std::vector<double> coeffs) {
   output += coeffs[n] * pow(x, n);
  }
  return output;
+}
+
+// Return the angle (original or inverse) that exists in the half plane of the match argument (m)
+double match_half_angle(double angle, double m) {
+ double a1 = angle;
+ double a2 = (2.0 * M_PI) - angle;
+ double d1 = atan2(sin(a1 - m), cos(a1 - m));
+ double d2 = atan2(sin(a2 - m), cos(a2 - m));
+ if (abs(d1) < abs(d2)) {
+  return a1;
+ } else {
+  return a2;
+ }
 }
 
 #endif
