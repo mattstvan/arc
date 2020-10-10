@@ -1,7 +1,6 @@
 #ifndef UTCTIME_H
 #define UTCTIME_H
-#include <math.h>
-
+#include <cmath>
 #include <ctime>
 #include <iostream>
 #include <string>

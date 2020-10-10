@@ -1,12 +1,14 @@
 #ifndef KEPLERIAN_H
 #define KEPLERIAN_H
 #define _USE_MATH_DEFINES
-#include <cartesian.h>
 #include <celestial.h>
-#include <math.h>
 #include <utctime.h>
 
+#include <cmath>
 #include <iostream>
+
+// Forward declaration
+class Cartesian;
 
 // Keplerian orbital elements
 class KeplerianElements {
@@ -36,7 +38,7 @@ class KeplerianElements {
                     double i, double o, double w, double v);
 
   // Constructor using Cartesian instance
-  KeplerianElements(Cartesian& vector);
+  KeplerianElements(Cartesian vector);
 
   // Print to std::cout
   void print();

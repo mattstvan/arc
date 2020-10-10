@@ -1,4 +1,5 @@
 #include <keplerian.h>
+#include <cartesian.h>
 #include <math_utils.h>
 
 /*
@@ -32,7 +33,7 @@ KeplerianElements::KeplerianElements(CelestialBody body, UTCTime epoch,
 }
 
 // Constructor using Cartesian instance
-KeplerianElements::KeplerianElements(Cartesian& vector) {
+KeplerianElements::KeplerianElements(Cartesian vector) {
   // Create some constants to avoid repeat calls
   const double r_mag = vector.position.mag();
   const double v_mag = vector.velocity.mag();

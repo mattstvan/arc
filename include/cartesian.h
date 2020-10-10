@@ -6,6 +6,9 @@
 
 #include <iostream>
 
+// Forward declaration
+class KeplerianElements;
+
 // Generic cartesian coordinates
 class Cartesian {
  public:
@@ -24,6 +27,9 @@ class Cartesian {
   // Direct constructor
   Cartesian(CelestialBody body, UTCTime epoch, Vector3 pos, Vector3 vel);
 
+  // Constructor from KeplerianElements
+  Cartesian(KeplerianElements el);
+
   // Print to std::cout
   void print();
 };
@@ -32,11 +38,13 @@ class Cartesian {
 class ICRF : public Cartesian {
  public:
   // Default constructor (call base class)
-  ICRF(){};
+  ICRF();
 
   // Direct constructor
-  ICRF(CelestialBody body, UTCTime epoch, Vector3 pos, Vector3 vel)
-      : Cartesian{body, epoch, pos, vel} {};
+  ICRF(CelestialBody body, UTCTime epoch, Vector3 pos, Vector3 vel);
+
+  // Constructor from KeplerianElements
+  ICRF(KeplerianElements el);
 
   // Print to std::cout
   void print();

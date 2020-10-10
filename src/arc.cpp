@@ -11,10 +11,10 @@ int main() {
   ICRF icrf{EARTH, UTCTime{}, Vector3{-698891.686, 6023436.003, 3041793.014},
             Vector3{-4987.520, -3082.634, 4941.720}};
   KeplerianElements kep{icrf};
-  kep.print();
-  kep.propagate_to(UTCTime {5566.9}).print();
-  Ephemeris ephem;
-  ephem.states.push_back(icrf);
-  ephem.write_stk("Test.e");
+  ICRF icrf2 {kep};
+  icrf.print();
+  icrf2.print();
+  std::cout << icrf.position.distance(icrf2.position) << std::endl;
+  std::cout << icrf.velocity.distance(icrf2.velocity) << std::endl;
   return 0;
 }
