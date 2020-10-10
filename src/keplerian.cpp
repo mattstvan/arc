@@ -107,7 +107,7 @@ void KeplerianElements::print() {
 
 // Compute mean motion
 double KeplerianElements::mean_motion() {
-  sqrt(central_body.mu / pow(a, 3.0));
+  return sqrt(central_body.mu / pow(a, 3.0));
 }
 
   // Propagate the True Anomaly of the elements to a specified epoch
@@ -118,4 +118,27 @@ KeplerianElements KeplerianElements::propagate_to(UTCTime t) {
   double n = mean_motion();
   // Make an initial estimate of the Eccentric Anomaly and improve it using True Anomaly
   double ecc_anom = cos(e * cos(v)) / (1.0 + e * cos(v));
+  ecc_anom = match_half_plane(ecc_anom, v);
+  // Make an initial estimate of the Mean Anomaly and improve it using Eccentric Anomaly
+  double mean_anom = ecc_anom - e * sin(ecc_anom);
+  mean_anom = match_half_plane(mean_anom, ecc_anom);
+  mean_anom = fmod(mean_anom + n * delta, 2.0 * M_PI);
+  ecc_anom = mean_anom;
+  // Set up iteration variables
+  int iter = 0;
+  double ea_temp;
+  // Iterate on the Eccentric Anomaly to improve the estimate
+  while (iter < 32) {
+    ea_temp = mean_anom + e * sin(ecc_anom);
+    if (abs(ea_temp - ecc_anom) < 1e-12) {
+      break;
+    }
+    iter += 1;
+    ecc_anom = ea_temp;
+  }
+  // Make an inital estimate of final True Anomaly and improve it using the final Eccentric anomaly
+  double v_final = acos((cos(ecc_anom) - e) / (1.0 - e * cos(ecc_anom)));
+  v_final = match_half_plane(v_final, ecc_anom);
+  // Create new Keplerian state
+  return KeplerianElements {central_body, t, a, e, i, o, w, v_final};
 }

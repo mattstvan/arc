@@ -18,7 +18,7 @@ double eval_poly(double x, std::vector<double> coeffs) {
 }
 
 // Return the angle (original or inverse) that exists in the half plane of the match argument (m)
-double match_half_angle(double angle, double m) {
+double match_half_plane(double angle, double m) {
  double a1 = angle;
  double a2 = (2.0 * M_PI) - angle;
  double d1 = atan2(sin(a1 - m), cos(a1 - m));
