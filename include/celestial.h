@@ -2,6 +2,7 @@
 #define CELESTIAL_H
 #include <vectors.h>
 
+#include <iostream>
 #include <string>
 
 // Celestial body
@@ -29,26 +30,20 @@ class CelestialBody {
 
 // Sun definition using parameters derived from:
 // - NASA Space Science Data Coordinated Archive
-static CelestialBody SUN = CelestialBody {
- 10, 
- 132712440018000003072.0,
- 69570000000.0,
- 69570000000.0,
- 0.0,
- Vector3 {0.0, 0.0, 2.8653290845717256e-6}
-};
+static CelestialBody SUN =
+    CelestialBody{10,
+                  132712440018000003072.0,
+                  69570000000.0,
+                  69570000000.0,
+                  0.0,
+                  Vector3{0.0, 0.0, 2.8653290845717256e-6}};
 
 // Earth definition using parameters derived from:
 // - NASA Space Science Data Coordinated Archive
 // - EGM-2008 (NGA)
 // - WGS-84 (NIMA 1997)
-static CelestialBody EARTH = CelestialBody {
- 399, 
- 398600441800000.0,
- 6378137.0,
- 6356752.3,
- 0.0033528106647474805,
- Vector3 {0.0, 0.0, 7.2921158553e-5}
-};
+static CelestialBody EARTH = CelestialBody{
+    399,       398600441800000.0,     6378137.0,
+    6356752.3, 0.0033528106647474805, Vector3{0.0, 0.0, 7.2921158553e-5}};
 
 #endif

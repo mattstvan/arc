@@ -1,8 +1,5 @@
 #include <celestial.h>
 
-#include <iostream>
-#include <string>
-
 // Return the common name of a body by NAIF ID
 std::string get_body_name(int id) {
   switch (id) {

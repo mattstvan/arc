@@ -1,8 +1,5 @@
 #include <utctime.h>
 
-#include <ctime>
-#include <iostream>
-
 /*
 UTC Date and Time methods
 */
@@ -29,13 +26,11 @@ tm* UTCTime::to_tm() {
 }
 
 // Get Unix timestamp of instance
-double UTCTime::unix() {
-  return seconds_since_j2000 + UNIX_J2000;
-}
+double UTCTime::unix() { return seconds_since_j2000 + UNIX_J2000; }
 
 // Increment time by a desired number of seconds
 UTCTime UTCTime::increment(double seconds) {
-  return UTCTime {seconds_since_j2000 + seconds};
+  return UTCTime{seconds_since_j2000 + seconds};
 }
 
 // Calculate the difference between the instance and another UTCTime
@@ -53,7 +48,7 @@ std::string UTCTime::format(char fmt[]) {
   tm* t = to_tm();
   char buffer[256];
   strftime(buffer, sizeof(buffer), fmt, t);
-  return std::string{buffer};  
+  return std::string{buffer};
 }
 
 // Format date usding strftime paramaters, adding fractional seconds
@@ -67,6 +62,4 @@ std::string UTCTime::format_fractional(char fmt[]) {
 }
 
 // Format date as ISO 8601
-std::string UTCTime::to_iso() {
-  return format("%Y-%m-%dT%H:%M:%S");
-}
+std::string UTCTime::to_iso() { return format("%Y-%m-%dT%H:%M:%S"); }

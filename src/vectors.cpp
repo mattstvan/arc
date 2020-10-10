@@ -1,8 +1,5 @@
 #include <vectors.h>
 
-#include <cmath>
-#include <iostream>
-
 /*
 Three-element vector methods
 */

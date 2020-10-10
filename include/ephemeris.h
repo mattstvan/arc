@@ -1,10 +1,14 @@
 #ifndef EPHEMERIS_H
 #define EPHEMERIS_H
-#include <vector>
-#include <string>
 #include <cartesian.h>
-#include <utctime.h>
 #include <celestial.h>
+#include <utctime.h>
+
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
 
 // Table of astronomical positions/velocities
 class Ephemeris {

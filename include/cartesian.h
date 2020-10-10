@@ -4,6 +4,8 @@
 #include <utctime.h>
 #include <vectors.h>
 
+#include <iostream>
+
 // Generic cartesian coordinates
 class Cartesian {
  public:

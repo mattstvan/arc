@@ -1,7 +1,5 @@
 #include <cartesian.h>
 
-#include <iostream>
-
 /*
 Cartesian base class methods
 */

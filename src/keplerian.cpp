@@ -1,8 +1,6 @@
 #include <keplerian.h>
 #include <math_utils.h>
 
-#include <iostream>
-
 /*
 Keplerian elements methods
 */
