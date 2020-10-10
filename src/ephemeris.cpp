@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <iomanip>
 
 /*
 Ephemeris class methods
@@ -50,7 +51,8 @@ std::vector<std::string> Ephemeris::format_stk() {
   for (ICRF state : states) {
     double tplus = state.epoch.difference(epoch);
     std::stringstream point_line;
-    point_line << tplus << " " << state.position.x << " " << state.position.y
+    point_line << std::setprecision(14);
+    point_line << std::scientific << tplus << " " << state.position.x << " " << state.position.y
                << " " << state.position.z << " " << state.velocity.x << " "
                << state.velocity.y << " " << state.velocity.z;
     lines.push_back(point_line.str());
