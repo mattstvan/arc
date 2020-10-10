@@ -30,7 +30,6 @@ void Ephemeris::print() {
 
 // Create ASCII ephemeris in STK format (.e)
 std::vector<std::string> Ephemeris::format_stk() {
-  
   // Create the vector of lines and write the header
   std::vector<std::string> lines;
   lines.push_back(std::string{"stk.v.11.0"});
@@ -58,7 +57,6 @@ std::vector<std::string> Ephemeris::format_stk() {
 
   // For each state in the state list
   for (ICRF state : states) {
-
     // Calculate time since epoch
     double tplus = state.epoch.difference(epoch);
 

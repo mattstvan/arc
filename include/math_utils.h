@@ -1,8 +1,7 @@
 #ifndef MATH_UTILS_H
 #define MATH_UTILS_H
 #define _USE_MATH_DEFINES
-#include <cmath>
-
+#include <math.h>
 #include <vector>
 
 // Evaluate a polynomial given a variable (x) and its coefficients
