@@ -3,6 +3,7 @@
 #include <ephemeris.h>
 #include <keplerian.h>
 #include <propagator.h>
+#include <interpolator.h>
 #include <utctime.h>
 #include <vectors.h>
 
@@ -17,11 +18,9 @@ int main() {
   KeplerianPropagator prop = KeplerianPropagator{kep};
   UTCTime start = UTCTime {};
   UTCTime stop = UTCTime {86400.0};
-  std::vector<ICRF> states = prop.step(start, stop, 300.0);
-  Ephemeris eph = Ephemeris {states};
-  eph.states[0].print();
-  eph.interpolate(UTCTime{150.0}).print();
-  eph.states[1].print();
-  //eph.write_stk("Test.e");
+  Ephemeris eph = prop.step(start, stop, 300.0);
+  Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
+  eph.write_stk("Test.e");
+  eph2.write_stk("Test2.e");
   return 0;
 }
