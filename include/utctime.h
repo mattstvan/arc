@@ -3,6 +3,7 @@
 #include <cmath>
 #include <ctime>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 // Unix timestamp of J2000
@@ -21,6 +22,9 @@ class UTCTime {
 
   // Constructor using long
   UTCTime(long seconds);
+
+  // Constructor using input char* and format
+  UTCTime(char datestr[], char format[]);
 
   // Print to std::cout
   void print();

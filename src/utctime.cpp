@@ -13,6 +13,11 @@ UTCTime::UTCTime(double seconds) { this->seconds_since_j2000 = seconds; }
 // Constructor using long
 UTCTime::UTCTime(long seconds) { this->seconds_since_j2000 = (double)seconds; }
 
+// Constructor using input char* and format
+UTCTime::UTCTime(char datestr[], char format[]) {
+  
+}
+
 // Print to std::cout
 void UTCTime::print() {
   std::cout << "[UTCTime] { Seconds since J2000: " << seconds_since_j2000

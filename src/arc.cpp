@@ -18,9 +18,11 @@ int main() {
   KeplerianPropagator prop = KeplerianPropagator{kep};
   UTCTime start = UTCTime {};
   UTCTime stop = UTCTime {86400.0};
-  Ephemeris eph = prop.step(start, stop, 300.0);
-  Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
-  eph.write_stk("Test.e");
-  eph2.write_stk("Test2.e");
+  // Ephemeris eph = prop.step(start, stop, 300.0);
+  // Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
+  // eph.write_stk("Test.e");
+  // eph2.write_stk("Test2.e");
+  auto tm = start.to_tm();
+  std::cout << tm->tm_sec << std::endl;
   return 0;
 }
