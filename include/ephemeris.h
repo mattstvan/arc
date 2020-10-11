@@ -30,6 +30,10 @@ class Ephemeris {
   // Print to std::cout
   void print();
 
+  // Use Keplerian estimation to obtain an interpolated ICRF
+  // state using the nearest ICRF value contained in the ephemeris
+  ICRF interpolate(UTCTime requested);
+
   // Create ASCII ephemeris in STK format
   std::vector<std::string> format_stk();
 

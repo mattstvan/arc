@@ -1,4 +1,6 @@
 #include <celestial.h>
+#include <cartesian.h>
+#include <utctime.h>
 
 // Return the common name of a body by NAIF ID
 std::string get_body_name(int id) {
@@ -31,6 +33,12 @@ std::string get_body_name(int id) {
 /*
 Celestial body methods
 */
+
+// Return the ICRF state of the body at an epoch
+ICRF CelestialBody::propagate(UTCTime epoch) {
+  // Placeholder
+  return ICRF{};
+}
 
 // Print to std::cout
 void CelestialBody::print() {
