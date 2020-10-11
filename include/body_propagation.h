@@ -1,5 +1,5 @@
-#ifndef BODY_PROPAGATOR_H
-#define BODY_PROPAGATOR_H
+#ifndef BODY_PROPAGATION_H
+#define BODY_PROPAGATION_H
 #include <ephemeris.h>
 #include <cartesian.h>
 #include <utctime.h>
@@ -28,9 +28,11 @@ class BodyPropagationHandler {
  public:
   // Default constructor
   BodyPropagationHandler();
-  
+
   // Get the state of a given CelestialBody given its NAIF ID
   ICRF get_state(int id, UTCTime);
 };
+
+static BodyPropagationHandler BODY_PROPAGATOR {};
 
 #endif
