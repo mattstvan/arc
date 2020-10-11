@@ -22,6 +22,7 @@ Arc is an astrodynamics toolkit aimed at providing high-accuracy numerical propa
 	 - [ ] Leap second
  - [ ] Orbital state propagation
 	 - [x] Keplerian Approximation
+		- [x] Ephemeris Interpolation
 	 - [ ] Fixed-step Runge-Kutta integration
 	 - [ ] Dormand-Prince integration
 	 - [ ] Adam-Bashforth-Moulton integration
