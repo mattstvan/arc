@@ -1,9 +1,14 @@
 #ifndef CELESTIAL_H
 #define CELESTIAL_H
 #include <vectors.h>
+//#include <cartesian.h>
+#include <utctime.h>
 
 #include <iostream>
 #include <string>
+
+// Forward declaration
+class ICRF;
 
 // Celestial body
 class CelestialBody {
@@ -26,6 +31,9 @@ class CelestialBody {
 
   // Return the common name of the body as a String
   std::string get_name();
+
+  // Return the ICRF state of the body at an epoch
+  ICRF propagate(UTCTime epoch);
 };
 
 // Sun definition using parameters derived from:
