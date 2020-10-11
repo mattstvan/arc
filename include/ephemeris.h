@@ -1,10 +1,12 @@
 #ifndef EPHEMERIS_H
 #define EPHEMERIS_H
-#include <propagator.h>
 #include <cartesian.h>
+#include <keplerian.h>
 #include <celestial.h>
+#include <propagator.h>
 #include <utctime.h>
 
+#include <cmath>
 #include <iomanip>
 #include <iostream>
 #include <sstream>

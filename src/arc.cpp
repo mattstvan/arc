@@ -17,8 +17,11 @@ int main() {
   KeplerianPropagator prop = KeplerianPropagator{kep};
   UTCTime start = UTCTime {};
   UTCTime stop = UTCTime {86400.0};
-  std::vector<ICRF> states = prop.step(start, stop, 60.0);
+  std::vector<ICRF> states = prop.step(start, stop, 300.0);
   Ephemeris eph = Ephemeris {states};
-  eph.write_stk("Test.e");
+  eph.states[0].print();
+  eph.interpolate(UTCTime{150.0}).print();
+  eph.states[1].print();
+  //eph.write_stk("Test.e");
   return 0;
 }

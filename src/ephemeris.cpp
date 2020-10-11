@@ -27,6 +27,33 @@ void Ephemeris::print() {
             << std::endl;
 }
 
+// Use Keplerian estimation to obtain an interpolated ICRF
+// state using the nearest ICRF value contained in the ephemeris
+ICRF Ephemeris::interpolate(UTCTime requested) {
+  // Nearest (by epoch) state to requested time
+  ICRF nearest = states[0];
+  // If requested time is after last state
+  if (requested.difference(states[states.size() - 1].epoch) >= 0.0) {
+    // Set nearest to the last available state
+    nearest = states[states.size() - 1];
+  } else {
+    // Iterate through the available states
+    for (ICRF state : states) {
+      // Compare this state to the current nearest state
+      if (abs(state.epoch.difference(requested)) <
+          abs(nearest.epoch.difference(requested))) {
+        // If this state is nearer by epoch, make it the new nearest
+        nearest = state;
+      }
+    }
+  }
+  // Convert the nearest state to keplerian
+  KeplerianElements nearest_keplerian{nearest};
+  // Propagate the keplerian state to the requested time and return the result
+  // in ICRF
+  return ICRF{nearest_keplerian.propagate_to(requested)};
+}
+
 // Create ASCII ephemeris in STK format (.e)
 std::vector<std::string> Ephemeris::format_stk() {
   // Create the vector of lines and write the header
