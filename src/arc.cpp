@@ -22,7 +22,7 @@ int main() {
   // Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
   // eph.write_stk("Test.e");
   // eph2.write_stk("Test2.e");
-  auto tm = start.to_tm();
-  std::cout << tm->tm_sec << std::endl;
+  UTCTime test {"2020-10-12T17:36:00"};
+  test.print();
   return 0;
 }
