@@ -20,6 +20,8 @@ UTCTime::UTCTime(std::string datestr, std::string format) {
   time_t t = time(NULL);
   struct tm lt = { 0 };
   localtime_r(&t, &lt);
+  // Ensure the struct tm determines the DST status
+  lt.tm_isdst = -1;
   // Strip the date elements using NetBSD's strptime function
   bsd_strptime(datestr.c_str(), format.c_str(), &lt);
   // Parse any milliseconds from the end of the date string
