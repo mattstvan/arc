@@ -1,5 +1,8 @@
 #include <utctime.h>
 #include <stdexcept> 
+#include <sstream>
+#include <iomanip>
+#include <bsd_strptime.h>
 
 /*
 UTC Date and Time methods
@@ -12,27 +15,30 @@ UTCTime::UTCTime() { this->seconds_since_j2000 = 0.0; }
 UTCTime::UTCTime(double seconds) { this->seconds_since_j2000 = seconds; }
 
 // Constructor using input char* and format
-UTCTime::UTCTime(char datestr[], char format[]) {
-  struct tm tm;
-  strptime(datestr, format, &tm);
-  this->seconds_since_j2000 = (double)mktime(&tm) - timezone - UNIX_J2000;
+UTCTime::UTCTime(std::string datestr, std::string format) {
+  // Determine timezone and get offset
+  time_t t = time(NULL);
+  struct tm lt = {0};
+  localtime_r(&t, &lt);
+  double gmt_offset = (double)lt.tm_gmtoff;
+  // Strip the date elements using NetBSD's strptime function
+  bsd_strptime(datestr.c_str(), format.c_str(), &lt);
+  // Parse any milliseconds from the end of the date string
+  double dbl_millisecs;
+  try {
+    std::string fractional = datestr.substr(datestr.find("."), datestr.size()-1);
+    dbl_millisecs = std::stod(fractional);
+  } catch(const std::out_of_range& err) {
+    // If the parsing fails, assume no milliseconds were found
+    dbl_millisecs = 0.0;
+  }
+  // Take the unix timestamp given by mktime, add the local GMT offset and milliseconds, then offset by the unix timestamp of J2000
+  this->seconds_since_j2000 = mktime(&lt) + gmt_offset - UNIX_J2000 + dbl_millisecs;  
 }
 
 // Constructor using input char* in ISO 8601 format:
 // YYYY-MM-DDTHH:MM:SS.FFFFFF
-UTCTime::UTCTime(char datestr[]) {
-  struct tm tm;
-  strptime(datestr, "%Y-%m-%dT%H:%M:%S", &tm);
-  std::string new_date_str = std::string{datestr};
-  double dbl_fractional;
-  try {
-    std::string fractional = new_date_str.substr(new_date_str.find("."), new_date_str.size()-1);
-    dbl_fractional = std::stod(fractional);
-  } catch(const std::out_of_range& oor) {
-    dbl_fractional = 0.0;
-  }
-  this->seconds_since_j2000 = (double)mktime(&tm) - timezone - UNIX_J2000 + dbl_fractional;  
-}
+UTCTime::UTCTime(std::string datestr) : UTCTime {datestr, std::string{"%Y-%m-%dT%H:%M:%S"}} {}
 
 // Print to std::cout
 void UTCTime::print() {

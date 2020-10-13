@@ -21,11 +21,11 @@ class UTCTime {
   UTCTime(double seconds);
 
   // Constructor using input char* and format
-  UTCTime(char datestr[], char format[]);
+  UTCTime(std::string datestr, std::string format);
 
   // Constructor using input char* in ISO 8601 format:
   // YYYY-MM-DDTHH:MM:SS.FFFFFF
-  UTCTime(char datestr[]);
+  UTCTime(std::string datestr);
 
   // Print to std::cout
   void print();
