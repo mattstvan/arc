@@ -7,7 +7,7 @@
 #include <string>
 
 // Unix timestamp of J2000
-const double UNIX_J2000 = 946727935.816;
+const double UNIX_J2000 = 946727935.815918;
 
 // UTC Date and Time
 class UTCTime {
