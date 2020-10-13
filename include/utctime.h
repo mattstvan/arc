@@ -35,7 +35,7 @@ class UTCTime {
   tm* to_tm();
 
   // Get Unix timestamp of instance
-  double unix();
+  double unix_timestamp();
 
   // Format date using strftime parameters
   std::string format(char fmt[]);

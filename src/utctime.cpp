@@ -53,7 +53,7 @@ tm* UTCTime::to_tm() {
 }
 
 // Get Unix timestamp of instance
-double UTCTime::unix() { return seconds_since_j2000 + UNIX_J2000; }
+double UTCTime::unix_timestamp() { return seconds_since_j2000 + UNIX_J2000; }
 
 // Increment time by a desired number of seconds
 UTCTime UTCTime::increment(double seconds) {
@@ -81,9 +81,9 @@ std::string UTCTime::format(char fmt[]) {
 // Format date usding strftime paramaters, adding fractional seconds
 std::string UTCTime::format_fractional(char fmt[]) {
   std::string formatted = format(fmt);
-  double unix = this->unix();
+  double timestamp = unix_timestamp();
   double intpart = 1.0;
-  std::string fractional = std::to_string(modf(unix, &intpart));
+  std::string fractional = std::to_string(modf(timestamp, &intpart));
   fractional = fractional.substr(1, fractional.size());
   return formatted + fractional;
 }
