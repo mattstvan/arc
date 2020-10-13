@@ -18,32 +18,32 @@ UTCTime::UTCTime(double seconds) { this->seconds_since_j2000 = seconds; }
 UTCTime::UTCTime(std::string datestr, std::string format) {
   // Determine timezone and get offset
   time_t t = time(NULL);
-  struct tm lt = {0};
+  struct tm lt = { 0 };
   localtime_r(&t, &lt);
-  double gmt_offset = (double)lt.tm_gmtoff;
   // Strip the date elements using NetBSD's strptime function
   bsd_strptime(datestr.c_str(), format.c_str(), &lt);
   // Parse any milliseconds from the end of the date string
   double dbl_millisecs;
   try {
-    std::string fractional = datestr.substr(datestr.find("."), datestr.size()-1);
+    std::string fractional = datestr.substr(datestr.find("."), datestr.size() - 1);
     dbl_millisecs = std::stod(fractional);
-  } catch(const std::out_of_range& err) {
+  }
+  catch (const std::out_of_range& err) {
     // If the parsing fails, assume no milliseconds were found
     dbl_millisecs = 0.0;
   }
-  // Take the unix timestamp given by mktime, add the local GMT offset and milliseconds, then offset by the unix timestamp of J2000
-  this->seconds_since_j2000 = mktime(&lt) + gmt_offset - UNIX_J2000 + dbl_millisecs;  
+  // Take the unix timestamp given by mktime, add the local GMT offset and any milliseconds, then offset by the unix timestamp of J2000
+  this->seconds_since_j2000 = mktime(&lt) + lt.tm_gmtoff - UNIX_J2000 + dbl_millisecs;
 }
 
 // Constructor using input char* in ISO 8601 format:
 // YYYY-MM-DDTHH:MM:SS.FFFFFF
-UTCTime::UTCTime(std::string datestr) : UTCTime {datestr, std::string{"%Y-%m-%dT%H:%M:%S"}} {}
+UTCTime::UTCTime(std::string datestr) : UTCTime{ datestr, std::string{"%Y-%m-%dT%H:%M:%S"} } {}
 
 // Print to std::cout
 void UTCTime::print() {
   std::cout << "[UTCTime] { Seconds since J2000: " << seconds_since_j2000
-            << ", ISO: " << to_iso() << " }" << std::endl;
+    << ", ISO: " << to_iso() << " }" << std::endl;
 }
 
 // Convert to `struct tm' representation of *TIMER in Universal Coordinated Time
@@ -57,7 +57,7 @@ double UTCTime::unix_timestamp() { return seconds_since_j2000 + UNIX_J2000; }
 
 // Increment time by a desired number of seconds
 UTCTime UTCTime::increment(double seconds) {
-  return UTCTime{seconds_since_j2000 + seconds};
+  return UTCTime{ seconds_since_j2000 + seconds };
 }
 
 // Calculate the difference between the instance and another UTCTime
@@ -75,7 +75,7 @@ std::string UTCTime::format(char fmt[]) {
   tm* t = to_tm();
   char buffer[256];
   strftime(buffer, sizeof(buffer), fmt, t);
-  return std::string{buffer};
+  return std::string{ buffer };
 }
 
 // Format date usding strftime paramaters, adding fractional seconds

@@ -11,7 +11,7 @@ const double UNIX_J2000 = 946727935.816;
 
 // UTC Date and Time
 class UTCTime {
- public:
+public:
   double seconds_since_j2000;
 
   // Default constructor (J2000)
