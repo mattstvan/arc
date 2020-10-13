@@ -86,7 +86,7 @@ std::string UTCTime::format_fractional(char fmt[]) {
   double timestamp = unix_timestamp();
   double intpart = 1.0;
   std::string fractional = std::to_string(modf(timestamp, &intpart));
-  fractional = fractional.substr(1, fractional.size());
+  fractional = fractional.substr(fractional.find("."), fractional.size());
   return formatted + fractional;
 }
 
