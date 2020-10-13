@@ -1,5 +1,4 @@
 #include <ephemeris.h>
-#include <file_io.h>
 
 /*
 Ephemeris class methods
@@ -17,6 +16,31 @@ Ephemeris::Ephemeris(std::vector<ICRF> states) {
   this->states = states;
   this->epoch = states[0].epoch;
   this->central_body = states[0].central_body;
+}
+
+// Constructor using file path
+Ephemeris::Ephemeris(char filepath[]) {
+  this->central_body = SUN;
+  this->epoch = UTCTime{};
+  this->states = std::vector<ICRF> {};
+  std::vector<std::string> lines = read_lines_from_file(filepath);
+  if (lines.size() > 0) {
+    bool ephem_section = false;
+    for (std::string line : lines) {
+      // Check for epoch
+      if (line.find("ScenarioEpoch") != std::string::npos) {
+        std::string datestr = line.substr(line.find("ScenarioEpoch") + 14, line.size()-1);
+        if (datestr.size() > 0) {
+          this->epoch = UTCTime{datestr, "%d %b %Y %H:%M:%S"};
+        }
+      } else if (line.find("CentralBody") != std::string::npos) {
+        std::string bodystr = line.substr(line.find("CentralBody") + 12, line.size()-1);
+        std::cout << bodystr << std::endl;
+      }
+    }
+    epoch.print();
+  }
+
 }
 
 // Print to std::cout
