@@ -22,7 +22,5 @@ int main() {
   // Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
   // eph.write_stk("Test.e");
   // eph2.write_stk("Test2.e");
-  test.print();
-  test2.print();
   return 0;
 }
