@@ -5,6 +5,7 @@
 #include <celestial.h>
 #include <propagator.h>
 #include <utctime.h>
+#include <file_io.h>
 
 #include <cmath>
 #include <iomanip>
@@ -15,7 +16,7 @@
 
 // Table of astronomical positions/velocities
 class Ephemeris {
- public:
+public:
   // Vector of ICRF states comprising the Ephemeris
   std::vector<ICRF> states;
   // Epoch of the ephemeris
@@ -28,6 +29,9 @@ class Ephemeris {
 
   // Direct constructor
   Ephemeris(std::vector<ICRF> states);
+
+  // Constructor using file path
+  Ephemeris(char filepath[]);
 
   // Print to std::cout
   void print();
