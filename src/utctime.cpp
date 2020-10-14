@@ -19,7 +19,8 @@ UTCTime::UTCTime(std::string datestr, std::string format) {
   // Determine timezone and get offset
   time_t t = time(NULL);
   struct tm lt = { 0 };
-  localtime_r(&t, &lt);
+  localtime_s(&lt, &t);
+  double offset = t - mktime(gmtime(&t));
   // Ensure the struct tm determines the DST status
   lt.tm_isdst = -1;
   // Strip the date elements using NetBSD's strptime function
@@ -34,8 +35,9 @@ UTCTime::UTCTime(std::string datestr, std::string format) {
     // If the parsing fails, assume no milliseconds were found
     dbl_millisecs = 0.0;
   }
+
   // Take the unix timestamp given by mktime, add the local GMT offset and any milliseconds, then offset by the unix timestamp of J2000
-  this->seconds_since_j2000 = mktime(&lt) + lt.tm_gmtoff - UNIX_J2000 + dbl_millisecs;
+  this->seconds_since_j2000 = mktime(&lt) + offset - UNIX_J2000 + dbl_millisecs;
 }
 
 // Constructor using input char* in ISO 8601 format:
