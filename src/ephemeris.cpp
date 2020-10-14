@@ -32,10 +32,12 @@ Ephemeris::Ephemeris(char filepath[]) {
         std::string datestr = line.substr(line.find("ScenarioEpoch") + 14, line.size()-1);
         if (datestr.size() > 0) {
           this->epoch = UTCTime{datestr, "%d %b %Y %H:%M:%S"};
+          epoch.print();
         }
       } else if (line.find("CentralBody") != std::string::npos) {
         std::string bodystr = line.substr(line.find("CentralBody") + 12, line.size()-1);
-        std::cout << bodystr << std::endl;
+        this->central_body = get_body_by_name(bodystr);
+        central_body.print();
       }
     }
     epoch.print();
