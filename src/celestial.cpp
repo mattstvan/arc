@@ -1,5 +1,5 @@
-#include <celestial.h>
 #include <cartesian.h>
+#include <celestial.h>
 #include <utctime.h>
 
 // Return the common name of a body by NAIF ID
@@ -27,6 +27,15 @@ std::string get_body_name(int id) {
       return std::string{"Neptune"};
     default:
       return std::string("Unknown");
+  }
+};
+
+// Return the CelestialBody given a common name (i.e. "Mars")
+CelestialBody get_body_by_name(std::string name) {
+  if (name == "Earth") {
+    return EARTH;
+  } else {
+    return SUN;
   }
 };
 

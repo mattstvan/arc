@@ -59,4 +59,10 @@ static CelestialBody EARTH = CelestialBody{
     Vector3{0.0, 0.0, 7.2921158553e-5},
 };
 
+// Return the common name of a body by NAIF ID
+std::string get_body_name(int id);
+
+// Return the CelestialBody given a common name (i.e. "Mars")
+CelestialBody get_body_by_name(std::string name);
+
 #endif
