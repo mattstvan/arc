@@ -11,7 +11,7 @@ class KeplerianElements;
 
 // Generic cartesian coordinates
 class Cartesian {
- public:
+public:
   // Central body of the orbit these elements represent
   CelestialBody central_body;
   // Epoch at which this state is valid
@@ -36,7 +36,7 @@ class Cartesian {
 
 // Cartesian state in the International Celestial Reference Frame (~J2000)
 class ICRF : public Cartesian {
- public:
+public:
   // Default constructor (call base class)
   ICRF();
 

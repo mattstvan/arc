@@ -16,13 +16,13 @@ int main() {
            Vector3{-4987.520, -3082.634, 4941.720}};
   KeplerianElements kep = KeplerianElements{icrf};
   KeplerianPropagator prop = KeplerianPropagator{kep};
-  UTCTime start = UTCTime {};
+  UTCTime start = UTCTime {0};
   UTCTime stop = UTCTime {86400.0};
   // Ephemeris eph = prop.step(start, stop, 300.0);
   // Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
-  Ephemeris eph {"data/planetary/earth.txt"};
-  Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
-  eph2.write_stk("Earth.e");
+  ICRF test = EARTH.propagate(start);
+  test.print();
+  //test.print();
   // eph2.write_stk("Test2.e");
   return 0;
 }
