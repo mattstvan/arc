@@ -46,6 +46,28 @@ static CelestialBody SUN = CelestialBody{
     Vector3{0.0, 0.0, 2.8653290845717256e-6},
 };
 
+// Mercury definition using parameters derived from:
+// - NASA Space Science Data Coordinated Archive
+static CelestialBody MERCURY = CelestialBody{
+    199,
+    22032000000000.0,
+    2439700.0,
+    2439700.0,
+    0.0,
+    Vector3{0.0, 0.0, 1.239932688259683e-06},
+};
+
+// Venus definition using parameters derived from:
+// - NASA Space Science Data Coordinated Archive
+static CelestialBody VENUS = CelestialBody{
+    299,
+    324859000000000.0,
+    6051800.0,
+    6051800.0,
+    0.0,
+    Vector3{0.0, 0.0, 0.0},
+};
+
 // Earth definition using parameters derived from:
 // - NASA Space Science Data Coordinated Archive
 // - EGM-2008 (NGA)
@@ -57,6 +79,28 @@ static CelestialBody EARTH = CelestialBody{
     6356752.3,
     0.0033528106647474805,
     Vector3{0.0, 0.0, 7.2921158553e-5},
+};
+
+// Luna definition using parameters derived from:
+// - NASA Space Science Data Coordinated Archive
+static CelestialBody LUNA = CelestialBody{
+    301,
+    4904869500000.0,
+    1738100.0,
+    1736000.0,
+    0.001208215867901763,
+    Vector3{0.0, 0.0, 0.0},
+};
+
+// Mars definition using parameters derived from:
+// - NASA Space Science Data Coordinated Archive
+static CelestialBody MARS = CelestialBody{
+    499,
+    42828370000000.0,
+    3396200.0,
+    3376200.0,
+    0.005888934691714254,
+    Vector3{0.0, 0.0, 7.077632258808082e-05},
 };
 
 // Return the common name of a body by NAIF ID
