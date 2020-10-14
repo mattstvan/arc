@@ -131,7 +131,7 @@ KeplerianElements KeplerianElements::propagate_to(UTCTime t) {
   // Iterate on the Eccentric Anomaly to improve the estimate
   while (iter < 32) {
     ea_temp = mean_anom + e * sin(ecc_anom);
-    if (abs(ea_temp - ecc_anom) < 1e-12) {
+    if (fabs(ea_temp - ecc_anom) < 1e-12) {
       break;
     }
     iter += 1;

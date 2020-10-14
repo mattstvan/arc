@@ -18,10 +18,9 @@ int main() {
   KeplerianPropagator prop = KeplerianPropagator{kep};
   UTCTime start = UTCTime {0};
   UTCTime stop = UTCTime {86400.0};
-  // Ephemeris eph = prop.step(start, stop, 300.0);
+  Ephemeris eph = prop.step(start, stop, 300.0);
   // Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
-  ICRF test = EARTH.propagate(start);
-  test.print();
+
   //test.print();
   // eph2.write_stk("Test2.e");
   return 0;

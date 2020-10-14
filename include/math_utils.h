@@ -25,7 +25,7 @@ double match_half_plane(double angle, double m) {
   double a2 = (2.0 * M_PI) - angle;
   double d1 = atan2(sin(a1 - m), cos(a1 - m));
   double d2 = atan2(sin(a2 - m), cos(a2 - m));
-  if (abs(d1) < abs(d2)) {
+  if (fabs(d1) < fabs(d2)) {
     return a1;
   } else {
     return a2;
