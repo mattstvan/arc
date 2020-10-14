@@ -20,7 +20,9 @@ int main() {
   UTCTime stop = UTCTime {86400.0};
   // Ephemeris eph = prop.step(start, stop, 300.0);
   // Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
-  // eph.write_stk("Test.e");
+  Ephemeris eph {"data/planetary/earth.txt"};
+  Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
+  eph2.write_stk("Earth.e");
   // eph2.write_stk("Test2.e");
   return 0;
 }

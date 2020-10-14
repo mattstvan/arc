@@ -1,4 +1,5 @@
 #include <ephemeris.h>
+#include <cstdio>
 
 /*
 Ephemeris class methods
@@ -32,12 +33,22 @@ Ephemeris::Ephemeris(char filepath[]) {
         std::string datestr = line.substr(line.find("ScenarioEpoch") + 14, line.size()-1);
         if (datestr.size() > 0) {
           this->epoch = UTCTime{datestr, "%d %b %Y %H:%M:%S"};
-          epoch.print();
         }
+      // Check for central body
       } else if (line.find("CentralBody") != std::string::npos) {
         std::string bodystr = line.substr(line.find("CentralBody") + 12, line.size()-1);
         this->central_body = get_body_by_name(bodystr);
-        central_body.print();
+      } else if (line.find("END Ephemeris") != std::string::npos) {
+        ephem_section = false;
+      } else if (ephem_section == true) {
+        // Parse a state
+        float tplus, x, y, z, vx, vy, vz;
+        sscanf(line.c_str(), "%f %f %f %f %f %f %f", &tplus, &x, &y, &z, &vx, &vy, &vz);
+        UTCTime new_epoch = epoch.increment(tplus);
+        states.push_back(ICRF{central_body, new_epoch, Vector3{x, y, z}, Vector3 {vx, vy, vz}});
+      } else if (line.find("EphemerisTimePosVel") != std::string::npos) {
+        // Begin parsing states
+        ephem_section = true;
       }
     }
     epoch.print();
