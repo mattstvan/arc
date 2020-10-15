@@ -51,6 +51,9 @@ public:
 
   // Convert position/velocity vectors into the sun-centered ICRF frame
   ICRF to_solar();
+
+  // Convert position/velocity vectors into the ICRF frame centered around another celestial body's position
+  ICRF change_central_body(CelestialBody body);
 };
 
 #endif
