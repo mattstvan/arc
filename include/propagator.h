@@ -2,6 +2,7 @@
 #define PROPAGATOR_H
 #include <cartesian.h>
 #include <utctime.h>
+#include <force_model.h>
 
 #include <vector>
 
@@ -27,6 +28,8 @@ public:
   ICRF cache_state;
   // Number of seconds between steps
   double step_size;
+  // List of force models
+  std::vector<ForceModel> forces;
 
   // Propagate the inital state to specified epoch
   ICRF propagate(UTCTime epoch);
