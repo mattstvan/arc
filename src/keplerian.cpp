@@ -20,8 +20,8 @@ KeplerianElements::KeplerianElements() {
 
 // Direct constructor
 KeplerianElements::KeplerianElements(CelestialBody body, UTCTime epoch,
-                                     double a, double e, double i, double o,
-                                     double w, double v) {
+  double a, double e, double i, double o,
+  double w, double v) {
   this->central_body = body;
   this->epoch = epoch;
   this->a = a;
@@ -55,7 +55,7 @@ KeplerianElements::KeplerianElements(Cartesian vector) {
   // Inclination
   double i = acos(h.z / h.mag());
   this->i = i;
-  Vector3 n = (Vector3{0.0, 0.0, 1.0}).cross(h);
+  Vector3 n = (Vector3{ 0.0, 0.0, 1.0 }).cross(h);
   // RAAN
   double o = acos(n.x / n.mag());
   // Argument of periapsis
@@ -109,7 +109,10 @@ double KeplerianElements::mean_motion() {
   return sqrt(central_body.mu / pow(a, 3.0));
 }
 
+
 // Propagate the True Anomaly of the elements to a specified epoch
+// Ref: Montenbruck, O., & Gill, E. (2012). Prediction of Unperturbed Satellite Orbits.
+// In Satellite orbits: Models, methods, and applications (pp. 22-32). Berlin: Springer-Verlag.
 KeplerianElements KeplerianElements::propagate_to(UTCTime t) {
   // Get delta between the requested time and the initial state epoch
   double delta = t.difference(epoch);
@@ -142,7 +145,7 @@ KeplerianElements KeplerianElements::propagate_to(UTCTime t) {
   double v_final = acos((cos(ecc_anom) - e) / (1.0 - e * cos(ecc_anom)));
   v_final = match_half_plane(v_final, ecc_anom);
   // Create new Keplerian state
-  return KeplerianElements{central_body, t, a, e, i, o, w, v_final};
+  return KeplerianElements{ central_body, t, a, e, i, o, w, v_final };
 }
 
 /*

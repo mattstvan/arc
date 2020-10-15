@@ -13,7 +13,7 @@ class Cartesian;
 
 // Keplerian orbital elements
 class KeplerianElements {
- public:
+public:
   // Central body of the orbit these elements represent
   CelestialBody central_body;
   // Time at which the elements are correct
@@ -36,7 +36,7 @@ class KeplerianElements {
 
   // Direct constructor
   KeplerianElements(CelestialBody body, UTCTime epoch, double a, double e,
-                    double i, double o, double w, double v);
+    double i, double o, double w, double v);
 
   // Constructor using Cartesian instance
   KeplerianElements(Cartesian vector);
@@ -52,10 +52,10 @@ class KeplerianElements {
 };
 
 // Propagator using Kepler's method
-class KeplerianPropagator: public Propagator {
-  public:
-   // Initial KeplerianElements state
-   KeplerianElements initial_state;
+class KeplerianPropagator : public Propagator {
+public:
+  // Initial KeplerianElements state
+  KeplerianElements initial_state;
 
   // Direct constructor
   KeplerianPropagator(KeplerianElements state);

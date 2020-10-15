@@ -5,11 +5,11 @@
 
 // Acceleration force model
 class ForceModel {
- public:
+public:
   // Get acceleration force at a given state
   // This base method should be overloaded by derived classes
   virtual Vector3 acceleration(ICRF) {
-   return Vector3{};
+    return Vector3{};
   };
 };
 

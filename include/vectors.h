@@ -6,7 +6,7 @@
 
 // Three-element vector
 class Vector3 {
- public:
+public:
   // "X" or "I" component
   double x;
   // "Y" or "J" component
@@ -65,7 +65,7 @@ class Vector3 {
 
 // Six-element vector
 class Vector6 {
- public:
+public:
   // "A" or "I_1" component
   double a;
   // "B" or "J_1" component

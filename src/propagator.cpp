@@ -16,7 +16,7 @@ Ephemeris Propagator::step(UTCTime start, UTCTime stop, double step) {
     states.push_back(propagate(t));
     t = t.increment(step);
   };
-  return Ephemeris{states};
+  return Ephemeris{ states };
 }
 
 /*

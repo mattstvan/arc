@@ -9,7 +9,8 @@ int write_lines_to_file(std::vector<std::string> lines, char filename[]) {
     }
     file.close();
     return 0;
-  } else {
+  }
+  else {
     return 1;
   }
 }
@@ -19,12 +20,13 @@ std::vector<std::string> read_lines_from_file(char filename[]) {
   file.open(filename);
   if (file.is_open()) {
     std::string line;
-    std::vector<std::string> lines {};
+    std::vector<std::string> lines{};
     while (getline(file, line)) {
       lines.push_back(line);
     }
     return lines;
-  } else {
+  }
+  else {
     return std::vector<std::string> {};
   }
 }

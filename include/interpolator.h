@@ -5,7 +5,7 @@
 
 // Propagator using existing Ephemeris
 class InterpolatorPropagator : public Propagator {
- public:
+public:
   // Ephemeris from which to interpolate states
   Ephemeris ephemeris;
 

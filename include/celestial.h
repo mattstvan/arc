@@ -11,28 +11,28 @@ class ICRF;
 
 // Celestial body
 class CelestialBody {
- public:
-  // NAIF ID Code
-  int id;
-  // GM in m^3/s^2
-  double mu;
-  // Equatorial radius in meters
-  double radius_equator;
-  // Polar radius in meters
-  double radius_polar;
-  // Flattening ratio
-  double flattening;
-  // Rotation vector in rad/s
-  Vector3 rotation;
+public:
+    // NAIF ID Code
+    int id;
+    // GM in m^3/s^2
+    double mu;
+    // Equatorial radius in meters
+    double radius_equator;
+    // Polar radius in meters
+    double radius_polar;
+    // Flattening ratio
+    double flattening;
+    // Rotation vector in rad/s
+    Vector3 rotation;
 
-  // Print to std::cout
-  void print();
+    // Print to std::cout
+    void print();
 
-  // Return the common name of the body as a String
-  std::string get_name();
+    // Return the common name of the body as a String
+    std::string get_name();
 
-  // Return the ICRF state of the body at an epoch
-  ICRF propagate(UTCTime epoch);
+    // Return the ICRF state of the body at an epoch
+    ICRF propagate(UTCTime epoch);
 };
 
 // Sun definition using parameters derived from:

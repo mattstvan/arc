@@ -7,7 +7,7 @@
 
 // Gravity model
 class GravityModel : public ForceModel {
- public:
+public:
   // Body this model represents
   CelestialBody body;
   // Flag to determine if this model should include aspherical effects

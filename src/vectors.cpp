@@ -21,7 +21,7 @@ Vector3::Vector3(double x, double y, double z) {
 // Print to std::cout
 void Vector3::print() {
   std::cout << "[Vector3] { X: " << x << ", Y: " << y << ", Z: " << z << " }"
-            << std::endl;
+    << std::endl;
 }
 
 // Calculate the magnitude
@@ -32,7 +32,7 @@ Vector3 Vector3::scale(double scalar) {
   double new_x = x * scalar;
   double new_y = y * scalar;
   double new_z = z * scalar;
-  return Vector3{new_x, new_y, new_z};
+  return Vector3{ new_x, new_y, new_z };
 }
 
 // Calculate the unit vector
@@ -43,7 +43,7 @@ Vector3 Vector3::add(Vector3 v) {
   double new_x = x + v.x;
   double new_y = y + v.y;
   double new_z = z + v.z;
-  return Vector3{new_x, new_y, new_z};
+  return Vector3{ new_x, new_y, new_z };
 }
 
 // Calculate a new Vector3 representing the inverse (negated elements)
@@ -70,7 +70,7 @@ Vector3 Vector3::cross(Vector3 v) {
   double new_x = y * v.z - z * v.y;
   double new_y = z * v.x - x * v.z;
   double new_z = x * v.y - y * v.x;
-  return Vector3{new_x, new_y, new_z};
+  return Vector3{ new_x, new_y, new_z };
 }
 
 // Rotate along the x-axis
@@ -80,7 +80,7 @@ Vector3 Vector3::rot_x(double theta) {
   double new_x = 1.0 * x + 0.0 * y + 0.0 * z;
   double new_y = 0.0 * x + cos_t * y + sin_t * z;
   double new_z = 0.0 * x + -sin_t * y + cos_t * z;
-  return Vector3{new_x, new_y, new_z};
+  return Vector3{ new_x, new_y, new_z };
 }
 
 // Rotate along the y-axis
@@ -90,7 +90,7 @@ Vector3 Vector3::rot_y(double theta) {
   double new_x = cos_t * x + 0.0 * y + -sin_t * z;
   double new_y = 0.0 * x + 1.0 * y + 0.0 * z;
   double new_z = sin_t * x + 0.0 * y + cos_t * z;
-  return Vector3{new_x, new_y, new_z};
+  return Vector3{ new_x, new_y, new_z };
 }
 
 // Rotate along the z-axis
@@ -100,7 +100,7 @@ Vector3 Vector3::rot_z(double theta) {
   double new_x = cos_t * x + sin_t * y + 0.0 * z;
   double new_y = -sin_t * x + cos_t * y + 0.0 * z;
   double new_z = 0.0 * x + 0.0 * y + 1.0 * z;
-  return Vector3{new_x, new_y, new_z};
+  return Vector3{ new_x, new_y, new_z };
 }
 
 // Calculate angle to another Vector3
@@ -149,8 +149,8 @@ Vector6::Vector6(Vector3 a, Vector3 b) {
 // Print to std::cout
 void Vector6::print() {
   std::cout << "[Vector6] { A: " << a << ", B: " << b << ", C: " << c
-            << ", X: " << x << ", Y: " << y << ", Z: " << z << " }"
-            << std::endl;
+    << ", X: " << x << ", Y: " << y << ", Z: " << z << " }"
+    << std::endl;
 }
 
 // Add another Vector6 using element-wise addition
@@ -161,7 +161,7 @@ Vector6 Vector6::add(Vector6 v) {
   double dx = x + v.x;
   double dy = y + v.y;
   double dz = z + v.z;
-  return Vector6{da, db, dc, dx, dy, dz};
+  return Vector6{ da, db, dc, dx, dy, dz };
 }
 
 // Scale by a scalar value using element-wise multiplication
@@ -172,10 +172,10 @@ Vector6 Vector6::scale(double scalar) {
   double new_x = x * scalar;
   double new_y = y * scalar;
   double new_z = z * scalar;
-  return Vector6{new_a, new_b, new_c, new_x, new_y, new_z};
+  return Vector6{ new_a, new_b, new_c, new_x, new_y, new_z };
 }
 
 // Split the elements into two Vector3 instances
 std::array<Vector3, 2> Vector6::split() {
-  return {Vector3{a, b, c}, Vector3{x, y, z}};
+  return { Vector3{a, b, c}, Vector3{x, y, z} };
 }

@@ -10,7 +10,7 @@ class Ephemeris;
 
 // Base propagator class
 class Propagator {
- public:
+public:
   // Propagate the inital state to specified epoch
   virtual ICRF propagate(UTCTime epoch);
 
@@ -20,7 +20,7 @@ class Propagator {
 
 // Numerical propagator base class
 class NumericalPropagator : public Propagator {
- public:
+public:
   // State used as the initial state
   ICRF initial_state;
   // State used for the initial condition of the next integration step

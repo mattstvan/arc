@@ -20,7 +20,7 @@ int main() {
   UTCTime stop = UTCTime {86400.0};
   Ephemeris eph = prop.step(start, stop, 300.0);
   // Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
-
+  EARTH.propagate(start).print();
   //test.print();
   // eph2.write_stk("Test2.e");
   return 0;
