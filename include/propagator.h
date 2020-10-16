@@ -21,15 +21,19 @@ public:
 
 // Numerical propagator base class
 class NumericalPropagator : public Propagator {
+  // State used for the initial condition of the next integration step
+  ICRF cache_state;
+  // List of force models
+  std::vector<ForceModel> forces;
+
 public:
   // State used as the initial state
   ICRF initial_state;
-  // State used for the initial condition of the next integration step
-  ICRF cache_state;
   // Number of seconds between steps
   double step_size;
-  // List of force models
-  std::vector<ForceModel> forces;
+
+  // Direct constructor (default settings)
+  NumericalPropagator(ICRF initial_state);
 
   // Propagate the inital state to specified epoch
   ICRF propagate(UTCTime epoch);
