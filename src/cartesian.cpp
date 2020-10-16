@@ -88,6 +88,10 @@ ICRF ICRF::to_solar() {
 ICRF ICRF::change_central_body(CelestialBody body) {
   // If the requested body does differ
   if (central_body.id != body.id) {
+    // If the requested body is the Sun
+    if (body.id == 10) {
+      return to_solar();
+    }
     // Get both states in heliocentric ICRF
     ICRF body_icrf = body.propagate(epoch).to_solar();
     ICRF solar_icrf = to_solar();
