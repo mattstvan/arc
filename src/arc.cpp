@@ -5,6 +5,7 @@
 #include <propagator.h>
 #include <interpolator.h>
 #include <utctime.h>
+#include <gravity.h>
 #include <vectors.h>
 
 #include <ctime>
@@ -18,9 +19,15 @@ int main() {
   KeplerianPropagator prop = KeplerianPropagator{kep};
   UTCTime start = UTCTime {0};
   UTCTime stop = UTCTime {86400.0};
-  Ephemeris eph = prop.step(start, stop, 300.0);
+  //Ephemeris eph = prop.step(start, stop, 300.0);
   // Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
-  EARTH.propagate(start).print();
+  GravityModel gm1 {EARTH, false, 0, 0};
+  GravityModel gm2 {LUNA, false, 0, 0};
+  GravityModel gm3 {SUN, false, 0, 0};
+  GravityModel gm4 {VENUS, false, 0, 0};
+  Vector3 test = gm4.acceleration(icrf);
+  test.print();
+  std::cout << test.mag() << std::endl;
   //test.print();
   // eph2.write_stk("Test2.e");
   return 0;
