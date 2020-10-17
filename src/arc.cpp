@@ -1,34 +1,24 @@
 #include <cartesian.h>
 #include <celestial.h>
-#include <ephemeris.h>
-#include <keplerian.h>
-#include <propagator.h>
-#include <interpolator.h>
 #include <utctime.h>
-#include <gravity.h>
 #include <vectors.h>
+#include <propagator.h>
+#include <ephemeris.h>
 
-#include <ctime>
 #include <iostream>
 
 int main() {
-  ICRF icrf =
-      ICRF{EARTH, UTCTime{}, Vector3{-698891.686, 6023436.003, 3041793.014},
-           Vector3{-4987.520, -3082.634, 4941.720}};
-  KeplerianElements kep = KeplerianElements{icrf};
-  KeplerianPropagator prop = KeplerianPropagator{kep};
-  UTCTime start = UTCTime {0};
-  UTCTime stop = UTCTime {86400.0};
-  //Ephemeris eph = prop.step(start, stop, 300.0);
-  // Ephemeris eph2 = InterpolatorPropagator{eph}.step(start, stop, 60);
-  GravityModel gm1 {EARTH, false, 0, 0};
-  GravityModel gm2 {LUNA, false, 0, 0};
-  GravityModel gm3 {SUN, false, 0, 0};
-  GravityModel gm4 {VENUS, false, 0, 0};
-  Vector3 test = gm4.acceleration(icrf);
-  test.print();
-  std::cout << test.mag() << std::endl;
-  //test.print();
-  // eph2.write_stk("Test2.e");
+  ICRF icrf{
+    EARTH,
+    UTCTime{},
+    Vector3{-698891.686, 6023436.003, 3041793.014},
+    Vector3{-4987.520, -3082.634, 4941.720}
+  };
+  UTCTime start { 0 };
+  UTCTime stop { 86400.0 };
+  NumericalPropagator prop = NumericalPropagator {icrf};
+  prop.step_size = 1.0;
+  Ephemeris ephem = prop.step(start, stop, 60.0);
+  ephem.write_stk("test_ephem.e");
   return 0;
 }
