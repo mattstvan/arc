@@ -23,13 +23,13 @@ Arc is an astrodynamics toolkit aimed at providing high-accuracy numerical propa
  - [ ] Orbital state propagation
 	 - [x] Keplerian Approximation
 	 - [x] Ephemeris Interpolation
-	 - [ ] Fixed-step Runge-Kutta integration
+	 - [x] Fixed-step Runge-Kutta integration
 	 - [ ] Dormand-Prince integration
 	 - [ ] Adam-Bashforth-Moulton integration
  - [ ] Perturbing force models
 	 - [ ] Aspherical Earth gravity model (EGM-2008)
 	 - [ ] Atmospheric Drag (Harris-Preister)
-	 - [ ] Third body gravity
+	 - [x] Third body gravity
 	 - [ ] Solar Radiation Pressure
 	 - [ ] Spacecraft Maneuvers
 	 - [ ] Tidal variations
