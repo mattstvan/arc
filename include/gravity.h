@@ -2,11 +2,10 @@
 #define GRAVITY_H
 #include <cartesian.h>
 #include <celestial.h>
-#include <force_model.h>
 #include <vectors.h>
 
 // Gravity model
-class GravityModel : public ForceModel {
+class GravityModel {
   // Calculate acceleration due to gravity, assuming a spherical body
   Vector3 spherical(ICRF sc_state);
 

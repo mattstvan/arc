@@ -23,8 +23,8 @@ public:
 class NumericalPropagator : public Propagator {
   // State used for the initial condition of the next integration step
   ICRF cache_state;
-  // List of force models
-  std::vector<ForceModel> forces;
+  // Force model
+  ForceModel force_model;
 
   // Calculate partial derivatives for numerical integration
   Vector6 derivatives(ICRF state, double h, Vector6 k);
@@ -39,7 +39,7 @@ public:
   NumericalPropagator(ICRF initial_state);
 
   // Direct constructor (full settings)
-  NumericalPropagator(ICRF initial_state, double step_size, std::vector<ForceModel> forces);
+  NumericalPropagator(ICRF initial_state, double step_size, ForceModel force_model);
 
   // Propagate the inital state to specified epoch
   ICRF propagate(UTCTime epoch);

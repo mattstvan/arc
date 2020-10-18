@@ -28,15 +28,16 @@ NumericalPropagator::NumericalPropagator(ICRF initial_state) {
   this->initial_state = initial_state;
   this->cache_state = initial_state;
   this->step_size = 60.0;
-  this->forces = std::vector<ForceModel>{ GravityModel{initial_state.central_body, false, 0, 0} };
+  GravityModel central_grav {initial_state.central_body, false, 0, 0};
+  this->force_model = ForceModel {std::vector<GravityModel> {central_grav}};
 }
 
 // Direct constructor (full settings)
-NumericalPropagator::NumericalPropagator(ICRF initial_state, double step_size, std::vector<ForceModel> forces) {
+NumericalPropagator::NumericalPropagator(ICRF initial_state, double step_size, ForceModel force_model) {
   this->initial_state = initial_state;
   this->cache_state = initial_state;
   this->step_size = step_size;
-  this->forces = forces;
+  this->force_model = force_model;
 }
 
 // Calculate partial derivatives for numerical integration
@@ -50,10 +51,8 @@ Vector6 NumericalPropagator::derivatives(ICRF state, double h, Vector6 k=Vector6
   ICRF sample_state {state.central_body, new_epoch, vectors[0], vectors[1]};
   // Create an empty acceleration vector
   Vector3 acceleration;
-  // Iterate over the ForceModel instances, adding all accelerations at the sample state
-  for (ForceModel model : forces) {
-    acceleration = acceleration.add(model.acceleration(sample_state));
-  }
+  Vector3 new_accel = force_model.acceleration(sample_state);
+  acceleration = acceleration.add(new_accel);
   // Return the first-order derivative of the combined position/velocity vector (velocity/acceleration vector)
   return Vector6 {sample_state.velocity, acceleration};
 }
