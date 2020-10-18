@@ -16,24 +16,20 @@ public:
   virtual ICRF propagate(UTCTime epoch);
 
   // Create an Ephemeris by propagating over an interval
-  Ephemeris step(UTCTime start, UTCTime stop, double step);
+  virtual Ephemeris step(UTCTime start, UTCTime stop, double step);
 };
 
 // Numerical propagator base class
 class NumericalPropagator : public Propagator {
-  // State used for the initial condition of the next integration step
-  ICRF cache_state;
-  // Force model
-  ForceModel force_model;
-
-  // Calculate partial derivatives for numerical integration
-  Vector6 derivatives(ICRF state, double h, Vector6 k);
-
 public:
   // State used as the initial state
   ICRF initial_state;
   // Number of seconds between integration steps
   double step_size;
+  // State used for the initial condition of the next integration step
+  ICRF cache_state;
+  // Force model
+  ForceModel force_model;
 
   // Direct constructor (default settings)
   NumericalPropagator(ICRF initial_state);
@@ -44,8 +40,11 @@ public:
   // Propagate the inital state to specified epoch
   ICRF propagate(UTCTime epoch);
 
+  // Calculate partial derivatives for numerical integration
+  Vector6 derivatives(ICRF state, double h, Vector6 k);
+
   // Step the integration a number of seconds forward/backward
-  virtual ICRF integrate(ICRF state, double step);
+  ICRF integrate(ICRF state, double step);
 
 };
 
