@@ -19,16 +19,7 @@ UTCTime::UTCTime(std::string datestr, std::string format) {
   // Determine timezone and get offset
   time_t t = time(NULL);
   struct tm lt = { 0 };
-  // On Windows, use localtime_s
-#ifdef _WIN32
-  localtime_s(&lt, &t);
-  // On Unix, localtime_r
-#else
-  localtime_r(&t, &lt);
-#endif
   double offset = t - mktime(gmtime(&t));
-  // Ensure the struct tm determines the DST status
-  lt.tm_isdst = -1;
   // Strip the date elements using NetBSD's strptime function
   bsd_strptime(datestr.c_str(), format.c_str(), &lt);
   // Parse any milliseconds from the end of the date string
