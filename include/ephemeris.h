@@ -28,7 +28,7 @@ public:
   Ephemeris();
 
   // Direct constructor
-  Ephemeris(std::vector<ICRF> states);
+  Ephemeris(std::vector<ICRF> &states);
 
   // Constructor using file path
   Ephemeris(char filepath[]);
@@ -38,7 +38,7 @@ public:
 
   // Use Keplerian estimation to obtain an interpolated ICRF
   // state using the nearest ICRF value contained in the ephemeris
-  ICRF interpolate(UTCTime requested);
+  ICRF interpolate(UTCTime &requested);
 
   // Create ASCII ephemeris in STK format
   std::vector<std::string> format_stk();

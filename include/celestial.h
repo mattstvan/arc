@@ -32,7 +32,7 @@ public:
     std::string get_name();
 
     // Return the ICRF state of the body at an epoch
-    ICRF propagate(UTCTime epoch);
+    ICRF propagate(UTCTime &epoch);
 };
 
 // Sun definition using parameters derived from:

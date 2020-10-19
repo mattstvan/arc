@@ -21,11 +21,11 @@ public:
   UTCTime(double seconds);
 
   // Constructor using input char* and format
-  UTCTime(std::string datestr, std::string format);
+  UTCTime(std::string &datestr, std::string &format);
 
   // Constructor using input char* in ISO 8601 format:
   // YYYY-MM-DDTHH:MM:SS.FFFFFF
-  UTCTime(std::string datestr);
+  UTCTime(std::string &datestr);
 
   // Print to std::cout
   void print();
@@ -50,10 +50,10 @@ public:
   UTCTime increment(double seconds);
 
   // Calculate the difference between the instance and another UTCTime
-  double difference(UTCTime other);
+  double difference(UTCTime &other);
 
   // Evaluates to true if UTCTime is equal to another
-  bool equals(UTCTime other);
+  bool equals(UTCTime &other);
 };
 
 #endif

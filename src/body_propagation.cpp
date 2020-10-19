@@ -17,7 +17,7 @@ BodyPropagationHandler::BodyPropagationHandler() {
 }
 
 // Get and/or load a planetary ephemeris file
-Ephemeris BodyPropagationHandler::get_ephem(int id) {
+Ephemeris& BodyPropagationHandler::get_ephem(int id) {
     // TODO: Functionally determine ephemeris location
     // Use temporary ephemeris file locations (will be set by variable later)
     switch (id) {
@@ -70,10 +70,10 @@ Ephemeris BodyPropagationHandler::get_ephem(int id) {
 }
 
 // Get the state of a given CelestialBody given its NAIF ID
-ICRF BodyPropagationHandler::get_state(int id, UTCTime epoch) {
+ICRF BodyPropagationHandler::get_state(int id, UTCTime &epoch) {
     // If the body is not the Sun
     if (id != 10) {
-        Ephemeris planet_eph = get_ephem(id);
+        Ephemeris& planet_eph = get_ephem(id);
         return planet_eph.interpolate(epoch);
     }
     else {

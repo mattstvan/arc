@@ -7,10 +7,10 @@ Base Propagator methods
 */
 
 // Return standard ICRF (this function overloaded by the derived class)
-ICRF Propagator::propagate(UTCTime epoch) { return ICRF{}; }
+ICRF Propagator::propagate(UTCTime &epoch) { return ICRF{}; }
 
 // Create an Ephemeris by propagating over an interval
-Ephemeris Propagator::step(UTCTime start, UTCTime stop, double step) {
+Ephemeris Propagator::step(UTCTime &start, UTCTime &stop, double step) {
   UTCTime t = start;
   std::vector<ICRF> states{};
   while (stop.difference(t) >= 0.0) {
@@ -41,7 +41,7 @@ NumericalPropagator::NumericalPropagator(ICRF initial_state, double step_size, F
 }
 
 // Calculate partial derivatives for numerical integration
-Vector6 NumericalPropagator::derivatives(ICRF state, double h, Vector6 k) {
+Vector6 NumericalPropagator::derivatives(ICRF &state, double h, Vector6 &k) {
   // Advance the epoch to t+h
   UTCTime new_epoch = state.epoch.increment(h);
   // Combine the position/velocity into a six-dimensional vector and add any k-argument
@@ -58,7 +58,7 @@ Vector6 NumericalPropagator::derivatives(ICRF state, double h, Vector6 k) {
 }
 
 // Propagate the inital state to specified epoch
-ICRF NumericalPropagator::propagate(UTCTime epoch) {
+ICRF NumericalPropagator::propagate(UTCTime &epoch) {
   // Do this until the requested epoch has been reached
   while (epoch.equals(cache_state.epoch) != true) {
     // Get the difference between the requested epoch and the cached epoch
@@ -74,4 +74,4 @@ ICRF NumericalPropagator::propagate(UTCTime epoch) {
 }
 
 // Step the integration a number of seconds forward/backward
-ICRF NumericalPropagator::integrate(ICRF state, double step) { return state; }
+ICRF NumericalPropagator::integrate(ICRF &state, double step) { return state; }

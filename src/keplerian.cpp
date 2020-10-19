@@ -19,7 +19,7 @@ KeplerianElements::KeplerianElements() {
 }
 
 // Direct constructor
-KeplerianElements::KeplerianElements(CelestialBody body, UTCTime epoch,
+KeplerianElements::KeplerianElements(CelestialBody &body, UTCTime epoch,
   double a, double e, double i, double o,
   double w, double v) {
   this->central_body = body;
@@ -33,7 +33,7 @@ KeplerianElements::KeplerianElements(CelestialBody body, UTCTime epoch,
 }
 
 // Constructor using Cartesian instance
-KeplerianElements::KeplerianElements(Cartesian vector) {
+KeplerianElements::KeplerianElements(Cartesian &vector) {
   // Create some constants to avoid repeat calls
   const double r_mag = vector.position.mag();
   const double v_mag = vector.velocity.mag();
@@ -113,7 +113,7 @@ double KeplerianElements::mean_motion() {
 // Propagate the True Anomaly of the elements to a specified epoch
 // Ref: Montenbruck, O., & Gill, E. (2012). Prediction of Unperturbed Satellite Orbits.
 // In Satellite orbits: Models, methods, and applications (pp. 22-32). Berlin: Springer-Verlag.
-KeplerianElements KeplerianElements::propagate_to(UTCTime t) {
+KeplerianElements KeplerianElements::propagate_to(UTCTime &t) {
   // Get delta between the requested time and the initial state epoch
   double delta = t.difference(epoch);
   // Calculate mean motion
@@ -158,6 +158,6 @@ KeplerianPropagator::KeplerianPropagator(KeplerianElements state) {
 }
 
 // Propagate the inital state to specified epoch
-ICRF KeplerianPropagator::propagate(UTCTime epoch) {
+ICRF KeplerianPropagator::propagate(UTCTime &epoch) {
   return initial_state.propagate_to(epoch);
 }

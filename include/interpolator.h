@@ -10,11 +10,11 @@ public:
   Ephemeris ephemeris;
 
   // Direct constructor
-  InterpolatorPropagator(Ephemeris ephemeris);
+  InterpolatorPropagator(Ephemeris &ephemeris);
 
   // Propagate to the requested state using the nearest ICRF value contained in
   // the ephemeris
-  ICRF propagate(UTCTime epoch);
+  ICRF propagate(UTCTime &epoch);
 };
 
 #endif

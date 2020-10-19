@@ -35,11 +35,11 @@ public:
   KeplerianElements();
 
   // Direct constructor
-  KeplerianElements(CelestialBody body, UTCTime epoch, double a, double e,
+  KeplerianElements(CelestialBody &body, UTCTime epoch, double a, double e,
     double i, double o, double w, double v);
 
   // Constructor using Cartesian instance
-  KeplerianElements(Cartesian vector);
+  KeplerianElements(Cartesian &vector);
 
   // Print to std::cout
   void print();
@@ -48,7 +48,7 @@ public:
   double mean_motion();
 
   // Propagate the True Anomaly of the elements to a specified epoch
-  KeplerianElements propagate_to(UTCTime t);
+  KeplerianElements propagate_to(UTCTime &t);
 };
 
 // Propagator using Kepler's method
@@ -61,7 +61,7 @@ public:
   KeplerianPropagator(KeplerianElements state);
 
   // Propagate the inital state to specified epoch
-  ICRF propagate(UTCTime epoch);
+  ICRF propagate(UTCTime &epoch);
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include <file_io.h>
 
-int write_lines_to_file(std::vector<std::string> lines, char filename[]) {
+int write_lines_to_file(std::vector<std::string> &lines, char filename[]) {
   std::ofstream file;
   file.open(filename);
   if (file.is_open()) {

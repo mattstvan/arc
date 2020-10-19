@@ -11,7 +11,7 @@ RungeKutta4::RungeKutta4(ICRF initial_state) : NumericalPropagator{ initial_stat
 RungeKutta4::RungeKutta4(ICRF initial_state, double step_size, ForceModel force_model) : NumericalPropagator{ initial_state, step_size, force_model } {}
 
 // Propagate the inital state to specified epoch
-ICRF RungeKutta4::propagate(UTCTime epoch) {
+ICRF RungeKutta4::propagate(UTCTime &epoch) {
   // Do this until the requested epoch has been reached
   while (epoch.equals(cache_state.epoch) != true) {
     // Get the difference between the requested epoch and the cached epoch
@@ -27,7 +27,7 @@ ICRF RungeKutta4::propagate(UTCTime epoch) {
 }
 
 // Step the integration a number of seconds forward/backward
-ICRF RungeKutta4::integrate(ICRF state, double step) {
+ICRF RungeKutta4::integrate(ICRF &state, double step) {
   // Take derivatives 
   Vector6 k1 = derivatives(state, 0.0, Vector6{}).scale(step);
   Vector6 k2 = derivatives(state, step / 2.0, k1.scale(1.0/2.0)).scale(step);

@@ -13,7 +13,7 @@ GravityModel::GravityModel() {
 }
 
 // Direct constructor
-GravityModel::GravityModel(CelestialBody body, bool is_aspherical, int degree,
+GravityModel::GravityModel(CelestialBody &body, bool is_aspherical, int degree,
                            int order) {
   this->body = body;
   this->is_aspherical = is_aspherical;
@@ -32,7 +32,7 @@ void GravityModel::print() {
 }
 
 // Calculate acceleration due to gravity, assuming a spherical body
-Vector3 GravityModel::spherical(ICRF sc_state) {
+Vector3 GravityModel::spherical(ICRF &sc_state) {
   // If we are modelling central body gravity
   if (sc_state.central_body.id == body.id) {
     return sc_state.position.scale(-body.mu / pow(sc_state.position.mag(), 3));
@@ -55,13 +55,13 @@ Vector3 GravityModel::spherical(ICRF sc_state) {
 }
 
 // Calculate the aspherical components of acceleration due to gravity
-Vector3 GravityModel::aspherical(ICRF sc_state) {
+Vector3 GravityModel::aspherical(ICRF &sc_state) {
   // Placeholder
   return Vector3{};
 }
 
 // Calculate acceleration on a spacecraft due to gravity, given its ICRF state
-Vector3 GravityModel::acceleration(ICRF state) {
+Vector3 GravityModel::acceleration(ICRF &state) {
   // Empty acceleration vector
   Vector3 accel;
   // Get spherical gravity

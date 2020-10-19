@@ -26,14 +26,14 @@ class BodyPropagationHandler {
   Ephemeris neptune;
 
   // Get and/or load a planetary ephemeris file
-  Ephemeris get_ephem(int id);
+  Ephemeris& get_ephem(int id);
 
 public:
   // Default constructor
   BodyPropagationHandler();
 
   // Get the state of a given CelestialBody given its NAIF ID
-  ICRF get_state(int id, UTCTime epoch);
+  ICRF get_state(int id, UTCTime &epoch);
 };
 
 static BodyPropagationHandler BODY_PROPAGATOR{};

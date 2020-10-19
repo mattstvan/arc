@@ -25,10 +25,10 @@ public:
   Cartesian();
 
   // Direct constructor
-  Cartesian(CelestialBody body, UTCTime epoch, Vector3 pos, Vector3 vel);
+  Cartesian(CelestialBody &body, UTCTime &epoch, Vector3 &pos, Vector3 &vel);
 
   // Constructor from KeplerianElements
-  Cartesian(KeplerianElements el);
+  Cartesian(KeplerianElements &el);
 
   // Print to std::cout
   void print();
@@ -41,10 +41,10 @@ public:
   ICRF();
 
   // Direct constructor
-  ICRF(CelestialBody body, UTCTime epoch, Vector3 pos, Vector3 vel);
+  ICRF(CelestialBody &body, UTCTime &epoch, Vector3 &pos, Vector3 &vel);
 
   // Constructor from KeplerianElements
-  ICRF(KeplerianElements el);
+  ICRF(KeplerianElements &el);
 
   // Print to std::cout
   void print();
@@ -53,7 +53,7 @@ public:
   ICRF to_solar();
 
   // Convert position/velocity vectors into the ICRF frame centered around another celestial body's position
-  ICRF change_central_body(CelestialBody body);
+  ICRF change_central_body(CelestialBody &body);
 };
 
 #endif

@@ -14,8 +14,8 @@ Cartesian::Cartesian() {
 }
 
 // Direct constructor
-Cartesian::Cartesian(CelestialBody body, UTCTime epoch, Vector3 pos,
-                     Vector3 vel) {
+Cartesian::Cartesian(CelestialBody &body, UTCTime &epoch, Vector3 &pos,
+                     Vector3 &vel) {
   this->central_body = body;
   this->epoch = epoch;
   this->position = pos;
@@ -23,7 +23,7 @@ Cartesian::Cartesian(CelestialBody body, UTCTime epoch, Vector3 pos,
 }
 
 // Constructor from KeplerianElements
-Cartesian::Cartesian(KeplerianElements el) {
+Cartesian::Cartesian(KeplerianElements &el) {
   this->central_body = el.central_body;
   this->epoch = el.epoch;
   // Compute PQW Position vector
@@ -49,11 +49,11 @@ ICRF class methods
 ICRF::ICRF(){};
 
 // Direct constructor
-ICRF::ICRF(CelestialBody body, UTCTime epoch, Vector3 pos, Vector3 vel)
+ICRF::ICRF(CelestialBody &body, UTCTime &epoch, Vector3 &pos, Vector3 &vel)
     : Cartesian{body, epoch, pos, vel} {};
 
 // Constructor from KeplerianElements
-ICRF::ICRF(KeplerianElements el) : Cartesian{el} {};
+ICRF::ICRF(KeplerianElements &el) : Cartesian{el} {};
 
 // Print to std::cout
 void ICRF::print() {
@@ -85,7 +85,7 @@ ICRF ICRF::to_solar() {
 
 // Convert position/velocity vectors into the ICRF frame centered around another
 // celestial body's position
-ICRF ICRF::change_central_body(CelestialBody body) {
+ICRF ICRF::change_central_body(CelestialBody &body) {
   // If the requested body does differ
   if (central_body.id != body.id) {
     // If the requested body is the Sun

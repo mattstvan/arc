@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-int write_lines_to_file(std::vector<std::string> lines, char filename[]);
+int write_lines_to_file(std::vector<std::string> &lines, char filename[]);
 
 std::vector<std::string> read_lines_from_file(char filename[]);
 

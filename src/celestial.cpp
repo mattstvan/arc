@@ -53,7 +53,7 @@ Celestial body methods
 */
 
 // Return the ICRF state of the body at an epoch
-ICRF CelestialBody::propagate(UTCTime epoch) {
+ICRF CelestialBody::propagate(UTCTime &epoch) {
   // Get the planet state from the body propagation handler
   return BODY_PROPAGATOR.get_state(id, epoch);
 }

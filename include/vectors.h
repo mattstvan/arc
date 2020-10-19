@@ -33,19 +33,19 @@ public:
   Vector3 unit();
 
   // Add another Vector3 using element-wise addition
-  Vector3 add(Vector3 v);
+  Vector3 add(Vector3 &v);
 
   // Calculate a new Vector3 representing the inverse (negated elements)
   Vector3 inverse();
 
   // Distance to another Vector3
-  double distance(Vector3 v);
+  double distance(Vector3 &v);
 
   // Dot product with another Vector3
-  double dot(Vector3 v);
+  double dot(Vector3 &v);
 
   // Cross product with another Vector3
-  Vector3 cross(Vector3 v);
+  Vector3 cross(Vector3 &v);
 
   // Rotate along the x-axis
   Vector3 rot_x(double theta);
@@ -57,10 +57,10 @@ public:
   Vector3 rot_z(double theta);
 
   // Calculate angle to another Vector3
-  double angle(Vector3 v);
+  double angle(Vector3 &v);
 
   // Change coordinates to relative position from a new origin
-  Vector3 change_origin(Vector3 origin);
+  Vector3 change_origin(Vector3 &origin);
 };
 
 // Six-element vector
@@ -86,13 +86,13 @@ public:
   Vector6(double a, double b, double c, double x, double y, double z);
 
   // Constructor using two Vector3 instances
-  Vector6(Vector3 a, Vector3 b);
+  Vector6(Vector3 &a, Vector3 &b);
 
   // Print to std::cout
   void print();
 
   // Add another Vector6 using element-wise addition
-  Vector6 add(Vector6 v);
+  Vector6 add(Vector6 &v);
 
   // Scale by a scalar value using element-wise multiplication
   Vector6 scale(double scalar);

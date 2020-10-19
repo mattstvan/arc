@@ -15,7 +15,7 @@ UTCTime::UTCTime() { this->seconds_since_j2000 = 0.0; }
 UTCTime::UTCTime(double seconds) { this->seconds_since_j2000 = seconds; }
 
 // Constructor using input char* and format
-UTCTime::UTCTime(std::string datestr, std::string format) {
+UTCTime::UTCTime(std::string &datestr, std::string &format) {
   // Determine timezone and get offset
   time_t t = time(NULL);
   struct tm lt = { 0 };
@@ -39,7 +39,7 @@ UTCTime::UTCTime(std::string datestr, std::string format) {
 
 // Constructor using input char* in ISO 8601 format:
 // YYYY-MM-DDTHH:MM:SS.FFFFFF
-UTCTime::UTCTime(std::string datestr) : UTCTime{ datestr, std::string{"%Y-%m-%dT%H:%M:%S"} } {}
+UTCTime::UTCTime(std::string &datestr) : UTCTime{ datestr, std::string{"%Y-%m-%dT%H:%M:%S"} } {}
 
 // Print to std::cout
 void UTCTime::print() {
@@ -62,12 +62,12 @@ UTCTime UTCTime::increment(double seconds) {
 }
 
 // Calculate the difference between the instance and another UTCTime
-double UTCTime::difference(UTCTime other) {
+double UTCTime::difference(UTCTime &other) {
   return seconds_since_j2000 - other.seconds_since_j2000;
 }
 
 // Evaluates to true if UTCTime is equal to another
-bool UTCTime::equals(UTCTime other) {
+bool UTCTime::equals(UTCTime &other) {
   return seconds_since_j2000 == other.seconds_since_j2000;
 }
 

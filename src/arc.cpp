@@ -12,12 +12,12 @@
 int main() {
   ICRF icrf{
     EARTH,
-    UTCTime{"2020-10-18T15:00:00"},
+    UTCTime{std::string{"2020-10-18T15:00:00"}},
     Vector3{-698891.686, 6023436.003, 3041793.014},
     Vector3{-4987.520, -3082.634, 4941.720}
   };
-  UTCTime start { "2020-10-18T15:00:00" };
-  UTCTime stop { "2020-10-19T15:00:00" };
+  UTCTime start { std::string{"2020-10-18T15:00:00"} };
+  UTCTime stop { std::string{"2020-10-19T15:00:00"} };
   GravityModel gm1 {EARTH, false, 0, 0};
   GravityModel gm2 {SUN, false, 0, 0};
   GravityModel gm3 {LUNA, false, 0, 0};

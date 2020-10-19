@@ -13,7 +13,7 @@ Ephemeris::Ephemeris() {
 }
 
 // Direct constructor
-Ephemeris::Ephemeris(std::vector<ICRF> states) {
+Ephemeris::Ephemeris(std::vector<ICRF> &states) {
   this->states = states;
   this->epoch = states[0].epoch;
   this->central_body = states[0].central_body;
@@ -32,7 +32,7 @@ Ephemeris::Ephemeris(char filepath[]) {
       if (line.find("ScenarioEpoch") != std::string::npos) {
         std::string datestr = line.substr(line.find("ScenarioEpoch") + 14, line.size() - 1);
         if (datestr.size() > 0) {
-          this->epoch = UTCTime{ datestr, "%d %b %Y %H:%M:%S" };
+          this->epoch = UTCTime{ datestr, std::string{"%d %b %Y %H:%M:%S"} };
         }
         // Check for central body
       }
@@ -56,7 +56,6 @@ Ephemeris::Ephemeris(char filepath[]) {
       }
     }
   }
-
 }
 
 // Print to std::cout
@@ -69,7 +68,7 @@ void Ephemeris::print() {
 
 // Use Keplerian estimation to obtain an interpolated ICRF
 // state using the nearest ICRF value contained in the ephemeris
-ICRF Ephemeris::interpolate(UTCTime requested) {
+ICRF Ephemeris::interpolate(UTCTime &requested) {
   // Single call to get number of states (for performance)
   int ephem_size = states.size();
   // Nearest (by epoch) state to requested time

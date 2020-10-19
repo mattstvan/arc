@@ -39,7 +39,7 @@ Vector3 Vector3::scale(double scalar) {
 Vector3 Vector3::unit() { return scale(1.0 / mag()); }
 
 // Add another Vector3 using element-wise addition
-Vector3 Vector3::add(Vector3 v) {
+Vector3 Vector3::add(Vector3 &v) {
   double new_x = x + v.x;
   double new_y = y + v.y;
   double new_z = z + v.z;
@@ -50,7 +50,7 @@ Vector3 Vector3::add(Vector3 v) {
 Vector3 Vector3::inverse() { return scale(-1.0); }
 
 // Distance to another Vector3
-double Vector3::distance(Vector3 v) {
+double Vector3::distance(Vector3 &v) {
   double dx = x - v.x;
   double dy = y - v.y;
   double dz = z - v.z;
@@ -58,7 +58,7 @@ double Vector3::distance(Vector3 v) {
 }
 
 // Dot product with another Vector3
-double Vector3::dot(Vector3 v) {
+double Vector3::dot(Vector3 &v) {
   double mx = x * v.x;
   double my = y * v.y;
   double mz = z * v.z;
@@ -66,7 +66,7 @@ double Vector3::dot(Vector3 v) {
 }
 
 // Cross product with another Vector3
-Vector3 Vector3::cross(Vector3 v) {
+Vector3 Vector3::cross(Vector3 &v) {
   double new_x = y * v.z - z * v.y;
   double new_y = z * v.x - x * v.z;
   double new_z = x * v.y - y * v.x;
@@ -104,10 +104,10 @@ Vector3 Vector3::rot_z(double theta) {
 }
 
 // Calculate angle to another Vector3
-double Vector3::angle(Vector3 v) { return acos(dot(v) / (mag() * v.mag())); }
+double Vector3::angle(Vector3 &v) { return acos(dot(v) / (mag() * v.mag())); }
 
 // Change coordinates to relative position from a new origin
-Vector3 Vector3::change_origin(Vector3 origin) {
+Vector3 Vector3::change_origin(Vector3 &origin) {
   Vector3 delta = origin.inverse();
   return add(delta);
 }
@@ -137,7 +137,7 @@ Vector6::Vector6(double a, double b, double c, double x, double y, double z) {
 }
 
 // Constructor using two Vector3 instances
-Vector6::Vector6(Vector3 a, Vector3 b) {
+Vector6::Vector6(Vector3 &a, Vector3 &b) {
   this->a = a.x;
   this->b = a.y;
   this->c = a.z;
@@ -154,7 +154,7 @@ void Vector6::print() {
 }
 
 // Add another Vector6 using element-wise addition
-Vector6 Vector6::add(Vector6 v) {
+Vector6 Vector6::add(Vector6 &v) {
   double da = a + v.a;
   double db = b + v.b;
   double dc = c + v.c;
