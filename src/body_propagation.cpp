@@ -77,7 +77,7 @@ ICRF BodyPropagationHandler::get_state(int id, UTCTime epoch) {
         return planet_eph.interpolate(epoch);
     }
     else {
-        // If it is the sun, return the system origin
-        return ICRF{};
+        // If it is the sun, return the system origin at the requested time
+        return ICRF{SUN, epoch, Vector3{}, Vector3{}};
     }
 }
