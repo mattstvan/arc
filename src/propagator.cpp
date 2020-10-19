@@ -74,11 +74,4 @@ ICRF NumericalPropagator::propagate(UTCTime epoch) {
 }
 
 // Step the integration a number of seconds forward/backward
-ICRF NumericalPropagator::integrate(ICRF state, double step) {
-  // Simple Euler step as placeholder for the base class (don't use this)
-  Vector6 deriv = derivatives(state, 0.0, Vector6{}).scale(step);
-  // Combine the state with the derivative call
-  Vector6 total = Vector6{state.position, state.velocity}.add(deriv);
-  std::array<Vector3, 2> vectors = total.split();
-  return ICRF {state.central_body, state.epoch.increment(step), vectors[0], vectors[1]};
-}
+ICRF NumericalPropagator::integrate(ICRF state, double step) { return state; }
