@@ -27,7 +27,7 @@ Numerical propagator methods
 NumericalPropagator::NumericalPropagator(ICRF initial_state) {
   this->initial_state = initial_state;
   this->cache_state = initial_state;
-  this->step_size = 60.0;
+  this->step_size = 15.0;
   GravityModel central_grav {initial_state.central_body, false, 0, 0};
   this->force_model = ForceModel {std::vector<GravityModel> {central_grav}};
 }
