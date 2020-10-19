@@ -2,6 +2,8 @@
 #include <celestial.h>
 #include <utctime.h>
 #include <vectors.h>
+#include <force_model.h>
+#include <gravity.h>
 #include <rungekutta4.h>
 #include <ephemeris.h>
 
@@ -16,8 +18,11 @@ int main() {
   };
   UTCTime start { "2020-10-18T15:00:00" };
   UTCTime stop { "2020-10-19T15:00:00" };
-  RungeKutta4 prop = RungeKutta4 {icrf};
-  prop.step_size = 1.0;
+  GravityModel gm1 {EARTH, false, 0, 0};
+  GravityModel gm2 {SUN, false, 0, 0};
+  GravityModel gm3 {LUNA, false, 0, 0};
+  ForceModel fm {std::vector<GravityModel> {gm1, gm2, gm3}};
+  RungeKutta4 prop = RungeKutta4 {icrf, 60.0, fm};
   Ephemeris ephem = prop.step(start, stop, 60.0);
   ephem.write_stk("test_ephem.e");
   return 0;
