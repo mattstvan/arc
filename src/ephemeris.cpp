@@ -78,8 +78,11 @@ ICRF Ephemeris::interpolate(UTCTime requested) {
   if (requested.difference(states[ephem_size - 1].epoch) >= 0.0) {
     // Set nearest to the last available state
     nearest = states[ephem_size - 1];
-  }
-  else {
+    // If requested time is before first state
+  } else if (requested.difference(states[0].epoch) <= 0.0) {
+    // Set nearest to the first available state
+    nearest = states[0];
+  } else {
     // Find the total time span of the available states
     double span_sec = states[ephem_size-1].epoch.difference(states[0].epoch);
     // Find the expected number of seconds into the ephemeris the requested epoch is
@@ -88,20 +91,7 @@ ICRF Ephemeris::interpolate(UTCTime requested) {
     double expected_per = expected_sec / span_sec;
     // Estimated index in ephemeris
     int est_index = (int)(ephem_size * expected_per);
-    // Iterate through the available states
-    // starting at the estimated index minus a buffer
-    int count = 0;
-    for (int i=est_index-1; i < ephem_size-1; i++) {
-      count += 1;
-      // Compare this state to the current nearest state
-      ICRF state = states[i];
-      if (abs(state.epoch.difference(requested)) < abs(nearest.epoch.difference(requested))) {
-        // If this state is nearer by epoch, make it the new nearest
-        nearest = state;
-      } else if (abs(state.epoch.difference(requested)) > abs(nearest.epoch.difference(requested))) {
-        break;
-      }
-    }
+    nearest = states[est_index];
   }
   // Convert the nearest state to keplerian
   KeplerianElements nearest_keplerian{ nearest };
