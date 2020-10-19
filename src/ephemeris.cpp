@@ -70,17 +70,31 @@ void Ephemeris::print() {
 // Use Keplerian estimation to obtain an interpolated ICRF
 // state using the nearest ICRF value contained in the ephemeris
 ICRF Ephemeris::interpolate(UTCTime requested) {
+  // Single call to get number of states (for performance)
+  int ephem_size = states.size();
   // Nearest (by epoch) state to requested time
   ICRF nearest = states[0];
   // If requested time is after last state
-  if (requested.difference(states[states.size() - 1].epoch) >= 0.0) {
+  if (requested.difference(states[ephem_size - 1].epoch) >= 0.0) {
     // Set nearest to the last available state
-    nearest = states[states.size() - 1];
+    nearest = states[ephem_size - 1];
   }
   else {
+    // Find the total time span of the available states
+    double span_sec = states[ephem_size-1].epoch.difference(states[0].epoch);
+    // Find the expected number of seconds into the ephemeris the requested epoch is
+    double expected_sec = requested.difference(states[0].epoch);
+    // Expected percentage into the total ephemeris span
+    double expected_per = expected_sec / span_sec;
+    // Estimated index in ephemeris
+    int est_index = (int)(ephem_size * expected_per);
     // Iterate through the available states
-    for (ICRF state : states) {
+    // starting at the estimated index minus a buffer
+    int count = 0;
+    for (int i=est_index-1; i < ephem_size-1; i++) {
+      count += 1;
       // Compare this state to the current nearest state
+      ICRF state = states[i];
       if (abs(state.epoch.difference(requested)) < abs(nearest.epoch.difference(requested))) {
         // If this state is nearer by epoch, make it the new nearest
         nearest = state;
