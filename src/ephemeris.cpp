@@ -81,9 +81,11 @@ ICRF Ephemeris::interpolate(UTCTime requested) {
     // Iterate through the available states
     for (ICRF state : states) {
       // Compare this state to the current nearest state
-      if (fabs(state.epoch.difference(requested)) < fabs(nearest.epoch.difference(requested))) {
+      if (abs(state.epoch.difference(requested)) < abs(nearest.epoch.difference(requested))) {
         // If this state is nearer by epoch, make it the new nearest
         nearest = state;
+      } else if (abs(state.epoch.difference(requested)) > abs(nearest.epoch.difference(requested))) {
+        break;
       }
     }
   }
