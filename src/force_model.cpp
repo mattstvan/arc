@@ -19,7 +19,7 @@ Vector3 ForceModel::acceleration(ICRF state) {
   Vector3 acceleration;
   // Add gravity accelerations
   for (GravityModel gm : gravity_models) {
-    acceleration = gm.acceleration(state);
+    acceleration = acceleration.add(gm.acceleration(state));
   }
   return acceleration;
 }
