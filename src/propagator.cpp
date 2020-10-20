@@ -41,7 +41,7 @@ NumericalPropagator::NumericalPropagator(ICRF initial_state, double step_size, F
 }
 
 // Calculate partial derivatives for numerical integration
-Vector6 NumericalPropagator::derivatives(ICRF &state, double h, Vector6 k) {
+Vector6 NumericalPropagator::derivatives(ICRF &state, double h, Vector6 &k) {
   // Advance the epoch to t+h
   UTCTime new_epoch = state.epoch.increment(h);
   // Combine the position/velocity into a six-dimensional vector and add any k-argument

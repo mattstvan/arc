@@ -41,7 +41,7 @@ public:
   ICRF propagate(UTCTime &epoch);
 
   // Calculate partial derivatives for numerical integration
-  Vector6 derivatives(ICRF &state, double h, Vector6 k);
+  Vector6 derivatives(ICRF &state, double h, Vector6 &k);
 
   // Step the integration a number of seconds forward/backward
   ICRF integrate(ICRF &state, double step);
