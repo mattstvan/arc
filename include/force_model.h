@@ -17,10 +17,10 @@ class ForceModel {
   ForceModel(ICRF &state);
 
   // Direct constructor
-  ForceModel(std::vector<GravityModel> &gravity_models);
+  ForceModel(std::vector<GravityModel> gravity_models);
 
   // Add a new GravityModel to the list
-  void add_gravity(GravityModel &model);
+  void add_gravity(GravityModel model);
 
   // Get total acceleration force at a given state
   Vector3 acceleration(ICRF &state);

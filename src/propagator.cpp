@@ -41,7 +41,7 @@ NumericalPropagator::NumericalPropagator(ICRF initial_state, double step_size, F
 }
 
 // Calculate partial derivatives for numerical integration
-Vector6 NumericalPropagator::derivatives(ICRF &state, double h, Vector6 &k) {
+Vector6 NumericalPropagator::derivatives(ICRF &state, double h, Vector6 k) {
   // Advance the epoch to t+h
   UTCTime new_epoch = state.epoch.increment(h);
   // Combine the position/velocity into a six-dimensional vector and add any k-argument
@@ -49,12 +49,11 @@ Vector6 NumericalPropagator::derivatives(ICRF &state, double h, Vector6 &k) {
   // Build the state to use for ForceModel evaluations
   std::array<Vector3, 2> vectors = pos_vel.split();
   ICRF sample_state {state.central_body, new_epoch, vectors[0], vectors[1]};
-  // Create an empty acceleration vector
-  Vector3 acceleration;
-  Vector3 new_accel = force_model.acceleration(sample_state);
-  acceleration = acceleration.add(new_accel);
+  // Create acceleration vector
+  Vector3 acceleration = force_model.acceleration(sample_state);
   // Return the first-order derivative of the combined position/velocity vector (velocity/acceleration vector)
-  return Vector6 {sample_state.velocity, acceleration};
+  Vector6 final {sample_state.velocity, acceleration};
+  return final;
 }
 
 // Propagate the inital state to specified epoch

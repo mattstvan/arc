@@ -78,6 +78,8 @@ ICRF BodyPropagationHandler::get_state(int id, UTCTime &epoch) {
     }
     else {
         // If it is the sun, return the system origin at the requested time
-        return ICRF{SUN, epoch, Vector3{}, Vector3{}};
+        Vector3 pos_origin;
+        Vector3 vel_origin;
+        return ICRF{SUN, epoch, pos_origin, vel_origin};
     }
 }

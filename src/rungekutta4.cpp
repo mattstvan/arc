@@ -29,18 +29,23 @@ ICRF RungeKutta4::propagate(UTCTime &epoch) {
 // Step the integration a number of seconds forward/backward
 ICRF RungeKutta4::integrate(ICRF &state, double step) {
   // Take derivatives 
-  Vector6 k1 = derivatives(state, 0.0, Vector6{}).scale(step);
-  Vector6 k2 = derivatives(state, step / 2.0, k1.scale(1.0/2.0)).scale(step);
-  Vector6 k3 = derivatives(state, step / 2.0, k2.scale(1.0/2.0)).scale(step);
+  Vector6 k0 {};
+  Vector6 k1 = derivatives(state, 0.0, k0).scale(step);
+  Vector6 w_k1 = k1.scale(1.0/2.0);
+  Vector6 k2 = derivatives(state, step / 2.0, w_k1).scale(step);
+  Vector6 w_k2 = k2.scale(1.0/2.0);
+  Vector6 k3 = derivatives(state, step / 2.0, w_k2).scale(step);
   Vector6 k4 = derivatives(state, step, k3).scale(step);
   // Start combined vector and add weighted values
-  Vector6 total = k1.add(k2.scale(2.0));
-  total = total.add(k3.scale(2.0));
-  total = total.add(k4).scale(1.0 / 6.0);
+  w_k2 = k2.scale(2.0);
+  Vector6 total = k1.add(w_k2);
+  Vector6 w_k3 = k3.scale(2.0);
+  total = total.add(w_k3).add(k4).scale(1.0 / 6.0);
   // Combined position/velocity
   Vector6 pos_vel {state.position, state.velocity};
   // Add the total weighted velocity/acceleration vector
   std::array<Vector3, 2> final_vectors = pos_vel.add(total).split();
   // Build the new state and return
-  return ICRF {state.central_body, state.epoch.increment(step), final_vectors[0], final_vectors[1]};
+  UTCTime new_epoch = state.epoch.increment(step);
+  return ICRF {state.central_body, new_epoch, final_vectors[0], final_vectors[1]};
 }

@@ -48,8 +48,8 @@ Vector3 GravityModel::spherical(ICRF &sc_state) {
     if (b_den == 0.0) {
       b_den = 1.0;
     }
-    Vector3 grav_vector = spacecraft_centered_pos.scale(1.0 / a_den)
-                              .add(body_state.position.scale(-1.0 / b_den));
+    Vector3 b = body_state.position.scale(-1.0 / b_den);
+    Vector3 grav_vector = spacecraft_centered_pos.scale(1.0 / a_den).add(b);
     return grav_vector.scale(body.mu);
   }
 }
@@ -69,7 +69,8 @@ Vector3 GravityModel::acceleration(ICRF &state) {
   accel = accel.add(sph_grav);
   // If we are modeling aspherical effects
   if (is_aspherical) {
-    accel = accel.add(aspherical(state));
+    Vector3 aspher = aspherical(state);
+    accel = accel.add(aspher);
   }
   return accel;
 }

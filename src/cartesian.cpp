@@ -22,6 +22,19 @@ Cartesian::Cartesian(CelestialBody &body, UTCTime &epoch, Vector3 &pos,
   this->velocity = vel;
 }
 
+// Print to std::cout
+void Cartesian::print() {
+  std::cout << "[Cartesian]" << std::endl;
+  std::cout << " Central Body: ";
+  central_body.print();
+  std::cout << " Epoch: ";
+  epoch.print();
+  std::cout << " Position: ";
+  position.print();
+  std::cout << " Velocity: ";
+  velocity.print();
+}
+
 // Constructor from KeplerianElements
 Cartesian::Cartesian(KeplerianElements &el) {
   this->central_body = el.central_body;
@@ -75,8 +88,9 @@ ICRF ICRF::to_solar() {
     // This call will be recursive until we find a solar state
     ICRF body_icrf = central_body.propagate(epoch).to_solar();
     // Add the body's heliocentric state to this state and return
-    return {SUN, epoch, body_icrf.position.add(position),
-            body_icrf.velocity.add(velocity)};
+    Vector3 solar_pos = body_icrf.position.add(position);
+    Vector3 solar_vel = body_icrf.velocity.add(velocity);
+    return ICRF{SUN, epoch, solar_pos, solar_vel};
   } else {
     // If this state is already heliocentric, return a copy
     return ICRF{central_body, epoch, position, velocity};
@@ -102,6 +116,7 @@ ICRF ICRF::change_central_body(CelestialBody &body) {
     return ICRF{body, epoch, new_pos, new_vel};
   } else {
     // If this state's central body is already the one requested, return a copy
+
     return ICRF{central_body, epoch, position, velocity};
   }
 }

@@ -48,7 +48,9 @@ Ephemeris::Ephemeris(char filepath[]) {
         float tplus, x, y, z, vx, vy, vz;
         sscanf(line.c_str(), "%f %f %f %f %f %f %f", &tplus, &x, &y, &z, &vx, &vy, &vz);
         UTCTime new_epoch = epoch.increment(tplus);
-        states.push_back(ICRF{ central_body, new_epoch, Vector3{x, y, z}, Vector3 {vx, vy, vz} });
+        Vector3 new_pos {x, y, z};
+        Vector3 new_vel {vx, vy, vz};
+        states.push_back(ICRF{ central_body, new_epoch, new_pos, new_vel });
       }
       else if (line.find("EphemerisTimePosVel") != std::string::npos) {
         // Begin parsing states
@@ -93,10 +95,11 @@ ICRF Ephemeris::interpolate(UTCTime &requested) {
     nearest = states[est_index];
   }
   // Convert the nearest state to keplerian
-  KeplerianElements nearest_keplerian{ nearest };
-  // Propagate the keplerian state to the requested time and return the result
-  // in ICRF
-  return ICRF{ nearest_keplerian.propagate_to(requested) };
+  KeplerianElements nearest_keplerian { nearest };
+  // Propagate the keplerian state to the requested time
+  KeplerianElements propagated_keplerian = nearest_keplerian.propagate_to(requested);
+  // return the result in ICRF
+  return ICRF{ propagated_keplerian };
 }
 
 // Create ASCII ephemeris in STK format (.e)
@@ -149,7 +152,8 @@ std::vector<std::string> Ephemeris::format_stk() {
 
 // Write ephemeris to file using STK format
 void Ephemeris::write_stk(char filename[]) {
-  int result = write_lines_to_file(format_stk(), filename);
+  std::vector<std::string> lines = format_stk();
+  int result = write_lines_to_file(lines, filename);
   if (result == 1) {
     std::cout << "Unable to write Ephemeris to file location: " << filename
       << std::endl;

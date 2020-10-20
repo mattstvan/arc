@@ -10,16 +10,17 @@ ForceModel::ForceModel() {
 }
 
 // Direct constructor
-ForceModel::ForceModel(std::vector<GravityModel> &gravity_models) {
+ForceModel::ForceModel(std::vector<GravityModel> gravity_models) {
   this->gravity_models = gravity_models;
 }
 
 // Get total acceleration force at a given state
 Vector3 ForceModel::acceleration(ICRF &state) {
-  Vector3 acceleration;
+  Vector3 acceleration, temp_accel;
   // Add gravity accelerations
   for (GravityModel gm : gravity_models) {
-    acceleration = acceleration.add(gm.acceleration(state));
+    temp_accel = gm.acceleration(state);
+    acceleration = acceleration.add(temp_accel);
   }
   return acceleration;
 }

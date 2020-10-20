@@ -35,8 +35,8 @@ KeplerianElements::KeplerianElements(CelestialBody &body, UTCTime epoch,
 // Constructor using Cartesian instance
 KeplerianElements::KeplerianElements(Cartesian &vector) {
   // Create some constants to avoid repeat calls
-  const double r_mag = vector.position.mag();
-  const double v_mag = vector.velocity.mag();
+  double r_mag = vector.position.mag();
+  double v_mag = vector.velocity.mag();
   // Copy the central body and epoch
   this->central_body = vector.central_body;
   this->epoch = vector.epoch;
@@ -48,7 +48,8 @@ KeplerianElements::KeplerianElements(Cartesian &vector) {
   // Calculate eccentricity vector and its magnitude (e)
   Vector3 e_vec_a = vector.position.scale(pow(v_mag, 2.0) - mu / r_mag);
   Vector3 e_vec_b = vector.velocity.scale(vector.position.dot(vector.velocity));
-  Vector3 e_vec = e_vec_a.add(e_vec_b.inverse()).scale(1.0 / mu);
+  Vector3 inv_e_vec_b = e_vec_b.inverse();
+  Vector3 e_vec = e_vec_a.add(inv_e_vec_b).scale(1.0 / mu);
   double e = e_vec.mag();
   this->e = e;
   Vector3 h = vector.position.cross(vector.velocity);
@@ -159,5 +160,6 @@ KeplerianPropagator::KeplerianPropagator(KeplerianElements state) {
 
 // Propagate the inital state to specified epoch
 ICRF KeplerianPropagator::propagate(UTCTime &epoch) {
-  return initial_state.propagate_to(epoch);
+  KeplerianElements result = initial_state.propagate_to(epoch);
+  return ICRF {result};
 }
