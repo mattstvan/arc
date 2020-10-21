@@ -37,14 +37,23 @@ public:
   // Get Unix timestamp of instance
   double unix_timestamp();
 
-  // Format date using strftime parameters
-  std::string format(char fmt[]);
+  // Convert to UNSO Modified Julian Date
+  double mjd();
 
-  // Format date usding strftime paramaters, adding fractional seconds
-  std::string format_fractional(char fmt[]);
+  // Convert to GSFC Modified Julian Date
+  double mjd_gsfc();
 
-  // Format date as ISO 8601
-  std::string to_iso();
+  // Convert to UT1
+  double ut1();
+
+  // Convert to an International Atomic Time (TAI)
+  double tai();
+
+  // Convert to a Terrestrial Time (TT)
+  double tt();
+
+  // Convert to a Barycentric Dynamical Time (TDB)
+  double tdb();
 
   // Increment time by a desired number of seconds
   UTCTime increment(double seconds);
@@ -54,6 +63,15 @@ public:
 
   // Evaluates to true if UTCTime is equal to another
   bool equals(UTCTime &other);
+
+  // Format date using strftime parameters
+  std::string format(char fmt[]);
+
+  // Format date usding strftime paramaters, adding fractional seconds
+  std::string format_fractional(char fmt[]);
+
+  // Format date as ISO 8601
+  std::string to_iso();
 };
 
 #endif
