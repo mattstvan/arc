@@ -1,6 +1,7 @@
 #ifndef UTCTIME_H
 #define UTCTIME_H
-#include <cmath>
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <ctime>
 #include <iostream>
 #include <sstream>
@@ -9,7 +10,12 @@
 // Unix timestamp of J2000
 const double UNIX_J2000 = 946727935.815918;
 
-// UTC Date and Time
+/*
+UTC Date and Time
+
+Ref: Montenbruck, O., & Gill, E. (2012). Time and Reference Systems
+In Satellite orbits: Models, methods, and applications (pp. 157-169). Berlin: Springer-Verlag.
+*/
 class UTCTime {
 public:
   double seconds_since_j2000;
@@ -37,6 +43,12 @@ public:
   // Get Unix timestamp of instance
   double unix_timestamp();
 
+  // Convert to a Julian Date
+  double julian_date();
+
+  // Convert to Julian Centuries
+  double julian_centuries();
+
   // Convert to UNSO Modified Julian Date
   double mjd();
 
@@ -59,10 +71,10 @@ public:
   UTCTime increment(double seconds);
 
   // Calculate the difference between the instance and another UTCTime
-  double difference(UTCTime &other);
+  double difference(UTCTime& other);
 
   // Evaluates to true if UTCTime is equal to another
-  bool equals(UTCTime &other);
+  bool equals(UTCTime& other);
 
   // Format date using strftime parameters
   std::string format(char fmt[]);

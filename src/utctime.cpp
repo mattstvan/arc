@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iomanip>
 #include <bsd_strptime.h>
+#include <data_files.h>
 
 /*
 UTC Date and Time methods
@@ -56,18 +57,65 @@ tm* UTCTime::to_tm() {
 // Get Unix timestamp of instance
 double UTCTime::unix_timestamp() { return seconds_since_j2000 + UNIX_J2000; }
 
+// Convert to a Julian Date
+// Uses Unix time definition of Julian Day
+double UTCTime::julian_date() {
+  return unix_timestamp() / 86400 + 2440587.5;
+}
+
+// Convert to Julian Centuries
+// Uses Unix time definition of Julian Day
+double UTCTime::julian_centuries() {
+  return (julian_date() - 2451545.0) / 36525.0;
+}
+
+// Convert to UNSO Modified Julian Date
+double UTCTime::mjd() {
+  return julian_date() - 2400000.5;
+}
+
+// Convert to GSFC Modified Julian Date
+double UTCTime::mjd_gsfc() {
+  return mjd() - 29999.5;
+}
+
+// Convert to an International Atomic Time (TAI)
+double UTCTime::tai() {
+  double leap = DATA_FILES.get_leap_seconds(seconds_since_j2000);
+  return seconds_since_j2000 + leap;
+}
+
+// Convert to a Terrestrial Time (TT)
+double UTCTime::tt() {
+  return tai() + 32.184;
+}
+
+// Convert to a Barycentric Dynamical Time (TDB)
+// Result is expressed in seconds since J2000
+double UTCTime::tdb() {
+  // Get this in Terrestrial Time
+  double tt_secs = tt();
+  UTCTime tt{ tt_secs };
+  // Convert TT of this to Julian Centuries
+  double jc = tt.julian_centuries();
+  // Calculate offset from unix time
+  double m_earth = (357.5277233 + 35999.05034 * jc) * (M_PI / 180);
+  double secs = 0.001658 * sin(m_earth) + 0.00001385 * sin(2 * m_earth);
+  return tt.seconds_since_j2000 + secs;
+}
+
 // Increment time by a desired number of seconds
 UTCTime UTCTime::increment(double seconds) {
   return UTCTime{ seconds_since_j2000 + seconds };
 }
 
 // Calculate the difference between the instance and another UTCTime
-double UTCTime::difference(UTCTime &other) {
+double UTCTime::difference(UTCTime& other) {
   return seconds_since_j2000 - other.seconds_since_j2000;
 }
 
 // Evaluates to true if UTCTime is equal to another
-bool UTCTime::equals(UTCTime &other) {
+bool UTCTime::equals(UTCTime& other) {
   return seconds_since_j2000 == other.seconds_since_j2000;
 }
 
