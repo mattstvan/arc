@@ -1,6 +1,6 @@
 #include <cartesian.h>
 #include <celestial.h>
-#include <utctime.h>
+#include <datetime.h>
 #include <body_propagation.h>
 
 // Return the common name of a body by NAIF ID
@@ -53,7 +53,7 @@ Celestial body methods
 */
 
 // Return the ICRF state of the body at an epoch
-ICRF CelestialBody::propagate(UTCTime &epoch) {
+ICRF CelestialBody::propagate(DateTime &epoch) {
   // Get the planet state from the body propagation handler
   return BODY_PROPAGATOR.get_state(id, epoch);
 }

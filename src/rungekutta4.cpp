@@ -11,7 +11,7 @@ RungeKutta4::RungeKutta4(ICRF initial_state) : NumericalPropagator{ initial_stat
 RungeKutta4::RungeKutta4(ICRF initial_state, double step_size, ForceModel force_model) : NumericalPropagator{ initial_state, step_size, force_model } {}
 
 // Propagate the inital state to specified epoch
-ICRF RungeKutta4::propagate(UTCTime &epoch) {
+ICRF RungeKutta4::propagate(DateTime &epoch) {
   // Do this until the requested epoch has been reached
   while (epoch.equals(cache_state.epoch) != true) {
     // Get the difference between the requested epoch and the cached epoch
@@ -46,6 +46,6 @@ ICRF RungeKutta4::integrate(ICRF &state, double step) {
   // Add the total weighted velocity/acceleration vector
   std::array<Vector3, 2> final_vectors = pos_vel.add(total).split();
   // Build the new state and return
-  UTCTime new_epoch = state.epoch.increment(step);
+  DateTime new_epoch = state.epoch.increment(step);
   return ICRF {state.central_body, new_epoch, final_vectors[0], final_vectors[1]};
 }

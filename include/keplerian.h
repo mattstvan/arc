@@ -2,7 +2,7 @@
 #define KEPLERIAN_H
 #define _USE_MATH_DEFINES
 #include <celestial.h>
-#include <utctime.h>
+#include <datetime.h>
 #include <propagator.h>
 
 #include <cmath>
@@ -17,7 +17,7 @@ public:
   // Central body of the orbit these elements represent
   CelestialBody central_body;
   // Time at which the elements are correct
-  UTCTime epoch;
+  DateTime epoch;
   // Semi-Major axis in meters
   double a;
   // Eccentricity (unitless)
@@ -35,7 +35,7 @@ public:
   KeplerianElements();
 
   // Direct constructor
-  KeplerianElements(CelestialBody &body, UTCTime epoch, double a, double e,
+  KeplerianElements(CelestialBody &body, DateTime epoch, double a, double e,
     double i, double o, double w, double v);
 
   // Constructor using Cartesian instance
@@ -48,7 +48,7 @@ public:
   double mean_motion();
 
   // Propagate the True Anomaly of the elements to a specified epoch
-  KeplerianElements propagate_to(UTCTime &t);
+  KeplerianElements propagate_to(DateTime &t);
 };
 
 // Propagator using Kepler's method
@@ -61,7 +61,7 @@ public:
   KeplerianPropagator(KeplerianElements state);
 
   // Propagate the inital state to specified epoch
-  ICRF propagate(UTCTime &epoch);
+  ICRF propagate(DateTime &epoch);
 };
 
 #endif

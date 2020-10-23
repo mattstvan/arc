@@ -10,7 +10,7 @@ public:
     RungeKutta4(ICRF initial_state, double step_size, ForceModel force_model);
 
     // Propagate the inital state to specified epoch
-    ICRF propagate(UTCTime &epoch);
+    ICRF propagate(DateTime &epoch);
 
     // Step the integration a number of seconds forward/backward
     ICRF integrate(ICRF &state, double step);

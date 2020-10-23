@@ -11,6 +11,6 @@ InterpolatorPropagator::InterpolatorPropagator(Ephemeris &ephemeris) {
 
 // Propagate to the requested state using the nearest ICRF value contained in
 // the ephemeris
-ICRF InterpolatorPropagator::propagate(UTCTime &epoch) {
+ICRF InterpolatorPropagator::propagate(DateTime &epoch) {
   return ephemeris.interpolate(epoch);
 }

@@ -2,7 +2,7 @@
 #define BODY_PROPAGATION_H
 #include <ephemeris.h>
 #include <cartesian.h>
-#include <utctime.h>
+#include <datetime.h>
 
 // CelestialBody propagation handler
 class BodyPropagationHandler {
@@ -33,7 +33,7 @@ public:
   BodyPropagationHandler();
 
   // Get the state of a given CelestialBody given its NAIF ID
-  ICRF get_state(int id, UTCTime &epoch);
+  ICRF get_state(int id, DateTime &epoch);
 };
 
 static BodyPropagationHandler BODY_PROPAGATOR{};

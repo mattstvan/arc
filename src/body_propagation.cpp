@@ -70,7 +70,7 @@ Ephemeris& BodyPropagationHandler::get_ephem(int id) {
 }
 
 // Get the state of a given CelestialBody given its NAIF ID
-ICRF BodyPropagationHandler::get_state(int id, UTCTime &epoch) {
+ICRF BodyPropagationHandler::get_state(int id, DateTime &epoch) {
     // If the body is not the Sun
     if (id != 10) {
         Ephemeris& planet_eph = get_ephem(id);

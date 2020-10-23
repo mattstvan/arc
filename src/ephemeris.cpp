@@ -8,7 +8,7 @@ Ephemeris class methods
 // Default constructor
 Ephemeris::Ephemeris() {
   this->states = std::vector<ICRF>{};
-  this->epoch = UTCTime{};
+  this->epoch = DateTime{};
   this->central_body = SUN;
 }
 
@@ -22,7 +22,7 @@ Ephemeris::Ephemeris(std::vector<ICRF> &states) {
 // Constructor using file path
 Ephemeris::Ephemeris(char filepath[]) {
   this->central_body = SUN;
-  this->epoch = UTCTime{};
+  this->epoch = DateTime{};
   this->states = std::vector<ICRF>{};
   std::vector<std::string> lines = read_lines_from_file(filepath);
   if (lines.size() > 0) {
@@ -32,7 +32,7 @@ Ephemeris::Ephemeris(char filepath[]) {
       if (line.find("ScenarioEpoch") != std::string::npos) {
         std::string datestr = line.substr(line.find("ScenarioEpoch") + 14, line.size() - 1);
         if (datestr.size() > 0) {
-          this->epoch = UTCTime{ datestr, std::string{"%d %b %Y %H:%M:%S"} };
+          this->epoch = DateTime{ datestr, std::string{"%d %b %Y %H:%M:%S"} };
         }
         // Check for central body
       }
@@ -47,7 +47,7 @@ Ephemeris::Ephemeris(char filepath[]) {
         // Parse a state
         float tplus, x, y, z, vx, vy, vz;
         sscanf(line.c_str(), "%f %f %f %f %f %f %f", &tplus, &x, &y, &z, &vx, &vy, &vz);
-        UTCTime new_epoch = epoch.increment(tplus);
+        DateTime new_epoch = epoch.increment(tplus);
         Vector3 new_pos {x, y, z};
         Vector3 new_vel {vx, vy, vz};
         states.push_back(ICRF{ central_body, new_epoch, new_pos, new_vel });
@@ -70,7 +70,7 @@ void Ephemeris::print() {
 
 // Use Keplerian estimation to obtain an interpolated ICRF
 // state using the nearest ICRF value contained in the ephemeris
-ICRF Ephemeris::interpolate(UTCTime &requested) {
+ICRF Ephemeris::interpolate(DateTime &requested) {
   // Single call to get number of states (for performance)
   int ephem_size = states.size();
   // Nearest (by epoch) state to requested time

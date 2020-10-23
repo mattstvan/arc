@@ -9,7 +9,7 @@ Keplerian elements methods
 // Default constructor
 KeplerianElements::KeplerianElements() {
   this->central_body = SUN;
-  this->epoch = UTCTime{};
+  this->epoch = DateTime{};
   this->a = 0.0;
   this->e = 0.0;
   this->i = 0.0;
@@ -19,7 +19,7 @@ KeplerianElements::KeplerianElements() {
 }
 
 // Direct constructor
-KeplerianElements::KeplerianElements(CelestialBody &body, UTCTime epoch,
+KeplerianElements::KeplerianElements(CelestialBody &body, DateTime epoch,
   double a, double e, double i, double o,
   double w, double v) {
   this->central_body = body;
@@ -114,7 +114,7 @@ double KeplerianElements::mean_motion() {
 // Propagate the True Anomaly of the elements to a specified epoch
 // Ref: Montenbruck, O., & Gill, E. (2012). Prediction of Unperturbed Satellite Orbits.
 // In Satellite orbits: Models, methods, and applications (pp. 22-32). Berlin: Springer-Verlag.
-KeplerianElements KeplerianElements::propagate_to(UTCTime &t) {
+KeplerianElements KeplerianElements::propagate_to(DateTime &t) {
   // Get delta between the requested time and the initial state epoch
   double delta = t.difference(epoch);
   // Calculate mean motion
@@ -159,7 +159,7 @@ KeplerianPropagator::KeplerianPropagator(KeplerianElements state) {
 }
 
 // Propagate the inital state to specified epoch
-ICRF KeplerianPropagator::propagate(UTCTime &epoch) {
+ICRF KeplerianPropagator::propagate(DateTime &epoch) {
   KeplerianElements result = initial_state.propagate_to(epoch);
   return ICRF {result};
 }

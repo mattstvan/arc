@@ -1,7 +1,7 @@
 #ifndef CARTESIAN_H
 #define CARTESIAN_H
 #include <celestial.h>
-#include <utctime.h>
+#include <datetime.h>
 #include <vectors.h>
 
 #include <iostream>
@@ -15,7 +15,7 @@ public:
   // Central body of the orbit these elements represent
   CelestialBody central_body;
   // Epoch at which this state is valid
-  UTCTime epoch;
+  DateTime epoch;
   // Position of the state in meters
   Vector3 position;
   // Velocity of the state in meters per second
@@ -25,7 +25,7 @@ public:
   Cartesian();
 
   // Direct constructor
-  Cartesian(CelestialBody &body, UTCTime &epoch, Vector3 &pos, Vector3 &vel);
+  Cartesian(CelestialBody &body, DateTime &epoch, Vector3 &pos, Vector3 &vel);
 
   // Constructor from KeplerianElements
   Cartesian(KeplerianElements &el);
@@ -41,7 +41,7 @@ public:
   ICRF();
 
   // Direct constructor
-  ICRF(CelestialBody &body, UTCTime &epoch, Vector3 &pos, Vector3 &vel);
+  ICRF(CelestialBody &body, DateTime &epoch, Vector3 &pos, Vector3 &vel);
 
   // Constructor from KeplerianElements
   ICRF(KeplerianElements &el);

@@ -1,22 +1,42 @@
-#include <utctime.h>
+#include <datetime.h>
 #include <stdexcept> 
 #include <sstream>
 #include <iomanip>
 #include <bsd_strptime.h>
 #include <data_files.h>
 
+/* Time scale methods */
+
+// Return string representation of a TimeScale
+std::string time_scale_str(TimeScale scale) {
+  switch (scale) {
+  case 0:
+    return "UTC";
+  case 1:
+    return "UT1";
+  case 2:
+    return "TAI";
+  case 3:
+    return "TT";
+  case 4:
+    return "TDB";
+  default:
+    return "";
+  }
+}
+
 /*
-UTC Date and Time methods
+Date and Time methods
 */
 
 // Default constructor (J2000)
-UTCTime::UTCTime() { this->seconds_since_j2000 = 0.0; }
+DateTime::DateTime() { this->seconds_since_j2000 = 0.0; this->scale = UTC; }
 
 // Constructor using double
-UTCTime::UTCTime(double seconds) { this->seconds_since_j2000 = seconds; }
+DateTime::DateTime(double seconds, TimeScale scale) { this->seconds_since_j2000 = seconds; this->scale = scale; }
 
 // Constructor using input char* and format
-UTCTime::UTCTime(std::string datestr, std::string format) {
+DateTime::DateTime(std::string datestr, std::string format, TimeScale scale) {
   // Determine timezone and get offset
   time_t t = time(NULL);
   struct tm lt = { 0 };
@@ -36,66 +56,67 @@ UTCTime::UTCTime(std::string datestr, std::string format) {
 
   // Take the unix timestamp given by mktime, add the local GMT offset and any milliseconds, then offset by the unix timestamp of J2000
   this->seconds_since_j2000 = mktime(&lt) + offset - UNIX_J2000 + dbl_millisecs;
+  this->scale = scale;
 }
 
 // Constructor using input char* in ISO 8601 format:
 // YYYY-MM-DDTHH:MM:SS.FFFFFF
-UTCTime::UTCTime(std::string datestr) : UTCTime{ datestr, "%Y-%m-%dT%H:%M:%S" } {}
+DateTime::DateTime(std::string datestr, TimeScale scale) : DateTime{ datestr, "%Y-%m-%dT%H:%M:%S", scale } {}
 
 // Print to std::cout
-void UTCTime::print() {
-  std::cout << "[UTCTime] { Seconds since J2000: " << seconds_since_j2000
-    << ", ISO: " << to_iso() << " }" << std::endl;
+void DateTime::print() {
+  std::cout << "[DateTime] { Seconds since J2000: " << seconds_since_j2000
+    << ", ISO: " << to_iso() << " " << time_scale_str(scale) <<  " }" << std::endl;
 }
 
 // Convert to `struct tm' representation of *TIMER in Universal Coordinated Time
-tm* UTCTime::to_tm() {
+tm* DateTime::to_tm() {
   time_t t = (long)(seconds_since_j2000 + UNIX_J2000);
   return gmtime(&t);
 }
 
 // Get Unix timestamp of instance
-double UTCTime::unix_timestamp() { return seconds_since_j2000 + UNIX_J2000; }
+double DateTime::unix_timestamp() { return seconds_since_j2000 + UNIX_J2000; }
 
 // Convert to a Julian Date
 // Uses Unix time definition of Julian Day
-double UTCTime::julian_date() {
+double DateTime::julian_date() {
   return unix_timestamp() / 86400 + 2440587.5;
 }
 
 // Convert to Julian Centuries
 // Uses Unix time definition of Julian Day
-double UTCTime::julian_centuries() {
+double DateTime::julian_centuries() {
   return (julian_date() - 2451545.0) / 36525.0;
 }
 
 // Convert to UNSO Modified Julian Date
-double UTCTime::mjd() {
+double DateTime::mjd() {
   return julian_date() - 2400000.5;
 }
 
 // Convert to GSFC Modified Julian Date
-double UTCTime::mjd_gsfc() {
+double DateTime::mjd_gsfc() {
   return mjd() - 29999.5;
 }
 
 // Convert to an International Atomic Time (TAI)
-double UTCTime::tai() {
+double DateTime::tai() {
   double leap = DATA_FILES.get_leap_seconds(seconds_since_j2000);
   return seconds_since_j2000 + leap;
 }
 
 // Convert to a Terrestrial Time (TT)
-double UTCTime::tt() {
+double DateTime::tt() {
   return tai() + 32.184;
 }
 
 // Convert to a Barycentric Dynamical Time (TDB)
 // Result is expressed in seconds since J2000
-double UTCTime::tdb() {
+double DateTime::tdb() {
   // Get this in Terrestrial Time
   double tt_secs = tt();
-  UTCTime tt{ tt_secs };
+  DateTime tt{ tt_secs, TT };
   // Convert TT of this to Julian Centuries
   double jc = tt.julian_centuries();
   // Calculate offset from unix time
@@ -105,22 +126,22 @@ double UTCTime::tdb() {
 }
 
 // Increment time by a desired number of seconds
-UTCTime UTCTime::increment(double seconds) {
-  return UTCTime{ seconds_since_j2000 + seconds };
+DateTime DateTime::increment(double seconds) {
+  return DateTime{ seconds_since_j2000 + seconds, scale };
 }
 
-// Calculate the difference between the instance and another UTCTime
-double UTCTime::difference(UTCTime& other) {
+// Calculate the difference between the instance and another DateTime
+double DateTime::difference(DateTime& other) {
   return seconds_since_j2000 - other.seconds_since_j2000;
 }
 
-// Evaluates to true if UTCTime is equal to another
-bool UTCTime::equals(UTCTime& other) {
+// Evaluates to true if DateTime is equal to another
+bool DateTime::equals(DateTime& other) {
   return seconds_since_j2000 == other.seconds_since_j2000;
 }
 
 // Format date using strftime parameters
-std::string UTCTime::format(char fmt[]) {
+std::string DateTime::format(char fmt[]) {
   tm* t = to_tm();
   char buffer[256];
   strftime(buffer, sizeof(buffer), fmt, t);
@@ -128,7 +149,7 @@ std::string UTCTime::format(char fmt[]) {
 }
 
 // Format date usding strftime paramaters, adding fractional seconds
-std::string UTCTime::format_fractional(char fmt[]) {
+std::string DateTime::format_fractional(char fmt[]) {
   std::string formatted = format(fmt);
   double timestamp = unix_timestamp();
   double intpart = 1.0;
@@ -138,4 +159,4 @@ std::string UTCTime::format_fractional(char fmt[]) {
 }
 
 // Format date as ISO 8601
-std::string UTCTime::to_iso() { return format_fractional("%Y-%m-%dT%H:%M:%S"); }
+std::string DateTime::to_iso() { return format_fractional("%Y-%m-%dT%H:%M:%S"); }

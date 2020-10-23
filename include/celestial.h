@@ -1,6 +1,6 @@
 #ifndef CELESTIAL_H
 #define CELESTIAL_H
-#include <utctime.h>
+#include <datetime.h>
 #include <vectors.h>
 
 #include <iostream>
@@ -32,7 +32,7 @@ public:
     std::string get_name();
 
     // Return the ICRF state of the body at an epoch
-    ICRF propagate(UTCTime &epoch);
+    ICRF propagate(DateTime &epoch);
 };
 
 // Sun definition using parameters derived from:

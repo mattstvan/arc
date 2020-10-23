@@ -1,7 +1,7 @@
 #ifndef PROPAGATOR_H
 #define PROPAGATOR_H
 #include <cartesian.h>
-#include <utctime.h>
+#include <datetime.h>
 #include <force_model.h>
 
 #include <vector>
@@ -13,10 +13,10 @@ class Ephemeris;
 class Propagator {
 public:
   // Propagate the inital state to specified epoch
-  virtual ICRF propagate(UTCTime &epoch);
+  virtual ICRF propagate(DateTime &epoch);
 
   // Create an Ephemeris by propagating over an interval
-  virtual Ephemeris step(UTCTime &start, UTCTime &stop, double step);
+  virtual Ephemeris step(DateTime &start, DateTime &stop, double step);
 };
 
 // Numerical propagator base class
@@ -38,7 +38,7 @@ public:
   NumericalPropagator(ICRF initial_state, double step_size, ForceModel force_model);
 
   // Propagate the inital state to specified epoch
-  ICRF propagate(UTCTime &epoch);
+  ICRF propagate(DateTime &epoch);
 
   // Calculate partial derivatives for numerical integration
   Vector6 derivatives(ICRF &state, double h, Vector6 &k);

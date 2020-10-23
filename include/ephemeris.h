@@ -4,7 +4,7 @@
 #include <keplerian.h>
 #include <celestial.h>
 #include <propagator.h>
-#include <utctime.h>
+#include <datetime.h>
 #include <file_io.h>
 
 #include <cmath>
@@ -20,7 +20,7 @@ public:
   // Vector of ICRF states comprising the Ephemeris
   std::vector<ICRF> states;
   // Epoch of the ephemeris
-  UTCTime epoch;
+  DateTime epoch;
   // Celestial body origin of the ICRF states
   CelestialBody central_body;
 
@@ -38,7 +38,7 @@ public:
 
   // Use Keplerian estimation to obtain an interpolated ICRF
   // state using the nearest ICRF value contained in the ephemeris
-  ICRF interpolate(UTCTime &requested);
+  ICRF interpolate(DateTime &requested);
 
   // Create ASCII ephemeris in STK format
   std::vector<std::string> format_stk();

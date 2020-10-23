@@ -14,7 +14,7 @@ public:
 
   // Propagate to the requested state using the nearest ICRF value contained in
   // the ephemeris
-  ICRF propagate(UTCTime &epoch);
+  ICRF propagate(DateTime &epoch);
 };
 
 #endif

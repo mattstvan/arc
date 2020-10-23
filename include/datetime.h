@@ -1,5 +1,5 @@
-#ifndef UTCTIME_H
-#define UTCTIME_H
+#ifndef DATETIME_H
+#define DATETIME_H
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <ctime>
@@ -11,27 +11,51 @@
 const double UNIX_J2000 = 946727935.815918;
 
 /*
-UTC Date and Time
+Time scales
+
+Available scales to use when representing a date/time
+*/
+enum TimeScale {
+  // Coordinated Universal Time
+  UTC,
+  // Universal Time
+  UT1,
+  // International Atomic Time
+  TAI,
+  // Terrestrial Time
+  TT,
+  // Barycentric Dynamical Time
+  TDB
+};
+
+// Return string representation of a TimeScale
+std::string time_scale_str(TimeScale scale);
+
+/*
+Date and Time
 
 Ref: Montenbruck, O., & Gill, E. (2012). Time and Reference Systems
 In Satellite orbits: Models, methods, and applications (pp. 157-169). Berlin: Springer-Verlag.
 */
-class UTCTime {
+class DateTime {
 public:
+  // Number of seconds since J2000 (1 Jan 2000 12:00:00 TT)
   double seconds_since_j2000;
+  // Time scale in which this DateTime is represented
+  TimeScale scale;
 
   // Default constructor (J2000)
-  UTCTime();
+  DateTime();
 
   // Constructor using double
-  UTCTime(double seconds);
+  DateTime(double seconds, TimeScale scale=UTC);
 
   // Constructor using input char* and format
-  UTCTime(std::string datestr, std::string format);
+  DateTime(std::string datestr, std::string format, TimeScale scale=UTC);
 
   // Constructor using input string in ISO 8601 format:
   // YYYY-MM-DDTHH:MM:SS.FFFFFF
-  UTCTime(std::string datestr);
+  DateTime(std::string datestr, TimeScale scale=UTC);
 
   // Print to std::cout
   void print();
@@ -68,13 +92,13 @@ public:
   double tdb();
 
   // Increment time by a desired number of seconds
-  UTCTime increment(double seconds);
+  DateTime increment(double seconds);
 
   // Calculate the difference between the instance and another UTCTime
-  double difference(UTCTime& other);
+  double difference(DateTime& other);
 
   // Evaluates to true if UTCTime is equal to another
-  bool equals(UTCTime& other);
+  bool equals(DateTime& other);
 
   // Format date using strftime parameters
   std::string format(char fmt[]);
