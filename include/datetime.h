@@ -80,16 +80,16 @@ public:
   double mjd_gsfc();
 
   // Convert to UT1
-  double ut1();
+  DateTime ut1();
 
   // Convert to an International Atomic Time (TAI)
-  double tai();
+  DateTime tai();
 
   // Convert to a Terrestrial Time (TT)
-  double tt();
+  DateTime tt();
 
   // Convert to a Barycentric Dynamical Time (TDB)
-  double tdb();
+  DateTime tdb();
 
   // Increment time by a desired number of seconds
   DateTime increment(double seconds);

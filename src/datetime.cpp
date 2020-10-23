@@ -101,28 +101,28 @@ double DateTime::mjd_gsfc() {
 }
 
 // Convert to an International Atomic Time (TAI)
-double DateTime::tai() {
+DateTime DateTime::tai() {
   double leap = DATA_FILES.get_leap_seconds(seconds_since_j2000);
-  return seconds_since_j2000 + leap;
+  return DateTime { seconds_since_j2000 + leap, TAI };
 }
 
 // Convert to a Terrestrial Time (TT)
-double DateTime::tt() {
-  return tai() + 32.184;
+DateTime DateTime::tt() {
+  DateTime dt_tai = tai();
+  return {dt_tai.seconds_since_j2000 + 32.184, TT};
 }
 
 // Convert to a Barycentric Dynamical Time (TDB)
 // Result is expressed in seconds since J2000
-double DateTime::tdb() {
+DateTime DateTime::tdb() {
   // Get this in Terrestrial Time
-  double tt_secs = tt();
-  DateTime tt{ tt_secs, TT };
+  DateTime dt_tt = tt();
   // Convert TT of this to Julian Centuries
-  double jc = tt.julian_centuries();
+  double jc = dt_tt.julian_centuries();
   // Calculate offset from unix time
   double m_earth = (357.5277233 + 35999.05034 * jc) * (M_PI / 180);
   double secs = 0.001658 * sin(m_earth) + 0.00001385 * sin(2 * m_earth);
-  return tt.seconds_since_j2000 + secs;
+  return DateTime{dt_tt.seconds_since_j2000 + secs, TDB};
 }
 
 // Increment time by a desired number of seconds
