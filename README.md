@@ -15,6 +15,9 @@ Arc is an astrodynamics toolkit aimed at providing high-accuracy numerical propa
 	 - [ ] Numerical approximation
 	 - [x] Ephemeris interpolation
 	 - [ ] JPL ephemerides (DE430, etc)
+ - [ ] Planetary orientations
+ 	 - [x] Earth (IAU 1980)
+	 - [ ] Earth (IAU 2000/2006)
  - [ ] Time handling
 	 - [x] Coordinated Universal Time (UTC)
 	 - [ ] Terrestrial Time (TT)
