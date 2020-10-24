@@ -19,6 +19,9 @@ int main() {
   Vector3 vel {-4987.520, -3082.634, 4941.720};
   ICRF test {EARTH, start, pos, vel};
   ITRF test2 {test};
+  ICRF test3 {test2};
+  test.print();
   test2.print();
+  test3.print();
   return 0;
 }

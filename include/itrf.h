@@ -1,6 +1,9 @@
 #ifndef ITRF_H
 #define ITRF_H
-#include <icrf.h>
+#include <cartesian.h>
+
+// Forward declaration
+class ICRF;
 
 // Cartesian state in the International Celestial Reference Frame (~J2000)
 class ITRF : public Cartesian {

@@ -2,6 +2,9 @@
 #define ICRF_H
 #include <cartesian.h>
 
+// Forward declaration
+class ITRF;
+
 // Cartesian state in the International Celestial Reference Frame (~J2000)
 class ICRF : public Cartesian {
 public:
@@ -10,6 +13,9 @@ public:
 
   // Direct constructor
   ICRF(CelestialBody &body, DateTime &epoch, Vector3 &pos, Vector3 &vel);
+
+  // Constructor from ITRF
+  ICRF(ITRF &fixed);
 
   // Constructor from KeplerianElements
   ICRF(KeplerianElements &el);
