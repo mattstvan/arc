@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <bsd_strptime.h>
 #include <data_files.h>
+#include <math_utils.h>
 
 /* Time scale methods */
 
@@ -100,6 +101,12 @@ double DateTime::mjd_gsfc() {
   return mjd() - 29999.5;
 }
 
+// Convert to UT1
+DateTime DateTime::ut1() {
+  double d_ut1 = DATA_FILES.get_finals(mjd())[3];
+  return DateTime {seconds_since_j2000 + d_ut1, UT1 };
+}
+
 // Convert to an International Atomic Time (TAI)
 DateTime DateTime::tai() {
   double leap = DATA_FILES.get_leap_seconds(seconds_since_j2000);
@@ -123,6 +130,18 @@ DateTime DateTime::tdb() {
   double m_earth = (357.5277233 + 35999.05034 * jc) * (M_PI / 180);
   double secs = 0.001658 * sin(m_earth) + 0.00001385 * sin(2 * m_earth);
   return DateTime{dt_tt.seconds_since_j2000 + secs, TDB};
+}
+
+// Calculate the Greenwich Mean Sideral Time (GMST) angle in radians
+double DateTime::gmst_angle() {
+  double t = ut1().julian_centuries();
+  double seconds = eval_poly(t, std::vector<double> {
+    67310.54841,
+    876600.0 * 3600.0 + 8640184.812866,
+    0.093104,
+    6.2e-6
+  });
+  return (fmod(seconds, 86400) / 86400) * M_PI;
 }
 
 // Increment time by a desired number of seconds

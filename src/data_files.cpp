@@ -7,6 +7,7 @@ DataFileHandler methods
 // Default constructor
 DataFileHandler::DataFileHandler() {
     this->leap_seconds = std::vector<std::array<double, 2>>{};
+    this->finals_data = std::vector<std::array<double, 7>> {};
 }
 
 // Read/parse the leap seconds file
@@ -52,5 +53,11 @@ double DataFileHandler::get_leap_seconds(double seconds_since_j2000) {
             }
         }
     }
+}
+
+// Get the finals.all data at an epoch (modified Julian)
+std::array<double, 7> DataFileHandler::get_finals(double mjd) {
+    // Placeholder
+    return std::array<double, 7> {0,0,0,0,0,0,0};
 }
 

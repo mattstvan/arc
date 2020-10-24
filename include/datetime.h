@@ -91,6 +91,9 @@ public:
   // Convert to a Barycentric Dynamical Time (TDB)
   DateTime tdb();
 
+  // Calculate the Greenwich Mean Sideral Time (GMST) angle in radians
+  double gmst_angle();
+
   // Increment time by a desired number of seconds
   DateTime increment(double seconds);
 

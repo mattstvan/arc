@@ -1,4 +1,5 @@
-#include <cartesian.h>
+#include <icrf.h>
+#include <itrf.h>
 #include <celestial.h>
 #include <datetime.h>
 #include <vectors.h>
@@ -12,10 +13,12 @@
 #include <iomanip>
 
 int main() {
-  DateTime test = {"2020-10-24T00:00:00"};
-  std::array<double, 3> p_test_p = earth_precession(test);
-  std::array<double, 3> p_test_n = earth_nutation(test);
-  std::cout << std::scientific << std::setprecision(14) << p_test_p[0] << " " << p_test_p[1] << " " << p_test_p[2] << std::endl;
-  std::cout << std::scientific << std::setprecision(14) << p_test_n[0] << " " << p_test_n[1] << " " << p_test_n[2] << std::endl;
+  DateTime start { "2020-10-18T15:00:00" };
+  DateTime stop { "2020-10-19T15:00:00" };
+  Vector3 pos {-698891.686, 6023436.003, 3041793.014};
+  Vector3 vel {-4987.520, -3082.634, 4941.720};
+  ICRF test {EARTH, start, pos, vel};
+  ITRF test2 {test};
+  test2.print();
   return 0;
 }

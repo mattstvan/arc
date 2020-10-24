@@ -119,10 +119,18 @@ static const std::array<std::array<double, 9>, 106> IAU_1980_VALUES {
 // TODO: Implement LOD variations from IERS finals.all
 Vector3 earth_rotation(DateTime &epoch);
 
-// Calculate the std::array<double,9> {zeta, theta, zed} angles of precession in radians
+/*
+Calculate the [zeta, theta, zed] angles of precession in radians
+
+Currently uses IAU 1980 precession
+*/
 std::array<double, 3> earth_precession(DateTime &epoch);
 
-// Calculate the std::array<double,9> {deltaPsi, deltaEpsilon, meanEpsilon} angles of nutation in radians
+/* 
+Calculate the delta psi, delta epsilon, and mean epsilon angles of nutation in radians
+
+Currently uses IAU 1980 nutation
+*/
 std::array<double, 3> earth_nutation(DateTime &epoch, int n = 106);
 
 #endif
