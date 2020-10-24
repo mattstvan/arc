@@ -1,6 +1,6 @@
 #ifndef FORCE_MODEL_H
 #define FORCE_MODEL_H
-#include <cartesian.h>
+#include <icrf.h>
 #include <vectors.h>
 #include <gravity.h>
 #include <vector>

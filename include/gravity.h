@@ -1,6 +1,6 @@
 #ifndef GRAVITY_H
 #define GRAVITY_H
-#include <cartesian.h>
+#include <icrf.h>
 #include <celestial.h>
 #include <vectors.h>
 

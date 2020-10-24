@@ -1,7 +1,7 @@
 #ifndef BODY_PROPAGATION_H
 #define BODY_PROPAGATION_H
 #include <ephemeris.h>
-#include <cartesian.h>
+#include <icrf.h>
 #include <datetime.h>
 
 // CelestialBody propagation handler

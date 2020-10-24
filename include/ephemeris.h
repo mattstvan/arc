@@ -1,6 +1,6 @@
 #ifndef EPHEMERIS_H
 #define EPHEMERIS_H
-#include <cartesian.h>
+#include <icrf.h>
 #include <keplerian.h>
 #include <celestial.h>
 #include <propagator.h>
