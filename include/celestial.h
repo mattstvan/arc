@@ -35,6 +35,10 @@ public:
     ICRF propagate(DateTime &epoch);
 };
 
+/*
+Planet definitions
+*/
+
 // Sun definition using parameters derived from:
 // - NASA Space Science Data Coordinated Archive
 static CelestialBody SUN = CelestialBody{
