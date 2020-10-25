@@ -14,6 +14,17 @@
 #include <string>
 #include <vector>
 
+/*
+Ephemeris parsing functions 
+*/
+
+/*
+Parse ephemeris from STK format
+@param lines Reference to vector of strings determined to represent an STK formatted ephemeris
+@param ephem Reference to new Ephemeris instance to use when parsing states
+*/
+void parse_stk(std::vector<std::string> &lines, Ephemeris &ephem);
+
 // Table of astronomical positions/velocities
 class Ephemeris {
 public:

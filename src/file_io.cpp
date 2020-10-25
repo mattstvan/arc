@@ -14,7 +14,7 @@ int write_lines_to_file(std::vector<std::string> &lines, char filename[]) {
   }
   else {
     std::stringstream msg;
-    msg << "file_io::write_lines_to_file exception: Unable to write to " << filename;
+    msg << "file_io::write_lines_to_file exception: Unable to write to '" << filename << "'";
     throw ArcException(msg.str());
   }
 }
@@ -32,7 +32,7 @@ std::vector<std::string> read_lines_from_file(char filename[]) {
   }
   else {
     std::stringstream msg;
-    msg << "file_io::read_lines_from_file exception: Unable to open " << filename;
+    msg << "file_io::read_lines_from_file exception: Unable to open '" << filename << "'";
     throw ArcException(msg.str());
   }
 }
