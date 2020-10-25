@@ -37,7 +37,9 @@ std::string get_body_name(int id) {
 
 // Return the CelestialBody given a common name (i.e. "Mars")
 CelestialBody get_body_by_name(std::string name) {
-  if (name == "Mercury") {
+  if (name == "Sun") {
+    return SUN;
+  } else if (name == "Mercury") {
     return MERCURY;
   } else if (name == "Venus") {
     return VENUS;
