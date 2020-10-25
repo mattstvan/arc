@@ -141,7 +141,7 @@ double DateTime::gmst_angle() {
     0.093104,
     6.2e-6
   });
-  return (fmod(seconds, 86400) / 86400) * M_PI;
+  return (fmod(seconds, 86400) / 86400) * 2*M_PI;
 }
 
 // Increment time by a desired number of seconds

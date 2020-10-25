@@ -1,4 +1,7 @@
+#include <data_files.h>
+#include <earth_model.h>
 #include <icrf.h>
+#include <itrf.h>
 
 /*
 ICRF class methods
@@ -10,6 +13,43 @@ ICRF::ICRF(){};
 // Direct constructor
 ICRF::ICRF(CelestialBody &body, DateTime &epoch, Vector3 &pos, Vector3 &vel)
     : Cartesian{body, epoch, pos, vel} {};
+
+// Constructor from ITRF
+ICRF::ICRF(ITRF &fixed) {
+  // Get finals.all data
+  std::array<double, 7> finals = DATA_FILES.get_finals(fixed.epoch.mjd());
+  double pm_x = finals[1], pm_y = finals[2];
+  // Get rotation, precession and nutation values at epoch
+  Vector3 rot = earth_rotation(fixed.epoch);
+  std::array<double, 3> prec = earth_precession(fixed.epoch);
+  std::array<double, 3> nutn = earth_nutation(fixed.epoch);
+  double zeta = prec[0], theta = prec[1], zed = prec[2];
+  double d_psi = nutn[0], d_eps = nutn[1], m_eps = nutn[2];
+  double epsilon = d_eps + m_eps;
+  // Rotate to PEF
+  Vector3 r_pef = fixed.position.rot_y(pm_x).rot_x(pm_y);
+  Vector3 v_pef = fixed.velocity.rot_y(pm_x).rot_x(pm_y);
+  // Rotate to TOD
+  double ast = fixed.epoch.gmst_angle() + d_psi * cos(epsilon);
+  Vector3 r_tod = r_pef.rot_z(-ast);
+  Vector3 v_arg = rot.cross(r_pef);
+  Vector3 v_tod = v_pef.add(v_arg).rot_z(-ast);
+  std::cout << ast << std::endl;
+  r_pef.print();
+  v_pef.print();
+  r_tod.print();
+  v_tod.print();
+  // Rotate to MOD
+  Vector3 r_mod = r_tod.rot_x(epsilon).rot_z(d_psi).rot_x(-m_eps);
+  Vector3 v_mod = v_tod.rot_x(epsilon).rot_z(d_psi).rot_x(-m_eps);
+  // Rotate to ICRF
+  Vector3 r_icrf = r_mod.rot_z(zed).rot_y(-theta).rot_z(zeta);
+  Vector3 v_icrf = v_mod.rot_z(zed).rot_y(-theta).rot_z(zeta);
+  this->central_body = fixed.central_body;
+  this->epoch = fixed.epoch;
+  this->position = r_icrf;
+  this->velocity = v_icrf;
+}
 
 // Constructor from KeplerianElements
 ICRF::ICRF(KeplerianElements &el) : Cartesian{el} {};

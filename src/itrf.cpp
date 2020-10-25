@@ -1,6 +1,7 @@
+#include <data_files.h>
 #include <earth_model.h>
 #include <itrf.h>
-#include <data_files.h>
+#include <icrf.h>
 
 /*
 ITRF class methods
@@ -24,12 +25,10 @@ ITRF::ITRF(ICRF &inertial) {
   double zeta = prec[0], theta = prec[1], zed = prec[2];
   double d_psi = nutn[0], d_eps = nutn[1], m_eps = nutn[2];
   // Rotate to MOD
-  Vector3 r_mod =
-      inertial.position.rot_z(-zeta).rot_y(theta).rot_z(-zed);
-  Vector3 v_mod =
-      inertial.velocity.rot_z(-zeta).rot_y(theta).rot_z(-zed);
+  Vector3 r_mod = inertial.position.rot_z(-zeta).rot_y(theta).rot_z(-zed);
+  Vector3 v_mod = inertial.velocity.rot_z(-zeta).rot_y(theta).rot_z(-zed);
   // Rotate to TOD
-  double epsilon = nutn[1] + nutn[2];
+  double epsilon = d_eps + m_eps;
   Vector3 r_tod = r_mod.rot_x(m_eps).rot_z(-d_psi).rot_x(-epsilon);
   Vector3 v_tod = v_mod.rot_x(m_eps).rot_z(-d_psi).rot_x(-epsilon);
   // Rotate to PEF
