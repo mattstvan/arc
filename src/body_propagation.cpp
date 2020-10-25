@@ -1,6 +1,7 @@
 #include <body_propagation.h>
 #include <exceptions.h>
 #include <iostream>
+#include <sstream>
 
 /*
 Body propagation handler methods
@@ -69,8 +70,9 @@ Ephemeris& BodyPropagationHandler::get_ephem(int id) {
       }
       return neptune;
     default:
-      // Body ephemeris not found
-      throw ArcException("BodyPropagator::get_ephem exception: Invalid NAIF ID/ephemeris not found");
+      std::stringstream msg;
+      msg << "BodyPropagator::get_ephem exception: No ephemeris found for NAIF id " << id;
+      throw ArcException(msg.str());
   }
 }
 

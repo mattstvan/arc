@@ -2,6 +2,8 @@
 #include <celestial.h>
 #include <datetime.h>
 #include <body_propagation.h>
+#include <exceptions.h>
+#include <sstream>
 
 // Return the common name of a body by NAIF ID
 std::string get_body_name(int id) {
@@ -27,7 +29,9 @@ std::string get_body_name(int id) {
   case 899:
     return std::string{ "Neptune" };
   default:
-    return std::string("Unknown");
+    std::stringstream msg;
+    msg << "celestial::get_body_name exception: No common name available for NAIF ID " << id;
+    throw ArcException(msg.str());
   }
 };
 
@@ -44,7 +48,9 @@ CelestialBody get_body_by_name(std::string name) {
   } else if (name == "Mars") {
     return MARS;
   } else {
-    return SUN;
+    std::stringstream msg;
+    msg << "celestial::get_body_by_name exception: '" << name  << "' is not defined";
+    throw ArcException(msg.str());
   }
 };
 

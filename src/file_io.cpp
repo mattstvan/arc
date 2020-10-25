@@ -1,4 +1,6 @@
 #include <file_io.h>
+#include <exceptions.h>
+#include <sstream>
 
 int write_lines_to_file(std::vector<std::string> &lines, char filename[]) {
   std::ofstream file;
@@ -11,7 +13,9 @@ int write_lines_to_file(std::vector<std::string> &lines, char filename[]) {
     return 0;
   }
   else {
-    return 1;
+    std::stringstream msg;
+    msg << "file_io::write_lines_to_file exception: Unable to write to " << filename;
+    throw ArcException(msg.str());
   }
 }
 
@@ -27,6 +31,8 @@ std::vector<std::string> read_lines_from_file(char filename[]) {
     return lines;
   }
   else {
-    return std::vector<std::string> {};
+    std::stringstream msg;
+    msg << "file_io::read_lines_from_file exception: Unable to open " << filename;
+    throw ArcException(msg.str());
   }
 }
