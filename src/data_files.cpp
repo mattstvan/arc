@@ -52,6 +52,9 @@ double DataFileHandler::get_leap_seconds(double seconds_since_j2000) {
                 return leap_seconds[i][1];
             }
         }
+        // This condition should never be met, but to be safe, return something if
+        // every conditional fails
+        return 0.0;
     }
 }
 
