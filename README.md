@@ -8,7 +8,7 @@ Arc is an astrodynamics toolkit aimed at providing high-accuracy numerical propa
 
  - [ ] Coordinate systems
 	 - [x] International Celestial Reference Frame (ICRF)
-	 - [ ] International Terrestrial Reference Frame (ITRF/ECEF)
+	 - [x] International Terrestrial Reference Frame (ITRF/ECEF)
 	 - [ ] True Equator Mean Equinox (TEME)
 	 - [x] Keplerian elements
  - [ ] Planetary positions
@@ -18,11 +18,13 @@ Arc is an astrodynamics toolkit aimed at providing high-accuracy numerical propa
  - [ ] Planetary orientations
  	 - [x] Earth (IAU 1980)
 	 - [ ] Earth (IAU 2000/2006)
- - [ ] Time handling
+ - [x] Time handling
 	 - [x] Coordinated Universal Time (UTC)
-	 - [ ] Terrestrial Time (TT)
-	 - [ ] International Atomic Time (TAI)
-	 - [ ] Leap second
+	 - [x] Universal Time (UT1)
+	 - [x] Terrestrial Time (TT)
+	 - [x] International Atomic Time (TAI)
+	 - [x] Barycentric Dynamical Time (TDB)
+	 - [x] Leap second
  - [ ] Orbital state propagation
 	 - [x] Keplerian Approximation
 	 - [x] Ephemeris Interpolation
