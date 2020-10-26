@@ -6,7 +6,8 @@
 // Return Earth's rotation vector, in radians per second
 // TODO: Implement LOD variations from IERS finals.all
 Vector3 earth_rotation(DateTime &epoch) {
-  return EARTH.rotation;
+  // Earth rotation vector
+  return Vector3{0.0, 0.0, 7.2921158553e-5};
   // return EARTH.rotation.scale(1.0 - finals.lod / 86400.0);
 };
 

@@ -20,16 +20,15 @@ public:
     double radius_equator;
     // Polar radius in meters
     double radius_polar;
-    // Flattening ratio
-    double flattening;
-    // Rotation vector in rad/s
-    Vector3 rotation;
 
     // Print to std::cout
     void print();
 
     // Return the common name of the body as a String
     std::string get_name();
+
+    // Return flattening ratio
+    double flattening_ratio();
 
     // Return the ICRF state of the body at an epoch
     ICRF propagate(DateTime &epoch);
@@ -46,8 +45,6 @@ static CelestialBody SUN = CelestialBody{
     132712440018000003072.0,
     69570000000.0,
     69570000000.0,
-    0.0,
-    Vector3{0.0, 0.0, 2.8653290845717256e-6},
 };
 
 // Mercury definition using parameters derived from:
@@ -57,8 +54,6 @@ static CelestialBody MERCURY = CelestialBody{
     22032000000000.0,
     2439700.0,
     2439700.0,
-    0.0,
-    Vector3{0.0, 0.0, 1.239932688259683e-06},
 };
 
 // Venus definition using parameters derived from:
@@ -68,21 +63,16 @@ static CelestialBody VENUS = CelestialBody{
     324859000000000.0,
     6051800.0,
     6051800.0,
-    0.0,
-    Vector3{0.0, 0.0, 0.0},
 };
 
 // Earth definition using parameters derived from:
 // - NASA Space Science Data Coordinated Archive
 // - EGM-2008 (NGA)
-// - WGS-84 (NIMA 1997)
 static CelestialBody EARTH = CelestialBody{
     399,
     398600441800000.0,
     6378137.0,
     6356752.3,
-    0.0033528106647474805,
-    Vector3{0.0, 0.0, 7.2921158553e-5},
 };
 
 // Luna definition using parameters derived from:
@@ -92,8 +82,6 @@ static CelestialBody LUNA = CelestialBody{
     4904869500000.0,
     1738100.0,
     1736000.0,
-    0.001208215867901763,
-    Vector3{0.0, 0.0, 0.0},
 };
 
 // Mars definition using parameters derived from:
@@ -103,8 +91,42 @@ static CelestialBody MARS = CelestialBody{
     42828370000000.0,
     3396200.0,
     3376200.0,
-    0.005888934691714254,
-    Vector3{0.0, 0.0, 7.077632258808082e-05},
+};
+
+// Jupiter definition using parameters derived from:
+// - NASA Space Science Data Coordinated Archive
+static CelestialBody JUPITER = CelestialBody{
+    599,
+    126686534900000000.0,
+    71492000.0,
+    66854000.0,
+};
+
+// Saturn definition using parameters derived from:
+// - NASA Space Science Data Coordinated Archive
+static CelestialBody SATURN = CelestialBody{
+    699,
+    37931187900000000.0,
+    60268000.0,
+    54364000.0,
+};
+
+// Uranus definition using parameters derived from:
+// - NASA Space Science Data Coordinated Archive
+static CelestialBody URANUS = CelestialBody{
+    799,
+    5793939900000000.0,
+    25559000.0,
+    24973000.0,
+};
+
+// Neptune definition using parameters derived from:
+// - NASA Space Science Data Coordinated Archive
+static CelestialBody NEPTUNE = CelestialBody{
+    899,
+    6836529900000000.0,
+    24764000.0,
+    24341000.0,
 };
 
 // Return the common name of a body by NAIF ID

@@ -74,3 +74,8 @@ void CelestialBody::print() {
 
 // Return the common name of the body as a String
 std::string CelestialBody::get_name() { return get_body_name(id); }
+
+// Return flattening ratio
+double CelestialBody::flattening_ratio() {
+  return 1 - (radius_polar/radius_equator);
+}
