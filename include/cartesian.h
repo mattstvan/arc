@@ -4,12 +4,14 @@
 #include <datetime.h>
 #include <vectors.h>
 
-#include <iostream>
-
 // Forward declaration
 class KeplerianElements;
 
-// Generic cartesian coordinates
+/*
+Generic Cartesian coordinates base class
+
+This type is the base for ICRF, ITRF, and other cartesian coordinate system states
+*/
 class Cartesian {
 public:
   // Central body of the orbit these elements represent
@@ -21,16 +23,12 @@ public:
   // Velocity of the state in meters per second
   Vector3 velocity;
 
-  // Default constructor
   Cartesian();
 
-  // Direct constructor
-  Cartesian(CelestialBody &body, DateTime &epoch, Vector3 &pos, Vector3 &vel);
+  Cartesian(CelestialBody& body, DateTime& epoch, Vector3& pos, Vector3& vel);
 
-  // Constructor from KeplerianElements
-  Cartesian(KeplerianElements &el);
+  Cartesian(KeplerianElements& el);
 
-  // Print to std::cout
   void print();
 };
 
