@@ -4,7 +4,11 @@
 #include <icrf.h>
 #include <datetime.h>
 
-// CelestialBody propagation handler
+/*
+Celestial body propagation handler
+
+Handles reading/parsing/evaluating planetary ephemerides/position data
+*/
 class BodyPropagationHandler {
   // Mercury states
   Ephemeris mercury;
@@ -25,17 +29,21 @@ class BodyPropagationHandler {
   // Neptune states
   Ephemeris neptune;
 
-  // Get and/or load a planetary ephemeris file
   Ephemeris& get_ephem(int id);
 
 public:
-  // Default constructor
   BodyPropagationHandler();
 
-  // Get the state of a given CelestialBody given its NAIF ID
-  ICRF get_state(int id, DateTime &epoch);
+  ICRF get_state(int id, DateTime& epoch);
 };
 
+/*
+Static (singleton) celestial body propagation handler instance
+
+Reasonably accurate propagation of celestial bodies usually require reading
+large data files and evaluating their contents. A singleton ensures these files
+are only read once per execution, reducing I/O latency per propagation request
+*/
 static BodyPropagationHandler BODY_PROPAGATOR{};
 
 #endif
