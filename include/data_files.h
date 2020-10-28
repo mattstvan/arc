@@ -5,28 +5,34 @@
 #include <vector>
 #include <array>
 
+/*
+Class to handle numerous data file types, such as
+Earth Orientation Parameter files, leap second announcements, etc
+*/
 class DataFileHandler {
-    // Read/parse the leap seconds file
+
     void parse_leap_seconds();
-    // Read/parse the finals.all file
+
     void parse_finals();
+
 public:
     // List of all known leap second times and values (sec. since J2000, Leap second value)
     std::vector<std::array<double, 2>> leap_seconds;
     // List of finals.all data lines
     std::vector<std::array<double, 7>> finals_data;
 
-    // Default constructor
     DataFileHandler();
 
-    // Get the number of leap seconds used in offset
     double get_leap_seconds(double seconds_since_j2000);
 
-    // Get the finals.all data at an epoch (modified Julian)
     std::array<double, 7> get_finals(double mjd);
 };
 
-// Static reference to process's main DataFileHandler instance
-static DataFileHandler DATA_FILES {};
+/*
+Static instance of DataFileHandler
+
+A singleton prevents repeated parsing of data files, saving I/O overhead
+*/
+static DataFileHandler DATA_FILES{};
 
 #endif
