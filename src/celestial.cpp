@@ -5,7 +5,13 @@
 #include <exceptions.h>
 #include <sstream>
 
-// Return the common name of a body by NAIF ID
+/* 
+Get the common name of a body by NAIF ID
+
+@param id NAIF ID number of the body
+@returns (std::string) Common name of the given body
+@throws exceptions::ArcException if ID is not known
+*/
 std::string get_body_name(int id) {
   switch (id) {
   case 10:
@@ -35,7 +41,13 @@ std::string get_body_name(int id) {
   }
 };
 
-// Return the CelestialBody given a common name (i.e. "Mars")
+/*
+Get the CelestialBody static instance given its common name (i.e. "Mars")
+
+@param name The common name of the requested body
+@returns (celestial::CelestialBody) The static instance of the requested body
+@throws exceptions::ArcException if name is not known
+*/
 CelestialBody get_body_by_name(std::string name) {
   if (name == "Sun") {
     return SUN;
@@ -49,6 +61,14 @@ CelestialBody get_body_by_name(std::string name) {
     return LUNA;
   } else if (name == "Mars") {
     return MARS;
+  } else if (name == "Jupiter") {
+    return JUPITER;
+  } else if (name == "Saturn") {
+    return SATURN;
+  } else if (name == "Uranus") {
+    return URANUS;
+  } else if (name == "Neptune") {
+    return NEPTUNE;
   } else {
     std::stringstream msg;
     msg << "celestial::get_body_by_name exception: '" << name  << "' is not defined";
@@ -60,7 +80,12 @@ CelestialBody get_body_by_name(std::string name) {
 Celestial body methods
 */
 
-// Return the ICRF state of the body at an epoch
+/*
+Obtain the ICRF state of this body at an epoch 
+
+@param epoch The requested time at which to obtain the ICRF state
+@returns (icrf::ICRF) The calculated state at the requested epoch
+*/
 ICRF CelestialBody::propagate(DateTime &epoch) {
   // Get the planet state from the body propagation handler
   return BODY_PROPAGATOR.get_state(id, epoch);
@@ -72,10 +97,18 @@ void CelestialBody::print() {
     << " }" << std::endl;
 }
 
-// Return the common name of the body as a String
+/*
+Get the body's common name
+
+@returns (std::string) Common name of this body
+*/
 std::string CelestialBody::get_name() { return get_body_name(id); }
 
-// Return flattening ratio
+/*
+Return the ratio between this body's polar and equatorial radii, calculated as 1 - (r_p/r_e)
+
+@returns (double) Flattening ratio of this body
+*/
 double CelestialBody::flattening_ratio() {
   return 1 - (radius_polar/radius_equator);
 }

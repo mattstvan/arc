@@ -9,7 +9,12 @@
 // Forward declaration
 class ICRF;
 
-// Celestial body
+/*
+Celestial body type
+
+Handles identification and physical attributes 
+(GM, radius, etc.) of celestial bodies
+*/
 class CelestialBody {
 public:
     // NAIF ID Code
@@ -21,17 +26,13 @@ public:
     // Polar radius in meters
     double radius_polar;
 
-    // Print to std::cout
     void print();
 
-    // Return the common name of the body as a String
     std::string get_name();
 
-    // Return flattening ratio
     double flattening_ratio();
 
-    // Return the ICRF state of the body at an epoch
-    ICRF propagate(DateTime &epoch);
+    ICRF propagate(DateTime& epoch);
 };
 
 /*
@@ -129,10 +130,8 @@ static CelestialBody NEPTUNE = CelestialBody{
     24341000.0,
 };
 
-// Return the common name of a body by NAIF ID
 std::string get_body_name(int id);
 
-// Return the CelestialBody given a common name (i.e. "Mars")
 CelestialBody get_body_by_name(std::string name);
 
 #endif
