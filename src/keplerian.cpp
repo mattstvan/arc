@@ -67,21 +67,21 @@ KeplerianElements::KeplerianElements(Cartesian &vector) {
   if (n.y < 0.0) {
     o = 2.0 * M_PI - o;
   };
-  if (isnan(o)) {
+  if (std::isnan(o)) {
     o = 0.0;
   };
   // Sanity check argument of periapsis
   if (e_vec.z < 0.0) {
     w = 2.0 * M_PI - w;
   };
-  if (isnan(w)) {
+  if (std::isnan(w)) {
     w = 0.0;
   };
   // Sanity check true anomaly
   if (vector.position.dot(vector.velocity) < 0.0) {
     v = 2.0 * M_PI - v;
   };
-  if (isnan(v)) {
+  if (std::isnan(v)) {
     v = 0.0;
   };
   // Set final variables

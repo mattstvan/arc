@@ -1,10 +1,10 @@
 #ifndef KEPLERIAN_H
 #define KEPLERIAN_H
-#define _USE_MATH_DEFINES
 #include <celestial.h>
 #include <datetime.h>
 #include <propagator.h>
 
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
 
@@ -13,7 +13,7 @@ class Cartesian;
 
 // Keplerian orbital elements
 class KeplerianElements {
-public:
+ public:
   // Central body of the orbit these elements represent
   CelestialBody central_body;
   // Time at which the elements are correct
@@ -36,7 +36,7 @@ public:
 
   // Direct constructor
   KeplerianElements(CelestialBody &body, DateTime epoch, double a, double e,
-    double i, double o, double w, double v);
+                    double i, double o, double w, double v);
 
   // Constructor using Cartesian instance
   KeplerianElements(Cartesian &vector);
@@ -53,7 +53,7 @@ public:
 
 // Propagator using Kepler's method
 class KeplerianPropagator : public Propagator {
-public:
+ public:
   // Initial KeplerianElements state
   KeplerianElements initial_state;
 
