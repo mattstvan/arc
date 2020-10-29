@@ -10,22 +10,6 @@ RungeKutta4::RungeKutta4(ICRF initial_state) : NumericalPropagator{ initial_stat
 // Direct constructor (full settings)
 RungeKutta4::RungeKutta4(ICRF initial_state, double step_size, ForceModel force_model) : NumericalPropagator{ initial_state, step_size, force_model } {}
 
-// Propagate the inital state to specified epoch
-ICRF RungeKutta4::propagate(DateTime &epoch) {
-  // Do this until the requested epoch has been reached
-  while (epoch.equals(cache_state.epoch) != true) {
-    // Get the difference between the requested epoch and the cached epoch
-    double delta = epoch.difference(cache_state.epoch);
-    // Choose the smaller of the two (avoid overstepping the target epoch)
-    double mag = std::min(fabs(delta), step_size);
-    // Copy the sign to step in the correct direction
-    double step = copysignf(mag, delta);
-    // Integrate the cached ICRf state +/- the step
-    cache_state = integrate(cache_state, step);
-  }
-  return cache_state;
-}
-
 // Step the integration a number of seconds forward/backward
 ICRF RungeKutta4::integrate(ICRF &state, double step) {
   // Take derivatives 
