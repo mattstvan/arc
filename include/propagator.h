@@ -44,7 +44,7 @@ public:
   Vector6 derivatives(ICRF &state, double h, Vector6 &k);
 
   // Step the integration a number of seconds forward/backward
-  ICRF integrate(ICRF &state, double step);
+  virtual ICRF integrate(ICRF &state, double step);
 
 };
 
