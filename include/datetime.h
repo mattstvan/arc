@@ -1,10 +1,6 @@
 #ifndef DATETIME_H
 #define DATETIME_H
-#define _USE_MATH_DEFINES
-#include <math.h>
 #include <ctime>
-#include <iostream>
-#include <sstream>
 #include <string>
 
 // Unix timestamp of J2000
