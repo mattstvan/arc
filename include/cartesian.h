@@ -28,8 +28,6 @@ public:
   Cartesian(CelestialBody& body, DateTime& epoch, Vector3& pos, Vector3& vel);
 
   Cartesian(KeplerianElements& el);
-
-  void print();
 };
 
 #endif

@@ -57,9 +57,6 @@ public:
   // YYYY-MM-DDTHH:MM:SS.FFFFFF
   DateTime(std::string datestr, TimeScale scale=UTC);
 
-  // Print to std::cout
-  void print();
-
   // Convert to `struct tm' representation of *TIMER in Universal Coordinated
   // Time
   tm* to_tm();
@@ -112,5 +109,8 @@ public:
   // Format date as ISO 8601
   std::string to_iso();
 };
+
+// I/O stream 
+std::ostream& operator << (std::ostream &out, DateTime& dt);
 
 #endif

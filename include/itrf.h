@@ -21,4 +21,7 @@ public:
   void print();
 };
 
+// I/O stream 
+std::ostream& operator << (std::ostream &out, ITRF& itrf);
+
 #endif

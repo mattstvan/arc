@@ -24,9 +24,6 @@ public:
   // Constructor using doubles
   Vector3(double x, double y, double z);
 
-  // Print to std::cout
-  void print();
-
   // Calculate the magnitude
   double mag();
 
@@ -70,6 +67,9 @@ public:
 /*
 Vector3 operator functions
 */
+
+// I/O stream 
+std::ostream& operator << (std::ostream &out, Vector3& v);
 
 // Element-wise addition
 Vector3 operator + (Vector3& v_1, Vector3& v_2);
@@ -119,9 +119,6 @@ public:
   // Constructor using two Vector3 instances
   Vector6(Vector3& a, Vector3& b);
 
-  // Print to std::cout
-  void print();
-
   // Add another Vector6 using element-wise addition
   Vector6 add(Vector6& v);
 
@@ -135,6 +132,9 @@ public:
 /*
 Vector6 operator functions
 */
+
+// I/O stream 
+std::ostream& operator << (std::ostream &out, Vector6& v);
 
 // Element-wise addition
 Vector6 operator + (Vector6& v_1, Vector6& v_2);

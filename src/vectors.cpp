@@ -28,12 +28,6 @@ Vector3::Vector3(double x, double y, double z) {
   this->z = z;
 }
 
-// Print to std::cout
-void Vector3::print() {
-  std::cout << "[Vector3] { X: " << x << ", Y: " << y << ", Z: " << z << " }"
-    << std::endl;
-}
-
 /*
 Calculate the magnitude
 
@@ -82,7 +76,7 @@ Calculate a new Vector3 representing the inverse (negated elements)
 Vector3 Vector3::inverse() { return scale(-1.0); }
 
 /*
-Distance to another Vector3, assuming that 
+Distance to another Vector3, assuming that
 both coordinate systems/origins are the same
 
 @param v The vector from which to calculate distance
@@ -175,7 +169,7 @@ Calculate angle to another Vector3
 double Vector3::angle(Vector3& v) { return acos(dot(v) / (mag() * v.mag())); }
 
 /*
-Change coordinates to relative position from a 
+Change coordinates to relative position from a
 new origin, assuming both vectors have the same starting origin
 
 @param origin Vector to use as the new origin
@@ -189,6 +183,12 @@ Vector3 Vector3::change_origin(Vector3& origin) {
 /*
 Vector3 operator functions
 */
+
+// I/O stream 
+std::ostream& operator << (std::ostream& out, Vector3& v) {
+  out << "[Vector3] { X: " << v.x << ", Y: " << v.y << ", Z: " << v.z << " }";
+  return out;
+}
 
 // Element-wise addition
 Vector3 operator + (Vector3& v_1, Vector3& v_2) {
@@ -261,7 +261,7 @@ Vector6::Vector6(double a, double b, double c, double x, double y, double z) {
 /*
 Constructor using two Vector3 instances as {a.x, a.y, a.z, b.x, b.y, b.z}
 
-@param a First vector 
+@param a First vector
 @param b Second vector
 @returns (vectors::Vector6) combined a/b vector
 */
@@ -272,13 +272,6 @@ Vector6::Vector6(Vector3& a, Vector3& b) {
   this->x = b.x;
   this->y = b.y;
   this->z = b.z;
-}
-
-// Print to std::cout
-void Vector6::print() {
-  std::cout << "[Vector6] { A: " << a << ", B: " << b << ", C: " << c
-    << ", X: " << x << ", Y: " << y << ", Z: " << z << " }"
-    << std::endl;
 }
 
 /*
@@ -325,6 +318,13 @@ std::array<Vector3, 2> Vector6::split() {
 /*
 Vector6 operator functions
 */
+
+// I/O stream 
+std::ostream& operator << (std::ostream& out, Vector6& v) {
+  out << "[Vector6] { A: " << v.a << ", B: " << v.b << ", C: " << v.c
+    << ", X: " << v.x << ", Y: " << v.y << ", Z: " << v.z << " }";
+  return out;
+}
 
 // Element-wise addition
 Vector6 operator + (Vector6& v_1, Vector6& v_2) {

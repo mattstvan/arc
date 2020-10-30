@@ -93,10 +93,8 @@ KeplerianElements::KeplerianElements(Cartesian &vector) {
 // Print to std::cout
 void KeplerianElements::print() {
   std::cout << "[KeplerianElements]" << std::endl;
-  std::cout << " Central Body: ";
-  central_body.print();
-  std::cout << " Epoch: ";
-  epoch.print();
+  std::cout << " Central Body: " << central_body;
+  std::cout << " Epoch: " << epoch << std::endl;
   std::cout << " A: " << a << std::endl;
   std::cout << " E: " << e << std::endl;
   std::cout << " I: " << i * (180.0 / M_PI) << std::endl;

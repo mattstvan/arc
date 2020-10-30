@@ -46,15 +46,14 @@ ITRF::ITRF(ICRF &inertial) {
   this->velocity = v_itrf;
 }
 
-// Print to std::cout
-void ITRF::print() {
-  std::cout << "[ITRF]" << std::endl;
-  std::cout << " Central Body: ";
-  central_body.print();
-  std::cout << " Epoch: ";
-  epoch.print();
-  std::cout << " Position: ";
-  position.print();
-  std::cout << " Velocity: ";
-  velocity.print();
+/*
+ITRF operator functions
+*/
+
+// I/O stream 
+std::ostream& operator << (std::ostream &out, ITRF& itrf) {
+  out << "[ITRF]" << std::endl << " Central Body: " << itrf.central_body << std::endl
+   << " Epoch: " << itrf.epoch << std::endl << " Position: " << itrf.position << std::endl
+   << " Velocity: " << itrf.velocity;
+   return out;
 }

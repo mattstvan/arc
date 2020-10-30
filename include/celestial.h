@@ -26,14 +26,15 @@ public:
     // Polar radius in meters
     double radius_polar;
 
-    void print();
-
     std::string get_name();
 
     double flattening_ratio();
 
     ICRF propagate(DateTime& epoch);
 };
+
+// I/O stream 
+std::ostream& operator << (std::ostream &out, CelestialBody& body);
 
 /*
 Planet definitions

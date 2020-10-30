@@ -8,14 +8,14 @@ ICRF class methods
 */
 
 // Default constructor (call base class)
-ICRF::ICRF(){};
+ICRF::ICRF() {};
 
 // Direct constructor
-ICRF::ICRF(CelestialBody &body, DateTime &epoch, Vector3 &pos, Vector3 &vel)
-    : Cartesian{body, epoch, pos, vel} {};
+ICRF::ICRF(CelestialBody& body, DateTime& epoch, Vector3& pos, Vector3& vel)
+  : Cartesian{ body, epoch, pos, vel } {};
 
 // Constructor from ITRF
-ICRF::ICRF(ITRF &fixed) {
+ICRF::ICRF(ITRF& fixed) {
   // Get finals.all data
   std::array<double, 7> finals = DATA_FILES.get_finals(fixed.epoch.mjd());
   double pm_x = finals[1], pm_y = finals[2];
@@ -34,11 +34,6 @@ ICRF::ICRF(ITRF &fixed) {
   Vector3 r_tod = r_pef.rot_z(-ast);
   Vector3 v_arg = rot.cross(r_pef);
   Vector3 v_tod = v_pef.add(v_arg).rot_z(-ast);
-  std::cout << ast << std::endl;
-  r_pef.print();
-  v_pef.print();
-  r_tod.print();
-  v_tod.print();
   // Rotate to MOD
   Vector3 r_mod = r_tod.rot_x(epsilon).rot_z(d_psi).rot_x(-m_eps);
   Vector3 v_mod = v_tod.rot_x(epsilon).rot_z(d_psi).rot_x(-m_eps);
@@ -52,20 +47,7 @@ ICRF::ICRF(ITRF &fixed) {
 }
 
 // Constructor from KeplerianElements
-ICRF::ICRF(KeplerianElements &el) : Cartesian{el} {};
-
-// Print to std::cout
-void ICRF::print() {
-  std::cout << "[ICRF]" << std::endl;
-  std::cout << " Central Body: ";
-  central_body.print();
-  std::cout << " Epoch: ";
-  epoch.print();
-  std::cout << " Position: ";
-  position.print();
-  std::cout << " Velocity: ";
-  velocity.print();
-}
+ICRF::ICRF(KeplerianElements& el) : Cartesian{ el } {};
 
 // Convert position/velocity vectors into the sun-centered ICRF frame
 ICRF ICRF::to_solar() {
@@ -76,16 +58,17 @@ ICRF ICRF::to_solar() {
     // Add the body's heliocentric state to this state and return
     Vector3 solar_pos = body_icrf.position.add(position);
     Vector3 solar_vel = body_icrf.velocity.add(velocity);
-    return ICRF{SUN, epoch, solar_pos, solar_vel};
-  } else {
+    return ICRF{ SUN, epoch, solar_pos, solar_vel };
+  }
+  else {
     // If this state is already heliocentric, return a copy
-    return ICRF{central_body, epoch, position, velocity};
+    return ICRF{ central_body, epoch, position, velocity };
   }
 }
 
 // Convert position/velocity vectors into the ICRF frame centered around another
 // celestial body's position
-ICRF ICRF::change_central_body(CelestialBody &body) {
+ICRF ICRF::change_central_body(CelestialBody& body) {
   // If the requested body does differ
   if (central_body.id != body.id) {
     // If the requested body is the Sun
@@ -99,10 +82,23 @@ ICRF ICRF::change_central_body(CelestialBody &body) {
     Vector3 new_pos = solar_icrf.position.change_origin(body_icrf.position);
     Vector3 new_vel = solar_icrf.velocity.change_origin(body_icrf.velocity);
     // Return the new ICRF state
-    return ICRF{body, epoch, new_pos, new_vel};
-  } else {
+    return ICRF{ body, epoch, new_pos, new_vel };
+  }
+  else {
     // If this state's central body is already the one requested, return a copy
 
-    return ICRF{central_body, epoch, position, velocity};
+    return ICRF{ central_body, epoch, position, velocity };
   }
+}
+
+/*
+ICRF operator functions
+*/
+
+// I/O stream 
+std::ostream& operator << (std::ostream& out, ICRF& icrf) {
+  out << "[ICRF]" << std::endl << " Central Body: " << icrf.central_body << std::endl
+   << " Epoch: " << icrf.epoch << std::endl << " Position: " << icrf.position << std::endl
+    << " Velocity: " << icrf.velocity;
+  return out;
 }

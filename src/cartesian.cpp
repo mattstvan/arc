@@ -58,16 +58,3 @@ Cartesian::Cartesian(KeplerianElements& el) {
   this->position = r_final;
   this->velocity = v_final;
 }
-
-// Print to std::cout
-void Cartesian::print() {
-  std::cout << "[Cartesian]" << std::endl;
-  std::cout << " Central Body: ";
-  central_body.print();
-  std::cout << " Epoch: ";
-  epoch.print();
-  std::cout << " Position: ";
-  position.print();
-  std::cout << " Velocity: ";
-  velocity.print();
-}

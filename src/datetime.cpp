@@ -84,12 +84,6 @@ YYYY-MM-DDTHH:MM:SS.FFFFFF
 */
 DateTime::DateTime(std::string datestr, TimeScale scale) : DateTime{ datestr, "%Y-%m-%dT%H:%M:%S", scale } {}
 
-// Print to std::cout
-void DateTime::print() {
-  std::cout << "[DateTime] { Seconds since J2000: " << seconds_since_j2000
-    << ", ISO: " << to_iso() << " " << time_scale_str(scale) << " }" << std::endl;
-}
-
 // Convert to `struct tm' representation of *TIMER in Universal Coordinated Time
 tm* DateTime::to_tm() {
   time_t t = (long)(seconds_since_j2000 + UNIX_J2000);
@@ -247,3 +241,14 @@ Format date as ISO 8601
 @returns (std::string) Date/time formatted using ISO 8601 standard
 */
 std::string DateTime::to_iso() { return format_fractional("%Y-%m-%dT%H:%M:%S"); }
+
+/*
+DateTime operator functions
+*/
+
+// I/O stream 
+std::ostream& operator << (std::ostream &out, DateTime& dt) {
+  out << "[DateTime] { Seconds since J2000: " << dt.seconds_since_j2000 
+   << ", ISO: " << dt.to_iso() << " " << time_scale_str(dt.scale) << " }";
+  return out;
+}

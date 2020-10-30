@@ -91,12 +91,6 @@ ICRF CelestialBody::propagate(DateTime &epoch) {
   return BODY_PROPAGATOR.get_state(id, epoch);
 }
 
-// Print to std::cout
-void CelestialBody::print() {
-  std::cout << "[CelestialBody] { ID: " << id << ", Name: " << get_name()
-    << " }" << std::endl;
-}
-
 /*
 Get the body's common name
 
@@ -111,4 +105,14 @@ Return the ratio between this body's polar and equatorial radii, calculated as 1
 */
 double CelestialBody::flattening_ratio() {
   return 1 - (radius_polar/radius_equator);
+}
+
+/*
+CelestialBody operator functions
+*/
+
+// I/O stream 
+std::ostream& operator << (std::ostream &out, CelestialBody& body) {
+    out << "[CelestialBody] { ID: " << body.id << ", Name: " << body.get_name() << " }";
+    return out;
 }

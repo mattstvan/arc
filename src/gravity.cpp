@@ -24,8 +24,7 @@ GravityModel::GravityModel(CelestialBody &body, bool is_aspherical, int degree,
 // Print to stdout
 void GravityModel::print() {
   std::cout << "[GravityModel]" << std::endl;
-  std::cout << " Body: ";
-  body.print();
+  std::cout << " Body: " << body << std::endl;
   std::cout << " Aspherical: " << is_aspherical << std::endl;
   std::cout << " Geopotential Degree/Order: " << degree << "/" << order
             << std::endl;
