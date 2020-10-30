@@ -44,9 +44,6 @@ public:
   // Constructor using file path
   Ephemeris(char filepath[]);
 
-  // Print to std::cout
-  void print();
-
   // Use Keplerian estimation to obtain an interpolated ICRF
   // state using the nearest ICRF value contained in the ephemeris
   ICRF interpolate(DateTime &requested);
@@ -57,5 +54,8 @@ public:
   // Write ephemeris to file using STK format
   void write_stk(char filename[]);
 };
+
+// I/O stream 
+std::ostream& operator << (std::ostream &out, Ephemeris& eph);
 
 #endif

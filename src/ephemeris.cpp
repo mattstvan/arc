@@ -86,14 +86,6 @@ Ephemeris::Ephemeris(char filepath[]) {
   }
 }
 
-// Print to std::cout
-void Ephemeris::print() {
-  std::cout << "[Ephemeris] { Epoch: " << epoch.to_iso()
-            << ", Number of states: " << states.size()
-            << ", Central body: " << central_body.get_name() << " }"
-            << std::endl;
-}
-
 // Use Keplerian estimation to obtain an interpolated ICRF
 // state using the nearest ICRF value contained in the ephemeris
 ICRF Ephemeris::interpolate(DateTime &requested) {
@@ -186,4 +178,11 @@ void Ephemeris::write_stk(char filename[]) {
     std::cout << "Unable to write Ephemeris to file location: " << filename
               << std::endl;
   }
+}
+
+// I/O stream 
+std::ostream& operator << (std::ostream &out, Ephemeris& eph) {
+  out << "[Ephemeris] { Epoch: " << eph.epoch.to_iso() << ", Number of states: "
+   << eph.states.size() << ", Central body: " << eph.central_body.get_name() << " }";
+   return out;
 }
