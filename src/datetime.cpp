@@ -73,11 +73,11 @@ DateTime::DateTime(std::string datestr, std::string format, TimeScale scale) {
   bsd_strptime(datestr.c_str(), format.c_str(), &lt);
   // Parse any milliseconds from the end of the date string
   double dbl_millisecs;
-  try {
-    std::string fractional =
-        datestr.substr(datestr.find("."), datestr.size() - 1);
+  size_t dec_point = datestr.find(".");
+  if (dec_point != std::string::npos) {
+    std::string fractional = datestr.substr(dec_point, datestr.size() - 1);
     dbl_millisecs = std::stod(fractional);
-  } catch (const std::out_of_range& err) {
+  } else {
     // If the parsing fails, assume no milliseconds were found
     dbl_millisecs = 0.0;
   }
@@ -246,15 +246,17 @@ Format date as ISO 8601
 
 @returns (std::string) Date/time formatted using ISO 8601 standard
 */
-std::string DateTime::to_iso() { return format_fractional("%Y-%m-%dT%H:%M:%S"); }
+std::string DateTime::to_iso() {
+  return format_fractional("%Y-%m-%dT%H:%M:%S");
+}
 
 /*
 DateTime operator functions
 */
 
-// I/O stream 
-std::ostream& operator << (std::ostream &out, DateTime& dt) {
-  out << "[DateTime] { Seconds since J2000: " << dt.seconds_since_j2000 
-   << ", ISO: " << dt.to_iso() << " " << time_scale_str(dt.scale) << " }";
+// I/O stream
+std::ostream& operator<<(std::ostream& out, DateTime& dt) {
+  out << "[DateTime] { Seconds since J2000: " << dt.seconds_since_j2000
+      << ", ISO: " << dt.to_iso() << " " << time_scale_str(dt.scale) << " }";
   return out;
 }
