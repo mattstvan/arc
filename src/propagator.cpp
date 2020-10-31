@@ -65,7 +65,7 @@ ICRF NumericalPropagator::propagate(DateTime &epoch) {
     // Choose the smaller of the two (avoid overstepping the target epoch)
     double mag = std::min(fabs(delta), step_size);
     // Copy the sign to step in the correct direction
-    double step = copysignf(mag, delta);
+    double step = copysign(mag, delta);
     // Integrate the cached ICRf state +/- the step
     cache_state = integrate(cache_state, step);
   }
