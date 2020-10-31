@@ -26,7 +26,7 @@ void DataFileHandler::parse_leap_seconds() {
     for (std::string l : lines) {
         float secs, val;
         // Grab the J2000+ seconds and leap values from the line
-        sscanf_s(l.c_str(), "%f %f", &secs, &val);
+        sscanf(l.c_str(), "%f %f", &secs, &val);
         // Sanity check
         if (secs != 0 && val != 0) {
             // Add the values to the known leap seconds

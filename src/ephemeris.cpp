@@ -30,7 +30,7 @@ void parse_stk(std::vector<std::string> &lines, Ephemeris &ephem) {
     } else if (ephem_section == true) {
       // Parse a state
       float tplus, x, y, z, vx, vy, vz;
-      sscanf_s(line.c_str(), "%f %f %f %f %f %f %f", &tplus, &x, &y, &z, &vx, &vy,
+      sscanf(line.c_str(), "%f %f %f %f %f %f %f", &tplus, &x, &y, &z, &vx, &vy,
              &vz);
       DateTime new_epoch = ephem.epoch.increment(tplus);
       Vector3 new_pos{x, y, z};
