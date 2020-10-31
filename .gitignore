@@ -35,6 +35,7 @@
 *.ilk
 *.pdb
 *vscode
+*build
 
 # Unix-like binary
 arc
