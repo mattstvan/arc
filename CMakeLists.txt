@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 2.8)
 
 # set the project name
-project(Arc VERSION 0.2)
+project(Arc)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 11)
