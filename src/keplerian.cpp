@@ -2,6 +2,9 @@
 #include <keplerian.h>
 #include <math_utils.h>
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 /*
 Keplerian elements methods
 */

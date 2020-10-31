@@ -4,8 +4,6 @@
 #include <datetime.h>
 #include <propagator.h>
 
-#define _USE_MATH_DEFINES
-#include <cmath>
 #include <iostream>
 
 // Forward declaration
