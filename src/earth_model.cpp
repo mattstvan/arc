@@ -3,8 +3,15 @@
 #include <data_files.h>
 #include <math_utils.h>
 
-// Return Earth's rotation vector, in radians per second
-// TODO: Implement LOD variations from IERS finals.all
+#include <vector>
+
+/*
+Return Earth's rotation vector, in radians per second
+TODO: Implement LOD variations from IERS finals.all
+
+@param epoch Time at which to calculate rotation of Earth
+@returns (vectors::Vector3) Earth rotation vector in rad/sec
+*/
 Vector3 earth_rotation(DateTime &epoch) {
   // Earth rotation vector
   return Vector3{0.0, 0.0, 7.2921158553e-5};
@@ -12,9 +19,11 @@ Vector3 earth_rotation(DateTime &epoch) {
 };
 
 /*
-Calculate the [zeta, theta, zed] angles of precession in radians
-
+Calculate the zeta, theta, and zed angles of precession in radians
 Currently uses IAU 1980 precession
+
+@param epoch Time at which to calculate precession of Earth
+@returns (std::array<double, 3>) Earth precession values (zeta, theta, zed) in radians
 */
 std::array<double, 3> earth_precession(DateTime &epoch) {
   // Algorithim requires epoch in TDB scale, expressed in Julian Centuries
@@ -31,6 +40,8 @@ std::array<double, 3> earth_precession(DateTime &epoch) {
 Calculate the delta psi, delta epsilon, and mean epsilon angles of nutation in radians
 
 Currently uses IAU 1980 nutation
+@param epoch Time at which to calculate nutation of Earth
+@returns (std::array<double, 3>) Earth nutation values (delta psi, delta epsilon, mean epsilon) in radians
 */
 std::array<double, 3> earth_nutation(DateTime &epoch, int n) {
     double r = 360.0;

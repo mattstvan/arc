@@ -4,8 +4,8 @@
 #include <vectors.h>
 
 #include <array>
-#include <vector>
 
+// IAU 1980 value array for nutation model
 static const std::array<std::array<double, 9>, 106> IAU_1980_VALUES {
   std::array<double,9> {0, 0, 0, 0, 1, -171996, -174.2, 92025, 8.9},
   std::array<double,9> {0, 0, 2, -2, 2, -13187, -1.6, 5736, -3.1},
