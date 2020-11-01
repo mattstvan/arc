@@ -4,17 +4,41 @@
 Base force model class methods
 */
 
-// Default constructor
+/*
+Default constructor
+
+Set gravity_models to empty vector
+*/
 ForceModel::ForceModel() {
   this->gravity_models = std::vector<GravityModel> {};
 }
 
-// Direct constructor
+/*
+Minimum constructor
+
+Adds default of spherical central-body gravity of the given state (two-body only)
+
+@param state ICRF state from which to determine central body
+*/
+ForceModel::ForceModel(ICRF &state) {
+  this->gravity_models = std::vector<GravityModel> {GravityModel {state.central_body, false, 0, 0}};
+}
+
+/*
+Direct constructor
+
+@param gravity_models Vector of GravityModels to include
+*/
 ForceModel::ForceModel(std::vector<GravityModel> gravity_models) {
   this->gravity_models = gravity_models;
 }
 
-// Get total acceleration force at a given state
+/*
+Get total acceleration force at a given state
+
+@param state ICRF state at which to determine acceleration force
+@returns Estimated acceleration vector at the given state in m/s^2
+*/
 Vector3 ForceModel::acceleration(ICRF &state) {
   Vector3 acceleration, temp_accel;
   // Add gravity accelerations
