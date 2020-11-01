@@ -9,6 +9,12 @@
 Standalone ephemeris file parsers
 */
 
+/*
+Parse ephemeris from STK format
+
+@param lines Reference to vector of strings determined to represent an STK formatted ephemeris
+@param ephem Reference to new Ephemeris instance to use when parsing states
+*/
 void parse_stk(std::vector<std::string> &lines, Ephemeris &ephem) {
   ephem.states = std::vector<ICRF>{};
   bool ephem_section = false;
@@ -48,32 +54,53 @@ void parse_stk(std::vector<std::string> &lines, Ephemeris &ephem) {
 Ephemeris class methods
 */
 
-// Default constructor
+/*
+Default constructor
+
+Creates empty list of states, sets epoch to J2000 and central body to Sun
+*/
 Ephemeris::Ephemeris() {
   this->states = std::vector<ICRF>{};
   this->epoch = DateTime{};
   this->central_body = SUN;
 }
 
-// Direct constructor
+/*
+Direct constructor
+
+Construct an Ephemeris from a vector of ICRF states
+
+@param states ICRF states comprising the ephemeris
+*/
 Ephemeris::Ephemeris(std::vector<ICRF> &states) {
   this->states = states;
   this->epoch = states[0].epoch;
   this->central_body = states[0].central_body;
 }
 
-// Constructor using file path
+/*
+Constructor using file path
+
+Attempt to read in an ephemeris file
+@param filepath Ephemeris location in the filesystem
+@throws ArcException if error is encountered reading or parsing the file
+*/
 Ephemeris::Ephemeris(char filepath[]) {
+  // Set defaults
   this->central_body = SUN;
   this->epoch = DateTime{};
   this->states = std::vector<ICRF>{};
   try {
+    // Read in the lines from the file (will throw on read error)
     std::vector<std::string> lines = read_lines_from_file(filepath);
+    // If the file exists and we got lines back
     if (lines.size() > 0) {
+      // If this appears to be an STK ephemeris file
       if (lines[0].find("stk") > 0) {
         parse_stk(lines, *this);
       }
     } else {
+      // The file exists but it's empty
       std::stringstream msg;
       msg << "File '" << filepath << "' has zero length";
       throw ArcException(msg.str());
@@ -86,8 +113,13 @@ Ephemeris::Ephemeris(char filepath[]) {
   }
 }
 
-// Use Keplerian estimation to obtain an interpolated ICRF
-// state using the nearest ICRF value contained in the ephemeris
+/*
+Use Keplerian estimation to obtain an interpolated ICRF
+state by using the nearest (by time) ICRF value contained in the ephemeris
+
+@param requested Date/time at which to estimate ICRF state
+@returns Interpolated ICRF state at the requested epoch
+*/
 ICRF Ephemeris::interpolate(DateTime &requested) {
   // Single call to get number of states (for performance)
   size_t ephem_size = states.size();
@@ -102,10 +134,10 @@ ICRF Ephemeris::interpolate(DateTime &requested) {
     // Set nearest to the first available state
     nearest = states[0];
   } else {
-    // Find the total time span of the available states
+    // Find the total time span (in seconds) of the available states
     double span_sec = states[ephem_size - 1].epoch.difference(states[0].epoch);
     // Find the expected number of seconds into the ephemeris the requested
-    // epoch is
+    // epoch should be
     double expected_sec = requested.difference(states[0].epoch);
     // Expected percentage into the total ephemeris span
     double expected_per = expected_sec / span_sec;
@@ -122,7 +154,11 @@ ICRF Ephemeris::interpolate(DateTime &requested) {
   return ICRF{propagated_keplerian};
 }
 
-// Create ASCII ephemeris in STK format (.e)
+/*
+Create ASCII ephemeris in STK format (.e)
+
+@returns Vector of ASCII lines comprising an STK ephemeris file
+*/
 std::vector<std::string> Ephemeris::format_stk() {
   // Create the vector of lines and write the header
   std::vector<std::string> lines;
@@ -179,6 +215,10 @@ void Ephemeris::write_stk(char filename[]) {
               << std::endl;
   }
 }
+
+/*
+Ephemeris operator functions
+*/
 
 // I/O stream 
 std::ostream& operator << (std::ostream &out, Ephemeris& eph) {

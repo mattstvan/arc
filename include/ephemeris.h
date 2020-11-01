@@ -18,14 +18,14 @@
 Ephemeris parsing functions 
 */
 
-/*
-Parse ephemeris from STK format
-@param lines Reference to vector of strings determined to represent an STK formatted ephemeris
-@param ephem Reference to new Ephemeris instance to use when parsing states
-*/
+// Parse ephemeris from STK format
 void parse_stk(std::vector<std::string> &lines, Ephemeris &ephem);
 
-// Table of astronomical positions/velocities
+/*
+Table of astronomical positions/velocities
+
+States are always stored in ICRF, centered around a single body
+*/
 class Ephemeris {
 public:
   // Vector of ICRF states comprising the Ephemeris
