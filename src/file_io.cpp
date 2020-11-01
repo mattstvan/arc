@@ -2,7 +2,13 @@
 #include <exceptions.h>
 #include <sstream>
 
-int write_lines_to_file(std::vector<std::string> &lines, char filename[]) {
+/*
+Write the given ASCII lines to file
+
+@param lines Vector of strings to write to the file
+@param filename Location in the filesystem at which to write the file
+*/
+void write_lines_to_file(std::vector<std::string> &lines, char filename[]) {
   std::ofstream file;
   file.open(filename);
   if (file.is_open()) {
@@ -10,7 +16,6 @@ int write_lines_to_file(std::vector<std::string> &lines, char filename[]) {
       file << line << std::endl;
     }
     file.close();
-    return 0;
   }
   else {
     std::stringstream msg;
@@ -19,6 +24,7 @@ int write_lines_to_file(std::vector<std::string> &lines, char filename[]) {
   }
 }
 
+// Read ASCII lines from an existing file
 std::vector<std::string> read_lines_from_file(char filename[]) {
   std::ifstream file;
   file.open(filename);

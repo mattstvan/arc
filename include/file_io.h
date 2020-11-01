@@ -4,8 +4,10 @@
 #include <string>
 #include <vector>
 
-int write_lines_to_file(std::vector<std::string> &lines, char filename[]);
+// Write the given ASCII lines to file
+void write_lines_to_file(std::vector<std::string> &lines, char filename[]);
 
+// Read ASCII lines from an existing file
 std::vector<std::string> read_lines_from_file(char filename[]);
 
 #endif

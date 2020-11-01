@@ -12,7 +12,8 @@ Standalone ephemeris file parsers
 /*
 Parse ephemeris from STK format
 
-@param lines Reference to vector of strings determined to represent an STK formatted ephemeris
+@param lines Reference to vector of strings determined to represent an STK
+formatted ephemeris
 @param ephem Reference to new Ephemeris instance to use when parsing states
 */
 void parse_stk(std::vector<std::string> &lines, Ephemeris &ephem) {
@@ -108,7 +109,8 @@ Ephemeris::Ephemeris(char filepath[]) {
   } catch (ArcException err) {
     std::cout << err.what() << std::endl;
     std::stringstream msg;
-    msg << "Ephemeris construction failed: error reading/parsing '" << filepath << "'";
+    msg << "Ephemeris construction failed: error reading/parsing '" << filepath
+        << "'";
     throw ArcException(msg.str());
   }
 }
@@ -208,11 +210,15 @@ std::vector<std::string> Ephemeris::format_stk() {
 
 // Write ephemeris to file using STK format
 void Ephemeris::write_stk(char filename[]) {
-  std::vector<std::string> lines = format_stk();
-  int result = write_lines_to_file(lines, filename);
-  if (result == 1) {
-    std::cout << "Unable to write Ephemeris to file location: " << filename
-              << std::endl;
+  try {
+    std::vector<std::string> lines = format_stk();
+    write_lines_to_file(lines, filename);
+  } catch (ArcException err) {
+    std::cout << err.what() << std::endl;
+    std::stringstream msg;
+    msg << "Ephemeris::write_stk exception: Writing ephemeris to file '"
+        << filename << "' failed";
+    throw ArcException(msg.str());
   }
 }
 
@@ -220,9 +226,10 @@ void Ephemeris::write_stk(char filename[]) {
 Ephemeris operator functions
 */
 
-// I/O stream 
-std::ostream& operator << (std::ostream &out, Ephemeris& eph) {
-  out << "[Ephemeris] { Epoch: " << eph.epoch.to_iso() << ", Number of states: "
-   << eph.states.size() << ", Central body: " << eph.central_body.get_name() << " }";
-   return out;
+// I/O stream
+std::ostream &operator<<(std::ostream &out, Ephemeris &eph) {
+  out << "[Ephemeris] { Epoch: " << eph.epoch.to_iso()
+      << ", Number of states: " << eph.states.size()
+      << ", Central body: " << eph.central_body.get_name() << " }";
+  return out;
 }
