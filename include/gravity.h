@@ -1,8 +1,10 @@
 #ifndef GRAVITY_H
 #define GRAVITY_H
-#include <icrf.h>
 #include <celestial.h>
+#include <icrf.h>
 #include <vectors.h>
+
+#include <iostream>
 
 // Gravity model
 class GravityModel {
@@ -28,11 +30,11 @@ class GravityModel {
   // Direct constructor
   GravityModel(CelestialBody &body, bool is_aspherical, int degree, int order);
 
-  // Print to stdout
-  void print();
-
   // Calculate acceleration on a spacecraft due to gravity, given its ICRF state
   Vector3 acceleration(ICRF &state);
 };
+
+// I/O stream
+std::ostream &operator<<(std::ostream &out, GravityModel &gm);
 
 #endif

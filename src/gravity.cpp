@@ -4,15 +4,26 @@
 Gravity model functions
 */
 
-// Default constructor
+/*
+Default constructor
+
+Sets central body to Earth with aspherical effects disabled
+*/
 GravityModel::GravityModel() {
-  this->body = SUN;
+  this->body = EARTH;
   this->is_aspherical = false;
   this->degree = 0;
   this->order = 0;
 }
 
-// Direct constructor
+/*
+Direct constructor
+
+@param body Central body of this gravity source
+@param is_aspherical If aspherical gravity should be modeled
+@param degree Geopotential model degree
+@param order Geopotential model order
+*/
 GravityModel::GravityModel(CelestialBody &body, bool is_aspherical, int degree,
                            int order) {
   this->body = body;
@@ -21,16 +32,12 @@ GravityModel::GravityModel(CelestialBody &body, bool is_aspherical, int degree,
   this->order = order;
 }
 
-// Print to stdout
-void GravityModel::print() {
-  std::cout << "[GravityModel]" << std::endl;
-  std::cout << " Body: " << body << std::endl;
-  std::cout << " Aspherical: " << is_aspherical << std::endl;
-  std::cout << " Geopotential Degree/Order: " << degree << "/" << order
-            << std::endl;
-}
+/*
+Calculate acceleration due to gravity, assuming a spherical body
 
-// Calculate acceleration due to gravity, assuming a spherical body
+@param sc_state Spacecraft ICRF state at which to calculate body gravity
+@returns Vector of acceleration due to spherical gravity given state, in m/s^2
+*/
 Vector3 GravityModel::spherical(ICRF &sc_state) {
   // If we are modelling central body gravity
   if (sc_state.central_body.id == body.id) {
@@ -38,12 +45,14 @@ Vector3 GravityModel::spherical(ICRF &sc_state) {
   } else {
     // Get the position of the body at the spacecraft state's epoch,
     // centered around the body the spacecraft is orbiting
-    ICRF body_state = body.propagate(sc_state.epoch).change_central_body(sc_state.central_body);
+    ICRF body_state = body.propagate(sc_state.epoch)
+                          .change_central_body(sc_state.central_body);
     Vector3 spacecraft_centered_pos =
         body_state.position.change_origin(sc_state.position);
     double a_den = pow(spacecraft_centered_pos.mag(), 3.0);
     double b_den = pow(body_state.position.mag(), 3.0);
-    // If this is central body gravity, b_den will be zero, causing a singularity
+    // If this is central body gravity, b_den will be zero, causing a
+    // singularity
     if (b_den == 0.0) {
       b_den = 1.0;
     }
@@ -53,13 +62,24 @@ Vector3 GravityModel::spherical(ICRF &sc_state) {
   }
 }
 
-// Calculate the aspherical components of acceleration due to gravity
+/*
+Calculate the aspherical components of acceleration due to gravity
+
+@param sc_state Spacecraft ICRF state at which to calculate body gravity
+@returns Vector of acceleration due to spherical gravity at given state, in
+m/s^2
+*/
 Vector3 GravityModel::aspherical(ICRF &sc_state) {
   // Placeholder
   return Vector3{};
 }
 
-// Calculate acceleration on a spacecraft due to gravity, given its ICRF state
+/*
+Calculate acceleration on a spacecraft due to gravity, given its ICRF state
+
+@param sc_state Spacecraft ICRF state at which to calculate body gravity
+@returns Vector of total acceleration due to gravity at given state, in m/s^2
+*/
 Vector3 GravityModel::acceleration(ICRF &state) {
   // Empty acceleration vector
   Vector3 accel;
@@ -72,4 +92,17 @@ Vector3 GravityModel::acceleration(ICRF &state) {
     accel = accel.add(aspher);
   }
   return accel;
+}
+
+/*
+GravityModel operator functions
+*/
+
+// I/O stream
+std::ostream &operator<<(std::ostream &out, GravityModel &gm) {
+  out << "[GravityModel]" << std::endl
+      << " Body: " << gm.body << std::endl
+      << " Aspherical: " << gm.is_aspherical << std::endl
+      << " Geopotential Degree/Order: " << gm.degree << "/" << gm.order;
+  return out;
 }

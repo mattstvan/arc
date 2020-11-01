@@ -8,6 +8,7 @@
 #include <rungekutta4.h>
 #include <body_propagation.h>
 #include <ephemeris.h>
+#include <interpolator.h>
 #include <data_files.h>
 #include <earth_model.h>
 #include <exceptions.h>
@@ -21,9 +22,6 @@ int main() {
     Vector3 pos {-698891.686, 6023436.003, 3041793.014};
     Vector3 vel {-4987.520, -3082.634, 4941.720};
     ICRF ic {EARTH, start, pos, vel};
-    RungeKutta4 rk4 {ic};
-    Ephemeris ephem = rk4.step(start, stop, 60);
-    ephem.write_stk("test.e");
   } catch (ArcException err) {
     std::cout << err.what() << std::endl;
     return 1;

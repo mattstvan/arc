@@ -9,19 +9,19 @@ Default constructor
 
 Set gravity_models to empty vector
 */
-ForceModel::ForceModel() {
-  this->gravity_models = std::vector<GravityModel> {};
-}
+ForceModel::ForceModel() { this->gravity_models = std::vector<GravityModel>{}; }
 
 /*
 Minimum constructor
 
-Adds default of spherical central-body gravity of the given state (two-body only)
+Adds default of spherical central-body gravity of the given state (two-body
+only)
 
 @param state ICRF state from which to determine central body
 */
 ForceModel::ForceModel(ICRF &state) {
-  this->gravity_models = std::vector<GravityModel> {GravityModel {state.central_body, false, 0, 0}};
+  this->gravity_models =
+      std::vector<GravityModel>{GravityModel{state.central_body, false, 0, 0}};
 }
 
 /*
@@ -47,4 +47,17 @@ Vector3 ForceModel::acceleration(ICRF &state) {
     acceleration = acceleration.add(temp_accel);
   }
   return acceleration;
+}
+
+/*
+ForceModel operator functions
+*/
+
+// I/O stream
+std::ostream &operator<<(std::ostream &out, ForceModel &fm) {
+  out << "[ForceModel]" << std::endl << " Gravity models: " << std::endl;
+  for (GravityModel gm : fm.gravity_models) {
+    out << " - " << gm.body.get_name() << std::endl;
+  }
+  return out;
 }
