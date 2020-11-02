@@ -7,14 +7,32 @@
 ICRF class methods
 */
 
-// Default constructor (call base class)
+/*
+Default constructor
+
+Calls the base Cartesian default constructor
+*/
 ICRF::ICRF() {};
 
-// Direct constructor
+/*
+Direct constructor
+
+@param body (celestial::CelestialBody) Body at the center of this coordinate
+system
+@param epoch (datetime::DateTime) epoch at which these coordinates are valid
+@param pos (vectors::Vector3) position vector of the state in meters
+@param vel (vectors::Vector3) velocity vector of the state in meters per second
+*/
 ICRF::ICRF(CelestialBody& body, DateTime& epoch, Vector3& pos, Vector3& vel)
   : Cartesian{ body, epoch, pos, vel } {};
 
-// Constructor from ITRF
+/*
+Constructor from ITRF
+
+Rotates an ITRF (Earth-centered, Earth-fixed) state into Earth-centered ICRF
+
+@param fixed ITRF state to rotate into ICRF
+*/
 ICRF::ICRF(ITRF& fixed) {
   // Get finals.all data
   std::array<double, 7> finals = DATA_FILES.get_finals(fixed.epoch.mjd());
@@ -46,10 +64,20 @@ ICRF::ICRF(ITRF& fixed) {
   this->velocity = v_icrf;
 }
 
-// Constructor from KeplerianElements
+/*
+Constructor from KeplerianElements
+
+Builds a cartesian ICRF state from ICRF keplerian elements
+
+@param el Keplerian elements from which to build the state
+*/
 ICRF::ICRF(KeplerianElements& el) : Cartesian{ el } {};
 
-// Convert position/velocity vectors into the sun-centered ICRF frame
+/*
+Convert position/velocity vectors into the sun-centered ICRF frame
+
+@returns This state in heliocentric ICRF
+*/
 ICRF ICRF::to_solar() {
   // If this state is not already heliocentric
   if (central_body.id != 10) {
@@ -66,8 +94,12 @@ ICRF ICRF::to_solar() {
   }
 }
 
-// Convert position/velocity vectors into the ICRF frame centered around another
-// celestial body's position
+/*
+Convert position/velocity vectors into the ICRF frame centered around another
+celestial body's position
+
+@param body Celestial body around which to center the new state
+*/
 ICRF ICRF::change_central_body(CelestialBody& body) {
   // If the requested body does differ
   if (central_body.id != body.id) {
@@ -98,7 +130,7 @@ ICRF operator functions
 // I/O stream 
 std::ostream& operator << (std::ostream& out, ICRF& icrf) {
   out << "[ICRF]" << std::endl << " Central Body: " << icrf.central_body << std::endl
-   << " Epoch: " << icrf.epoch << std::endl << " Position: " << icrf.position << std::endl
+    << " Epoch: " << icrf.epoch << std::endl << " Position: " << icrf.position << std::endl
     << " Velocity: " << icrf.velocity;
   return out;
 }
