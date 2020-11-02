@@ -29,11 +29,29 @@ class BodyPropagationHandler {
   // Neptune states
   Ephemeris neptune;
 
+  /*
+  Returns a planetary ephemeris file, loading it from disk if necessary
+
+  @param id NAIF id of the requested celestial body
+  @returns ephemeris::Ephemeris instance of the requested celestial body
+  @throws exceptions::ArcException if ephemeris file is not found
+  */
   Ephemeris& get_ephem(int id);
 
 public:
+
+  // Default constructor
   BodyPropagationHandler();
 
+  /*
+  Get the state of a given CelestialBody given its NAIF ID
+
+  @param id NAIF id of the requested celestial body
+  @param epoch Requested time to which to compute an ICRF state
+  @returns icrf::ICRF instance representing requested body at requested time
+  @throws exceptions::ArcException if ephemeris file is not found or propagation
+  fails
+  */
   ICRF get_state(int id, DateTime& epoch);
 };
 

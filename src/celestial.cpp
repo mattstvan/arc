@@ -6,13 +6,7 @@
 
 #include <sstream>
 
-/*
-Get the common name of a body by NAIF ID
-
-@param id NAIF ID number of the body
-@returns (std::string) Common name of the given body
-@throws exceptions::ArcException if ID is not known
-*/
+// Get the common name of a body by NAIF ID
 std::string get_body_name(int id) {
   switch (id) {
     case 10:
@@ -44,13 +38,7 @@ std::string get_body_name(int id) {
   }
 };
 
-/*
-Get the CelestialBody static instance given its common name (i.e. "Mars")
-
-@param name The common name of the requested body
-@returns (celestial::CelestialBody) The static instance of the requested body
-@throws exceptions::ArcException if name is not known
-*/
+// Get the CelestialBody static instance given its common name (i.e. "Mars")
 CelestialBody get_body_by_name(std::string name) {
   if (name == "Sun") {
     return SUN;
@@ -84,32 +72,18 @@ CelestialBody get_body_by_name(std::string name) {
 Celestial body methods
 */
 
-/*
-Obtain the ICRF state of this body at an epoch
+// Get the body's common name
+std::string CelestialBody::get_name() { return get_body_name(id); }
 
-@param epoch The requested time at which to obtain the ICRF state
-@returns (icrf::ICRF) The calculated state at the requested epoch
-*/
+// Return the ratio between this body's polar and equatorial radii
+double CelestialBody::flattening_ratio() {
+  return 1 - (radius_polar / radius_equator);
+}
+
+// Obtain the ICRF state of this body at an epoch
 ICRF CelestialBody::propagate(DateTime& epoch) {
   // Get the planet state from the body propagation handler
   return BODY_PROPAGATOR.get_state(id, epoch);
-}
-
-/*
-Get the body's common name
-
-@returns (std::string) Common name of this body
-*/
-std::string CelestialBody::get_name() { return get_body_name(id); }
-
-/*
-Return the ratio between this body's polar and equatorial radii, calculated as 1
-- (r_p/r_e)
-
-@returns (double) Flattening ratio of this body
-*/
-double CelestialBody::flattening_ratio() {
-  return 1 - (radius_polar / radius_equator);
 }
 
 /*

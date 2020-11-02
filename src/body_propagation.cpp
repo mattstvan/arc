@@ -20,13 +20,7 @@ BodyPropagationHandler::BodyPropagationHandler() {
   this->neptune = Ephemeris{};
 }
 
-/*
-Returns a planetary ephemeris file, loading it from disk if necessary
-
-@param id NAIF id of the requested celestial body
-@returns ephemeris::Ephemeris instance of the requested celestial body
-@throws exceptions::ArcException if ephemeris file is not found
-*/
+// Returns a planetary ephemeris file, loading it from disk if necessary
 Ephemeris& BodyPropagationHandler::get_ephem(int id) {
   // TODO: Functionally determine ephemeris location
   // Use temporary ephemeris file locations (will be set by variable later)
@@ -85,15 +79,7 @@ Ephemeris& BodyPropagationHandler::get_ephem(int id) {
   }
 }
 
-/*
-Get the state of a given CelestialBody given its NAIF ID
-
-@param id NAIF id of the requested celestial body
-@param epoch Requested time to which to compute an ICRF state
-@returns icrf::ICRF instance representing requested body at requested time
-@throws exceptions::ArcException if ephemeris file is not found or propagation
-fails
-*/
+// Get the state of a given CelestialBody given its NAIF ID
 ICRF BodyPropagationHandler::get_state(int id, DateTime& epoch) {
   // If the body is not the Sun
   if (id != 10) {

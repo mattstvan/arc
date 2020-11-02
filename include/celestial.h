@@ -26,10 +26,27 @@ public:
     // Polar radius in meters
     double radius_polar;
 
+    /*
+    Get the body's common name
+
+    @returns (std::string) Common name of this body
+    */
     std::string get_name();
 
+    /*
+    Return the ratio between this body's polar and equatorial radii, calculated as 1
+    - (r_p/r_e)
+
+    @returns (double) Flattening ratio of this body
+    */
     double flattening_ratio();
 
+    /*
+    Obtain the ICRF state of this body at an epoch
+
+    @param epoch The requested time at which to obtain the ICRF state
+    @returns (icrf::ICRF) The calculated state at the requested epoch
+    */
     ICRF propagate(DateTime& epoch);
 };
 
@@ -131,8 +148,22 @@ static CelestialBody NEPTUNE = CelestialBody{
     24341000.0,
 };
 
+/*
+Get the common name of a body by NAIF ID
+
+@param id NAIF ID number of the body
+@returns (std::string) Common name of the given body
+@throws exceptions::ArcException if ID is not known
+*/
 std::string get_body_name(int id);
 
+/*
+Get the CelestialBody static instance given its common name (i.e. "Mars")
+
+@param name The common name of the requested body
+@returns The static instance of the requested body
+@throws exceptions::ArcException if name is not known
+*/
 CelestialBody get_body_by_name(std::string name);
 
 #endif
