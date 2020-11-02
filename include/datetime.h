@@ -40,21 +40,41 @@ public:
   // Time scale in which this DateTime is represented
   TimeScale scale;
 
-  // Default constructor (J2000)
+  /*
+  Default constructor
+
+  Sets seconds_since_j2000 to 0.0 using UTC time scale
+  */
   DateTime();
 
-  // Constructor using double
-  DateTime(double seconds, TimeScale scale=UTC);
+  /*
+  Constructor using double and TimeScale
 
-  // Constructor using input char* and format
-  DateTime(std::string datestr, std::string format, TimeScale scale=UTC);
+  @param seconds Number of seconds (positive or negative) since J2000
+  @param scale Time scale in which this DateTime is represented (default is UTC)
+  */
+  DateTime(double seconds, TimeScale scale = UTC);
 
-  // Constructor using input string in ISO 8601 format:
-  // YYYY-MM-DDTHH:MM:SS.FFFFFF
-  DateTime(std::string datestr, TimeScale scale=UTC);
+  /*
+  Constructor using input string and format
 
-  // Convert to `struct tm' representation of *TIMER in Universal Coordinated
-  // Time
+  @param datestr String representing the date
+  @param datestr String representing the format of the date, using strftime
+  parameters
+  @param scale Time scale in which this DateTime is represented (default is UTC)
+  */
+  DateTime(std::string datestr, std::string format, TimeScale scale = UTC);
+
+  /*
+  Constructor using input string in ISO 8601 format:
+  YYYY-MM-DDTHH:MM:SS.FFFFFF
+
+  @param datestr String representing the date
+  @param scale Time scale in which this DateTime is represented (default is UTC)
+  */
+  DateTime(std::string datestr, TimeScale scale = UTC);
+
+  // Convert to `struct tm' representation of *TIMER in UTC
   tm* to_tm();
 
   // Get Unix timestamp of instance
@@ -72,41 +92,91 @@ public:
   // Convert to GSFC Modified Julian Date
   double mjd_gsfc();
 
-  // Convert to UT1
+  /*
+  Convert to equivalent time in the UT1 time scale
+
+  @returns (datetime::DateTime) This time in the UT1 scale
+  */
   DateTime ut1();
 
-  // Convert to an International Atomic Time (TAI)
+  /*
+  Convert to equivalent time in the International Atomic Time (TAI) scale
+
+  @returns (datetime::DateTime) This time in the TAI scale
+  */
   DateTime tai();
 
-  // Convert to a Terrestrial Time (TT)
+  /*
+  Convert to equivalent time in the Terrestrial Time (TT) scale
+
+  @returns (datetime::DateTime) This time in the TT scale
+  */
   DateTime tt();
 
-  // Convert to a Barycentric Dynamical Time (TDB)
+  /*
+  Convert to equivalent time in the Barycentric Dynamical Time (TDB) scale
+
+  @returns (datetime::DateTime) This time in the TDB scale
+  */
   DateTime tdb();
 
-  // Calculate the Greenwich Mean Sideral Time (GMST) angle in radians
+  /*
+  Calculate the Greenwich Mean Sideral Time (GMST) angle
+
+  @returns (double) This time as a GMST angle in radians
+  */
   double gmst_angle();
 
-  // Increment time by a desired number of seconds
+  /*
+  Increment time by a desired number of seconds
+
+  @param seconds Number of seconds to increment the time (can be negative)
+  @returns (datetime::DateTime) New instance representing this plus the seconds
+  argument
+  */
   DateTime increment(double seconds);
 
-  // Calculate the difference between the instance and another UTCTime
+  /*
+  Calculate the difference between this instance and another DateTime
+
+  @param other DateTime instance to compare
+  @returns (double) Number of total seconds elapsed since DateTime other
+  */
   double difference(DateTime& other);
 
-  // Evaluates to true if UTCTime is equal to another
+  /*
+  Evaluates to true if DateTime is equal to another
+
+  @param other DateTime instance to compare
+  @returns (bool) Evaluation of the comparison
+  */
   bool equals(DateTime& other);
 
-  // Format date using strftime parameters
+  /*
+  Format date using strftime parameters
+
+  @param fmt Format (using strftime syntax) to use for formatting the date
+  @returns (std::string) Formatted date/time
+  */
   std::string format(char fmt[]);
 
-  // Format date usding strftime paramaters, adding fractional seconds
+  /*
+  Format date usding strftime paramaters, appending fractional seconds
+
+  @param fmt Format (using strftime syntax) to use for formatting the date
+  @returns (std::string) Formatted date/time with fractional seconds suffix
+  */
   std::string format_fractional(char fmt[]);
 
-  // Format date as ISO 8601
+  /*
+  Format date as ISO 8601
+
+  @returns (std::string) Date/time formatted using ISO 8601 standard
+  */
   std::string to_iso();
 };
 
 // I/O stream 
-std::ostream& operator << (std::ostream &out, DateTime& dt);
+std::ostream& operator << (std::ostream& out, DateTime& dt);
 
 #endif

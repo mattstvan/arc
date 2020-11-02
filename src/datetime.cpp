@@ -35,35 +35,19 @@ std::string time_scale_str(TimeScale scale) {
 Date and Time methods
 */
 
-/*
-Default constructor
-
-Sets seconds_since_j2000 to 0.0 using UTC time scale
-*/
+// Default constructor
 DateTime::DateTime() {
   this->seconds_since_j2000 = 0.0;
   this->scale = UTC;
 }
 
-/*
-Constructor using double and TimeScale
-
-@param seconds Number of seconds (positive or negative) since J2000
-@param scale Time scale in which this DateTime is represented (default is UTC)
-*/
+// Constructor using double and TimeScale
 DateTime::DateTime(double seconds, TimeScale scale) {
   this->seconds_since_j2000 = seconds;
   this->scale = scale;
 }
 
-/*
-Constructor using input string and format
-
-@param datestr String representing the date
-@param datestr String representing the format of the date, using strftime
-parameters
-@param scale Time scale in which this DateTime is represented (default is UTC)
-*/
+// Constructor using input string and format
 DateTime::DateTime(std::string datestr, std::string format, TimeScale scale) {
   // Determine timezone and get offset
   time_t t = time(NULL);
@@ -88,17 +72,11 @@ DateTime::DateTime(std::string datestr, std::string format, TimeScale scale) {
   this->scale = scale;
 }
 
-/*
-Constructor using input string in ISO 8601 format:
-YYYY-MM-DDTHH:MM:SS.FFFFFF
-
-@param datestr String representing the date
-@param scale Time scale in which this DateTime is represented (default is UTC)
-*/
+// Constructor using input string in ISO 8601 format
 DateTime::DateTime(std::string datestr, TimeScale scale)
     : DateTime{datestr, "%Y-%m-%dT%H:%M:%S", scale} {}
 
-// Convert to `struct tm' representation of *TIMER in Universal Coordinated Time
+// Convert to `struct tm' representation of *TIMER in UTC
 tm* DateTime::to_tm() {
   time_t t = (long)(seconds_since_j2000 + UNIX_J2000);
   return gmtime(&t);
@@ -123,41 +101,25 @@ double DateTime::mjd() { return julian_date() - 2400000.5; }
 // Convert to GSFC Modified Julian Date
 double DateTime::mjd_gsfc() { return mjd() - 29999.5; }
 
-/*
-Convert to equivalent time in the UT1 time scale
-
-@returns (datetime::DateTime) This time in the UT1 scale
-*/
+// Convert to equivalent time in the UT1 time scale
 DateTime DateTime::ut1() {
   double d_ut1 = DATA_FILES.get_finals(mjd())[3];
   return DateTime{seconds_since_j2000 + d_ut1, UT1};
 }
 
-/*
-Convert to equivalent time in the International Atomic Time (TAI) scale
-
-@returns (datetime::DateTime) This time in the TAI scale
-*/
+// Convert to equivalent time in the International Atomic Time (TAI) scale
 DateTime DateTime::tai() {
   double leap = DATA_FILES.get_leap_seconds(seconds_since_j2000);
   return DateTime{seconds_since_j2000 + leap, TAI};
 }
 
-/*
-Convert to equivalent time in the Terrestrial Time (TT) scale
-
-@returns (datetime::DateTime) This time in the TT scale
-*/
+// Convert to equivalent time in the Terrestrial Time (TT) scale
 DateTime DateTime::tt() {
   DateTime dt_tai = tai();
   return {dt_tai.seconds_since_j2000 + 32.184, TT};
 }
 
-/*
-Convert to equivalent time in the Barycentric Dynamical Time (TDB) scale
-
-@returns (datetime::DateTime) This time in the TDB scale
-*/
+// Convert to equivalent time in the Barycentric Dynamical Time (TDB) scale
 DateTime DateTime::tdb() {
   // Get this in Terrestrial Time
   DateTime dt_tt = tt();
@@ -169,11 +131,7 @@ DateTime DateTime::tdb() {
   return DateTime{dt_tt.seconds_since_j2000 + secs, TDB};
 }
 
-/*
-Calculate the Greenwich Mean Sideral Time (GMST) angle
-
-@returns (double) This time as a GMST angle in radians
-*/
+// Calculate the Greenwich Mean Sideral Time (GMST) angle
 double DateTime::gmst_angle() {
   double t = ut1().julian_centuries();
   double seconds = eval_poly(
@@ -182,43 +140,22 @@ double DateTime::gmst_angle() {
   return (fmod(seconds, 86400) / 86400) * 2 * M_PI;
 }
 
-/*
-Increment time by a desired number of seconds
-
-@param seconds Number of seconds to increment the time (can be negative)
-@returns (datetime::DateTime) New instance representing this plus the seconds
-argument
-*/
+// Increment time by a desired number of seconds
 DateTime DateTime::increment(double seconds) {
   return DateTime{seconds_since_j2000 + seconds, scale};
 }
 
-/*
-Calculate the difference between this instance and another DateTime
-
-@param other DateTime instance to compare
-@returns (double) Number of total seconds elapsed since DateTime other
-*/
+// Calculate the difference between this instance and another DateTime
 double DateTime::difference(DateTime& other) {
   return seconds_since_j2000 - other.seconds_since_j2000;
 }
 
-/*
-Evaluates to true if DateTime is equal to another
-
-@param other DateTime instance to compare
-@returns (bool) Evaluation of the comparison
-*/
+// Evaluates to true if DateTime is equal to another
 bool DateTime::equals(DateTime& other) {
   return seconds_since_j2000 == other.seconds_since_j2000;
 }
 
-/*
-Format date using strftime parameters
-
-@param fmt Format (using strftime syntax) to use for formatting the date
-@returns (std::string) Formatted date/time
-*/
+// Format date using strftime parameters
 std::string DateTime::format(char fmt[]) {
   tm* t = to_tm();
   char buffer[256];
@@ -226,12 +163,7 @@ std::string DateTime::format(char fmt[]) {
   return std::string{buffer};
 }
 
-/*
-Format date usding strftime paramaters, appending fractional seconds
-
-@param fmt Format (using strftime syntax) to use for formatting the date
-@returns (std::string) Formatted date/time with fractional seconds suffix
-*/
+// Format date usding strftime paramaters, appending fractional seconds
 std::string DateTime::format_fractional(char fmt[]) {
   std::string formatted = format(fmt);
   double timestamp = unix_timestamp();
@@ -241,11 +173,7 @@ std::string DateTime::format_fractional(char fmt[]) {
   return formatted + fractional;
 }
 
-/*
-Format date as ISO 8601
-
-@returns (std::string) Date/time formatted using ISO 8601 standard
-*/
+// Format date as ISO 8601
 std::string DateTime::to_iso() {
   return format_fractional("%Y-%m-%dT%H:%M:%S");
 }

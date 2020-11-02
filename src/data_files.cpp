@@ -4,21 +4,13 @@
 DataFileHandler methods
 */
 
-/*
-Default constructor
-
-Assigns member variables to empty vectors
-*/
+// Default constructor
 DataFileHandler::DataFileHandler() {
   this->leap_seconds = std::vector<std::array<double, 2>>{};
   this->finals_data = std::vector<std::array<double, 7>>{};
 }
 
-/*
-Read/parse the leap seconds file
-
-Open/parse the leap seconds file and add the values to the leap_seconds vector
-*/
+// Read/parse the leap seconds file
 void DataFileHandler::parse_leap_seconds() {
   // Read the leap second file
   std::vector<std::string> lines = read_lines_from_file("data/leap_second.txt");
@@ -36,13 +28,7 @@ void DataFileHandler::parse_leap_seconds() {
   }
 }
 
-/*
-Get the number of leap seconds used in offset
-
-Determine the leap seconds value to use for a given epoch
-@param seconds_since_j2000 Requested time given in seconds since J2000
-@returns (double) The leap second value at the given epoch
-*/
+// Get the number of leap seconds used in offset
 double DataFileHandler::get_leap_seconds(double seconds_since_j2000) {
   // If the leap seconds file has not yet been read
   if (leap_seconds.size() == 0) {
@@ -72,12 +58,7 @@ double DataFileHandler::get_leap_seconds(double seconds_since_j2000) {
   }
 }
 
-/*
-Get the finals.all data at an epoch (modified Julian)
-
-@param mjd Modified Julian Date at which to find valid finals.all data
-@returns (std::array<double, 7>) finals.all data as a series of doubles
-*/
+// Get the finals.all data at an epoch (modified Julian)
 std::array<double, 7> DataFileHandler::get_finals(double mjd) {
   // Placeholder
   return std::array<double, 7>{0, 0, 0, 0, 0, 0, 0};

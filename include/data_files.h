@@ -11,6 +11,11 @@ Earth Orientation Parameter files, leap second announcements, etc
 */
 class DataFileHandler {
 
+    /*
+    Read/parse the leap seconds file
+
+    Open/parse the leap seconds file and add the values to the leap_seconds vector
+    */
     void parse_leap_seconds();
 
     void parse_finals();
@@ -21,10 +26,28 @@ public:
     // List of finals.all data lines
     std::vector<std::array<double, 7>> finals_data;
 
+    /*
+    Default constructor
+
+    Assigns member variables to empty vectors
+    */
     DataFileHandler();
 
+    /*
+    Get the number of leap seconds used in offset
+
+    Determine the leap seconds value to use for a given epoch
+    @param seconds_since_j2000 Requested time given in seconds since J2000
+    @returns (double) The leap second value at the given epoch
+    */
     double get_leap_seconds(double seconds_since_j2000);
 
+    /*
+    Get the finals.all data at an epoch (modified Julian)
+
+    @param mjd Modified Julian Date at which to find valid finals.all data
+    @returns (std::array<double, 7>) finals.all data as a series of doubles
+    */
     std::array<double, 7> get_finals(double mjd);
 };
 
