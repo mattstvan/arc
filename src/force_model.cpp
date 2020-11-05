@@ -4,41 +4,37 @@
 Base force model class methods
 */
 
-/*
-Default constructor
-
-Set gravity_models to empty vector
-*/
+// Default constructor
 ForceModel::ForceModel() { this->gravity_models = std::vector<GravityModel>{}; }
 
-/*
-Minimum constructor
-
-Adds default of spherical central-body gravity of the given state (two-body
-only)
-
-@param state ICRF state from which to determine central body
-*/
+// Minimum constructor
 ForceModel::ForceModel(ICRF &state) {
   this->gravity_models =
       std::vector<GravityModel>{GravityModel{state.central_body, false, 0, 0}};
 }
 
-/*
-Direct constructor
-
-@param gravity_models Vector of GravityModels to include
-*/
+// Direct constructor
 ForceModel::ForceModel(std::vector<GravityModel> gravity_models) {
   this->gravity_models = gravity_models;
 }
 
-/*
-Get total acceleration force at a given state
+// Add a new GravityModel to the list
+void ForceModel::add_gravity(GravityModel model) {
+  // Check for existing model which matches the central body
+  for (int i = 0; i < gravity_models.size(); i++) {
+    // If the matching central body is found
+    if (gravity_models[i].body.id == model.id) {
+      // Replace it in place with the new model
+      gravity_models[i] = model;
+      // Exit the function to avoid adding it a second time
+      return;
+    }
+  }
+  // If the GravityModel is not already included, push it into the list
+  gravity_models.push_back(model);
+}
 
-@param state ICRF state at which to determine acceleration force
-@returns Estimated acceleration vector at the given state in m/s^2
-*/
+// Add a new GravityModel to the list
 Vector3 ForceModel::acceleration(ICRF &state) {
   Vector3 acceleration, temp_accel;
   // Add gravity accelerations
