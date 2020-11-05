@@ -2,12 +2,7 @@
 #include <exceptions.h>
 #include <sstream>
 
-/*
-Write the given ASCII lines to file
-
-@param lines Vector of strings to write to the file
-@param filename Location in the filesystem at which to write the file
-*/
+// Write the given ASCII lines to file
 void write_lines_to_file(std::vector<std::string> &lines, char filename[]) {
   std::ofstream file;
   file.open(filename);
