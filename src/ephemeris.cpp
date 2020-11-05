@@ -9,13 +9,7 @@
 Standalone ephemeris file parsers
 */
 
-/*
-Parse ephemeris from STK format
-
-@param lines Reference to vector of strings determined to represent an STK
-formatted ephemeris
-@param ephem Reference to new Ephemeris instance to use when parsing states
-*/
+// Parse ephemeris from STK format
 void parse_stk(std::vector<std::string> &lines, Ephemeris &ephem) {
   ephem.states = std::vector<ICRF>{};
   bool ephem_section = false;
@@ -55,37 +49,21 @@ void parse_stk(std::vector<std::string> &lines, Ephemeris &ephem) {
 Ephemeris class methods
 */
 
-/*
-Default constructor
-
-Creates empty list of states, sets epoch to J2000 and central body to Sun
-*/
+// Default constructor
 Ephemeris::Ephemeris() {
   this->states = std::vector<ICRF>{};
   this->epoch = DateTime{};
   this->central_body = SUN;
 }
 
-/*
-Direct constructor
-
-Construct an Ephemeris from a vector of ICRF states
-
-@param states ICRF states comprising the ephemeris
-*/
+// Direct constructor
 Ephemeris::Ephemeris(std::vector<ICRF> &states) {
   this->states = states;
   this->epoch = states[0].epoch;
   this->central_body = states[0].central_body;
 }
 
-/*
-Constructor using file path
-
-Attempt to read in an ephemeris file
-@param filepath Ephemeris location in the filesystem
-@throws ArcException if error is encountered reading or parsing the file
-*/
+// Constructor using file path
 Ephemeris::Ephemeris(char filepath[]) {
   // Set defaults
   this->central_body = SUN;
@@ -115,13 +93,7 @@ Ephemeris::Ephemeris(char filepath[]) {
   }
 }
 
-/*
-Use Keplerian estimation to obtain an interpolated ICRF
-state by using the nearest (by time) ICRF value contained in the ephemeris
-
-@param requested Date/time at which to estimate ICRF state
-@returns Interpolated ICRF state at the requested epoch
-*/
+// Use Keplerian estimation to obtain an interpolated ICRF
 ICRF Ephemeris::interpolate(DateTime &requested) {
   // Single call to get number of states (for performance)
   size_t ephem_size = states.size();
@@ -156,11 +128,7 @@ ICRF Ephemeris::interpolate(DateTime &requested) {
   return ICRF{propagated_keplerian};
 }
 
-/*
-Create ASCII ephemeris in STK format (.e)
-
-@returns Vector of ASCII lines comprising an STK ephemeris file
-*/
+// Create ASCII ephemeris in STK format (.e)
 std::vector<std::string> Ephemeris::format_stk() {
   // Create the vector of lines and write the header
   std::vector<std::string> lines;
