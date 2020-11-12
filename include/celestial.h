@@ -37,9 +37,9 @@ public:
     Return the ratio between this body's polar and equatorial radii, calculated as 1
     - (r_p/r_e)
 
-    @returns (double) Flattening ratio of this body
+    @returns (double) Flattening (oblateness) of this body
     */
-    double flattening_ratio();
+    double flattening();
 
     /*
     Obtain the ICRF state of this body at an epoch

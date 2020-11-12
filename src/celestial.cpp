@@ -76,8 +76,8 @@ Celestial body methods
 std::string CelestialBody::get_name() { return get_body_name(id); }
 
 // Return the ratio between this body's polar and equatorial radii
-double CelestialBody::flattening_ratio() {
-  return 1 - (radius_polar / radius_equator);
+double CelestialBody::flattening() {
+  return (radius_equator - radius_polar) / radius_equator;
 }
 
 // Obtain the ICRF state of this body at an epoch
