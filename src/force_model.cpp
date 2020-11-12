@@ -23,7 +23,7 @@ void ForceModel::add_gravity(GravityModel model) {
   // Check for existing model which matches the central body
   for (int i = 0; i < gravity_models.size(); i++) {
     // If the matching central body is found
-    if (gravity_models[i].body.id == model.id) {
+    if (gravity_models[i].body.id == model.body.id) {
       // Replace it in place with the new model
       gravity_models[i] = model;
       // Exit the function to avoid adding it a second time
