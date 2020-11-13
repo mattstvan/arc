@@ -64,7 +64,7 @@ Ephemeris::Ephemeris(std::vector<ICRF> &states) {
 }
 
 // Constructor using file path
-Ephemeris::Ephemeris(char filepath[]) {
+Ephemeris::Ephemeris(const char filepath[]) {
   // Set defaults
   this->central_body = SUN;
   this->epoch = DateTime{};

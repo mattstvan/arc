@@ -158,7 +158,7 @@ public:
   @param fmt Format (using strftime syntax) to use for formatting the date
   @returns (std::string) Formatted date/time
   */
-  std::string format(char fmt[]);
+  std::string format(const char fmt[]);
 
   /*
   Format date usding strftime paramaters, appending fractional seconds
@@ -166,7 +166,7 @@ public:
   @param fmt Format (using strftime syntax) to use for formatting the date
   @returns (std::string) Formatted date/time with fractional seconds suffix
   */
-  std::string format_fractional(char fmt[]);
+  std::string format_fractional(const char fmt[]);
 
   /*
   Format date as ISO 8601

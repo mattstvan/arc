@@ -64,7 +64,7 @@ public:
   @param filepath Ephemeris location in the filesystem
   @throws ArcException if error is encountered reading or parsing the file
   */
-  Ephemeris(char filepath[]);
+  Ephemeris(const char filepath[]);
 
   /*
   Use Keplerian estimation to obtain an interpolated ICRF

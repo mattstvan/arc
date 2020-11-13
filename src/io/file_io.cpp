@@ -3,7 +3,7 @@
 #include <sstream>
 
 // Write the given ASCII lines to file
-void write_lines_to_file(std::vector<std::string> &lines, char filename[]) {
+void write_lines_to_file(std::vector<std::string> &lines, const char filename[]) {
   std::ofstream file;
   file.open(filename);
   if (file.is_open()) {
@@ -20,7 +20,7 @@ void write_lines_to_file(std::vector<std::string> &lines, char filename[]) {
 }
 
 // Read ASCII lines from an existing file
-std::vector<std::string> read_lines_from_file(char filename[]) {
+std::vector<std::string> read_lines_from_file(const char filename[]) {
   std::ifstream file;
   file.open(filename);
   if (file.is_open()) {

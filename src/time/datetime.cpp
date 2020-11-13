@@ -156,7 +156,7 @@ bool DateTime::equals(DateTime& other) {
 }
 
 // Format date using strftime parameters
-std::string DateTime::format(char fmt[]) {
+std::string DateTime::format(const char fmt[]) {
   tm* t = to_tm();
   char buffer[256];
   strftime(buffer, sizeof(buffer), fmt, t);
@@ -164,7 +164,7 @@ std::string DateTime::format(char fmt[]) {
 }
 
 // Format date usding strftime paramaters, appending fractional seconds
-std::string DateTime::format_fractional(char fmt[]) {
+std::string DateTime::format_fractional(const char fmt[]) {
   std::string formatted = format(fmt);
   double timestamp = unix_timestamp();
   double intpart = 1.0;
