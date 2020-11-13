@@ -22,6 +22,7 @@ int main() {
     Vector3 pos {-698891.686, 6023436.003, 3041793.014};
     Vector3 vel {-4987.520, -3082.634, 4941.720};
     ICRF ic {EARTH, start, pos, vel};
+    std::cout << ic << std::endl;
   } catch (ArcException err) {
     std::cout << err.what() << std::endl;
     return 1;

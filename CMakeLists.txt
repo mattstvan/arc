@@ -1,7 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
-
-# set the project name
-project(Arc)
+cmake_minimum_required(VERSION 3.0)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 11)
@@ -12,13 +9,15 @@ else()
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-write-strings -O3")
 endif()
 
+# set the project name
+project(Arc)
+
 set(PROJECT_BINARY_DIR, "build")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/archive")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 
-include_directories(${Arc_SOURCE_DIR}/include)
-link_directories(${Arc_SOURCE_DIR}/src)
+ADD_EXECUTABLE(Arc ${Arc_SOURCE_DIR}/src/executables/arc.cpp)
+target_include_directories(Arc PUBLIC ${Arc_SOURCE_DIR}/include/exceptions)
 
-FILE(GLOB src_files src/*.cpp)
-ADD_EXECUTABLE(Arc src/arc.cxx ${src_files})
+add_subdirectory(src)

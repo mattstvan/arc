@@ -1,0 +1,8 @@
+add_subdirectory(celestial)
+add_subdirectory(coordinates)
+add_subdirectory(ephemerides)
+add_subdirectory(forces)
+add_subdirectory(io)
+add_subdirectory(math)
+add_subdirectory(propagation)
+add_subdirectory(time)
