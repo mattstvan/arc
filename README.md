@@ -30,7 +30,7 @@ Arc is an astrodynamics toolkit aimed at providing high-accuracy numerical propa
 	 - [x] Ephemeris Interpolation
 	 - [x] Fixed-step Runge-Kutta integration
 	 - [ ] Dormand-Prince integration
-	 - [ ] Adam-Bashforth-Moulton integration
+	 - [ ] Adams-Bashforth-Moulton integration
  - [ ] Perturbing force models
 	 - [ ] Aspherical Earth gravity model (EGM-2008)
 	 - [ ] Atmospheric Drag (Harris-Preister)
