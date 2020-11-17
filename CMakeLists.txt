@@ -12,7 +12,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/archive")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 
-ADD_EXECUTABLE(Arc ${Arc_SOURCE_DIR}/src/executables/arc.cpp)
-target_include_directories(Arc PUBLIC ${Arc_SOURCE_DIR}/include/exceptions)
+ADD_EXECUTABLE(arc ${Arc_SOURCE_DIR}/src/executables/arc.cpp)
+target_include_directories(arc PUBLIC ${Arc_SOURCE_DIR}/include/exceptions)
 
 add_subdirectory(src)
