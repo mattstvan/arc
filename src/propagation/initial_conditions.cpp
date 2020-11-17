@@ -26,14 +26,14 @@ ICRF parse_state(nlohmann::json &json) {
     double vx = state["VELOCITY"]["X"];
     double vy = state["VELOCITY"]["Y"];
     double vz = state["VELOCITY"]["Z"];
-    Vector3 pos{px, py, pz};
-    Vector3 vel{vx, vy, vz};
+    Vector3 pos {px, py, pz};
+    Vector3 vel {vx, vy, vz};
     // Determine coordinate frame
     std::string frame = state["FRAME"];
-    if (frame == "ICRF" || frame == "J2000") {
+    if (frame == "ICRF" || frame == "J2000" || frame == "ECI") {
       // Construct directly if ICRF or J2000 is stated
       return ICRF{body, epoch, pos, vel};
-    } else if (frame == "ITRF") {
+    } else if (frame == "ITRF" || frame == "ECF") {
       // Rotate to Earth-centered ICRF if ITRF is stated
       ITRF itrf{EARTH, epoch, pos, vel};
       return ICRF{itrf};
