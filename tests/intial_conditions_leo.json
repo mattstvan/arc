@@ -3,7 +3,7 @@
     "INPUT": {
       "INITIAL_STATE": {
         "CARTESIAN": {
-          "FRAME": "IMRF",
+          "FRAME": "ICRF",
           "CENTRAL_BODY": "Earth",
           "EPOCH": "2020-10-18T15:00:00.000000",
           "POSITION": {
