@@ -1,5 +1,5 @@
 {
-  "ARC_INITIAL_CONDITIONS": {
+  "ARC_RUN": {
     "INPUT": {
       "INITIAL_STATE": {
         "CARTESIAN": {
