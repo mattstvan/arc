@@ -40,25 +40,29 @@ std::string get_body_name(int id) {
 
 // Get the CelestialBody static instance given its common name (i.e. "Mars")
 CelestialBody get_body_by_name(std::string name) {
-  if (name == "Sun") {
+  // Convert string to uppercase
+  for (char& c: name) {
+    c = toupper(c);
+  }
+  if (name == "SUN") {
     return SUN;
-  } else if (name == "Mercury") {
+  } else if (name == "MERCURY") {
     return MERCURY;
-  } else if (name == "Venus") {
+  } else if (name == "VENUS") {
     return VENUS;
-  } else if (name == "Earth") {
+  } else if (name == "EARTH") {
     return EARTH;
-  } else if (name == "Moon") {
+  } else if (name == "MOON" || name == "LUNA") {
     return LUNA;
-  } else if (name == "Mars") {
+  } else if (name == "MARS") {
     return MARS;
-  } else if (name == "Jupiter") {
+  } else if (name == "JUPITER") {
     return JUPITER;
-  } else if (name == "Saturn") {
+  } else if (name == "SATURN") {
     return SATURN;
-  } else if (name == "Uranus") {
+  } else if (name == "URANUS") {
     return URANUS;
-  } else if (name == "Neptune") {
+  } else if (name == "NEPTUNE") {
     return NEPTUNE;
   } else {
     std::stringstream msg;
