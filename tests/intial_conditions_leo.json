@@ -5,7 +5,7 @@
         "CARTESIAN": {
           "FRAME": "ICRF",
           "CENTRAL_BODY": "Earth",
-          "EPOCH": "2020-10-18T15:00:00.000000",
+          "EPOCH": "2020-11-22T00:00:00.000000",
           "POSITION": {
             "X": -698891.686,
             "Y": 6023436.003,
@@ -26,7 +26,10 @@
     },
     "PROPAGATION": {
       "METHOD": "RK4",
-      "STEP": 15,
+      "START_TIME": "2020-11-22T00:00:00.000000",
+      "STOP_TIME": "2020-11-23T00:00:00.000000",
+      "INTEGRATION_STEP": 15,
+      "PROPAGATION_STEP": 60,
       "MODELS": {
         "GRAVITY": {
           "EARTH": {
@@ -52,9 +55,6 @@
     },
     "OUTPUT": {
       "EPHEMERIS": {
-        "START": "2020-10-18T15:00:00.000000",
-        "STOP": "2020-10-19T15:00:00.000000",
-        "STEP": 60.0,
         "FORMAT": "STK",
         "FILENAME": "ic_test_leo.e"
       }

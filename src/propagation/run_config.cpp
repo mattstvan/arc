@@ -13,10 +13,11 @@
 
 #include <sstream>
 
-// Parse JSON representation to initial ICRF state
+// Parse JSON representation of initial ICRF state
 ICRF parse_state(nlohmann::json &json) {
-  if (!json["CARTESIAN"].is_null()) {
-    nlohmann::json state = json["CARTESIAN"];
+  nlohmann::json state_json = json["INITIAL_STATE"];
+  if (!state_json["CARTESIAN"].is_null()) {
+    nlohmann::json state = state_json["CARTESIAN"];
     // Parse central body
     std::string body_str = state["CENTRAL_BODY"];
     CelestialBody body = get_body_by_name(body_str);
@@ -56,6 +57,74 @@ ICRF parse_state(nlohmann::json &json) {
   }
 }
 
+// Parse JSON representation of force models
+ForceModel parse_forces(nlohmann::json &prop) {
+  ForceModel fm{};
+  if (!prop["MODELS"].is_null()) {
+    nlohmann::json models = prop["MODELS"];
+    if (!models["GRAVITY"].is_null()) {
+      nlohmann::json grav_models = models["GRAVITY"];
+      for (nlohmann::json::iterator grav_model = grav_models.begin();
+           grav_model != grav_models.end(); grav_model++) {
+        CelestialBody grav_body = get_body_by_name(grav_model.key());
+        // Gravity defaults
+        bool grav_aspherical = false;
+        int grav_deg = 0;
+        int grav_order = 0;
+        // Overwrite defaults if values exist
+        nlohmann::json grav_settings = grav_model.value();
+        if (!grav_settings["ASPHERICAL"].is_null()) {
+          grav_aspherical = grav_settings["ASPHERICAL"];
+        }
+        if (!grav_settings["GEOPOTENTIAL_DEGREE"].is_null()) {
+          grav_deg = grav_settings["GEOPOTENTIAL_DEGREE"];
+        }
+        if (!grav_settings["GEOPOTENTIAL_ORDER"].is_null()) {
+          grav_order = grav_settings["GEOPOTENTIAL_ORDER"];
+        }
+        // Build gravity model and add it to the force model
+        GravityModel gm{grav_body, grav_aspherical, grav_deg, grav_order};
+        std::cout << gm << std::endl;
+        fm.add_gravity(gm);
+      }
+    }
+  }
+  return fm;
+}
+
+// Parse JSON representation of propagator options and build ephemeris
+Ephemeris parse_propagate(nlohmann::json &prop, ICRF &state, ForceModel fm) {
+  // Parse propagation start and stop times
+  std::string start_str = prop["START_TIME"];
+  std::string stop_str = prop["STOP_TIME"];
+  DateTime start{start_str};
+  DateTime stop{stop_str};
+  // Create step variable
+  double prop_step = 60;
+  double int_step = 15;
+  // Parse steps if given, otherwise leave at defaults
+  if (!prop["PROPAGATION_STEP"].is_null()) {
+    prop_step = prop["PROPAGATION_STEP"];
+  }
+  if (!prop["INTEGRATION_STEP"].is_null()) {
+    int_step = prop["INTEGRATION_STEP"];
+  }
+  // Determine method of propagation and create the ephemeris
+  if (!prop["METHOD"].is_null()) {
+    if (prop["METHOD"] == "RK4") {
+      RungeKutta4 propagator{state, int_step, fm};
+      return propagator.step(start, stop, prop_step);
+    } else {
+      throw ArcException(
+          "run_config::run_config_file exception: Unknown "
+          "propagation method selected");
+    }
+  } else {
+    throw ArcException(
+        "run_config::run_config_file exception: No propagation "
+        "method selected");
+  }
+}
 // Execute a run task using a run configuration file
 void run_config_file(const char filepath[]) {
   try {
@@ -65,63 +134,10 @@ void run_config_file(const char filepath[]) {
     nlohmann::json input = json["ARC_RUN"]["INPUT"];
     nlohmann::json prop = json["ARC_RUN"]["PROPAGATION"];
     nlohmann::json output = json["ARC_RUN"]["OUTPUT"];
-    ICRF initial_state = parse_state(input["INITIAL_STATE"]);
-    // Create step and force model varibles
-    double step = 15;
-    ForceModel fm{};
-    // Parse step if given, otherwise leave at 15 seconds
-    if (!prop["STEP"].is_null()) {
-      step = prop["STEP"];
-    }
-    if (!prop["MODELS"].is_null()) {
-      nlohmann::json models = prop["MODELS"];
-      if (!models["GRAVITY"].is_null()) {
-        nlohmann::json grav_models = models["GRAVITY"];
-        for (nlohmann::json::iterator grav_model = grav_models.begin();
-             grav_model != grav_models.end(); grav_model++) {
-          CelestialBody grav_body = get_body_by_name(grav_model.key());
-          // Gravity defaults
-          bool grav_aspherical = false;
-          int grav_deg = 0;
-          int grav_order = 0;
-          // Overwrite defaults if values exist
-          nlohmann::json grav_settings = grav_model.value();
-          if (!grav_settings["ASPHERICAL"].is_null()) {
-            grav_aspherical = grav_settings["ASPHERICAL"];
-          }
-          if (!grav_settings["GEOPOTENTIAL_DEGREE"].is_null()) {
-            grav_deg = grav_settings["GEOPOTENTIAL_DEGREE"];
-          }
-          if (!grav_settings["GEOPOTENTIAL_ORDER"].is_null()) {
-            grav_order = grav_settings["GEOPOTENTIAL_ORDER"];
-          }
-          // Build gravity model and add it to the force model
-          GravityModel gm{grav_body, grav_aspherical, grav_deg, grav_order};
-          std::cout << gm << std::endl;
-          fm.add_gravity(gm);
-        }
-      }
-    }
-    // Determine method of propagation and create the ephemeris
-    if (!prop["METHOD"].is_null()) {
-      if (prop["METHOD"] == "RK4") {
-        RungeKutta4 propagator {initial_state, step, fm};
-        std::string start_str = output["EPHEMERIS"]["START"];
-        std::string stop_str = output["EPHEMERIS"]["STOP"];
-        DateTime start{start_str};
-        DateTime stop{stop_str};
-        Ephemeris ephem = propagator.step(start, stop, 60);
-        ephem.write_stk("test.e");
-      } else {
-        throw ArcException(
-            "run_config::run_config_file exception: Unknown "
-            "propagation method selected");
-      }
-    } else {
-      throw ArcException(
-          "run_config::run_config_file exception: No propagation "
-          "method selected");
-    }
+    ICRF initial_state = parse_state(input);
+    ForceModel fm = parse_forces(prop);
+    Ephemeris ephem = parse_propagate(prop, initial_state, fm);
+    ephem.write_stk("test.e");
   } catch (ArcException err) {
     std::cout << err.what() << std::endl;
     std::stringstream msg;
