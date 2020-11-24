@@ -84,7 +84,6 @@ ForceModel parse_forces(nlohmann::json &prop) {
         }
         // Build gravity model and add it to the force model
         GravityModel gm{grav_body, grav_aspherical, grav_deg, grav_order};
-        std::cout << gm << std::endl;
         fm.add_gravity(gm);
       }
     }
