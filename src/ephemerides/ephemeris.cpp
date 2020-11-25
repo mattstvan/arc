@@ -177,7 +177,7 @@ std::vector<std::string> Ephemeris::format_stk() {
 }
 
 // Write ephemeris to file using STK format
-void Ephemeris::write_stk(char filename[]) {
+void Ephemeris::write_stk(const char filename[]) {
   try {
     std::vector<std::string> lines = format_stk();
     write_lines_to_file(lines, filename);

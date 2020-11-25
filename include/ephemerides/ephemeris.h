@@ -87,7 +87,7 @@ public:
 
   @param filename File system location at which to write the new ephemeris file
   */
-  void write_stk(char filename[]);
+  void write_stk(const char filename[]);
 };
 
 // I/O stream 
