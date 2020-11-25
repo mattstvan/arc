@@ -124,6 +124,31 @@ Ephemeris parse_propagate(nlohmann::json &prop, ICRF &state, ForceModel fm) {
         "method selected");
   }
 }
+
+// Take the resulting trajectory from the run and produce requested products
+void post_process(Ephemeris ephem, nlohmann::json output) {
+  if (!output.is_null()) {
+    if (!output["EPHEMERIS"].is_null()) {
+      nlohmann::json ephem_json = output["EPHEMERIS"];
+      std::string filename = "arc.out";
+      if (!ephem_json["FILENAME"].is_null()) {
+        filename = ephem_json["FILENAME"];
+      }
+      if (!ephem_json["FORMAT"].is_null()) {
+        if (ephem_json["FORMAT"] == "STK") {
+          ephem.write_stk(filename.c_str());
+        }
+      } else {
+        ephem.write_stk(filename.c_str());
+      }
+    }
+  } else {
+    throw ArcException(
+        "run_config::post_process exception: No output product types");
+  }
+}
+
+
 // Execute a run task using a run configuration file
 void run_config_file(const char filepath[]) {
   try {
@@ -136,7 +161,7 @@ void run_config_file(const char filepath[]) {
     ICRF initial_state = parse_state(input);
     ForceModel fm = parse_forces(prop);
     Ephemeris ephem = parse_propagate(prop, initial_state, fm);
-    ephem.write_stk("test.e");
+    post_process(ephem, output);
   } catch (ArcException err) {
     std::cout << err.what() << std::endl;
     std::stringstream msg;
