@@ -5,6 +5,7 @@
 #include <file_io.h>
 #include <force_model.h>
 #include <gravity.h>
+#include <drag.h>
 #include <icrf.h>
 #include <itrf.h>
 #include <run_config.h>
@@ -14,7 +15,7 @@
 #include <sstream>
 
 // Parse JSON representation of initial ICRF state
-ICRF parse_state(nlohmann::json &json) {
+ICRF parse_state(nlohmann::json& json) {
   nlohmann::json state_json = json["INITIAL_STATE"];
   if (!state_json["CARTESIAN"].is_null()) {
     nlohmann::json state = state_json["CARTESIAN"];
@@ -23,7 +24,7 @@ ICRF parse_state(nlohmann::json &json) {
     CelestialBody body = get_body_by_name(body_str);
     // Parse epoch
     std::string dt_str = state["EPOCH"];
-    DateTime epoch{dt_str};
+    DateTime epoch{ dt_str };
     // Parse cartesian components
     double px = state["POSITION"]["X"];
     double py = state["POSITION"]["Y"];
@@ -31,41 +32,44 @@ ICRF parse_state(nlohmann::json &json) {
     double vx = state["VELOCITY"]["X"];
     double vy = state["VELOCITY"]["Y"];
     double vz = state["VELOCITY"]["Z"];
-    Vector3 pos{px, py, pz};
-    Vector3 vel{vx, vy, vz};
+    Vector3 pos{ px, py, pz };
+    Vector3 vel{ vx, vy, vz };
     // Determine coordinate frame
     std::string frame = state["FRAME"];
     if (frame == "ICRF" || frame == "J2000" || frame == "ECI") {
       // Construct directly if ICRF or J2000 is stated
-      return ICRF{body, epoch, pos, vel};
-    } else if (frame == "ITRF" || frame == "ECF") {
+      return ICRF{ body, epoch, pos, vel };
+    }
+    else if (frame == "ITRF" || frame == "ECF") {
       // Rotate to Earth-centered ICRF if ITRF is stated
-      ITRF itrf{EARTH, epoch, pos, vel};
-      return ICRF{itrf};
-    } else {
+      ITRF itrf{ EARTH, epoch, pos, vel };
+      return ICRF{ itrf };
+    }
+    else {
       // Throw error if frame is not recognized
       std::stringstream msg;
       msg << "run_config::parse_state exception: Unsupported coordinate "
-             "frame '"
-          << frame << "'";
+        "frame '"
+        << frame << "'";
       throw ArcException(msg.str());
     }
-  } else {
+  }
+  else {
     // Throw error if state type is not recognized
     throw ArcException(
-        "run_config::parse_state exception: Unsupported state type");
+      "run_config::parse_state exception: Unsupported state type");
   }
 }
 
 // Parse JSON representation of force models
-ForceModel parse_forces(nlohmann::json &prop) {
+ForceModel parse_forces(nlohmann::json& prop) {
   ForceModel fm{};
   if (!prop["MODELS"].is_null()) {
     nlohmann::json models = prop["MODELS"];
     if (!models["GRAVITY"].is_null()) {
       nlohmann::json grav_models = models["GRAVITY"];
       for (nlohmann::json::iterator grav_model = grav_models.begin();
-           grav_model != grav_models.end(); grav_model++) {
+        grav_model != grav_models.end(); grav_model++) {
         CelestialBody grav_body = get_body_by_name(grav_model.key());
         // Gravity defaults
         bool grav_aspherical = false;
@@ -83,7 +87,7 @@ ForceModel parse_forces(nlohmann::json &prop) {
           grav_order = grav_settings["GEOPOTENTIAL_ORDER"];
         }
         // Build gravity model and add it to the force model
-        GravityModel gm{grav_body, grav_aspherical, grav_deg, grav_order};
+        GravityModel gm{ grav_body, grav_aspherical, grav_deg, grav_order };
         fm.add_gravity(gm);
       }
     }
@@ -92,12 +96,12 @@ ForceModel parse_forces(nlohmann::json &prop) {
 }
 
 // Parse JSON representation of propagator options and build ephemeris
-Ephemeris parse_propagate(nlohmann::json &prop, ICRF &state, ForceModel fm) {
+Ephemeris parse_propagate(nlohmann::json& prop, ICRF& state, ForceModel fm) {
   // Parse propagation start and stop times
   std::string start_str = prop["START_TIME"];
   std::string stop_str = prop["STOP_TIME"];
-  DateTime start{start_str};
-  DateTime stop{stop_str};
+  DateTime start{ start_str };
+  DateTime stop{ stop_str };
   // Create step variable
   double prop_step = 60;
   double int_step = 15;
@@ -111,17 +115,19 @@ Ephemeris parse_propagate(nlohmann::json &prop, ICRF &state, ForceModel fm) {
   // Determine method of propagation and create the ephemeris
   if (!prop["METHOD"].is_null()) {
     if (prop["METHOD"] == "RK4") {
-      RungeKutta4 propagator{state, int_step, fm};
+      RungeKutta4 propagator{ state, int_step, fm };
       return propagator.step(start, stop, prop_step);
-    } else {
-      throw ArcException(
-          "run_config::run_config_file exception: Unknown "
-          "propagation method selected");
     }
-  } else {
+    else {
+      throw ArcException(
+        "run_config::run_config_file exception: Unknown "
+        "propagation method selected");
+    }
+  }
+  else {
     throw ArcException(
-        "run_config::run_config_file exception: No propagation "
-        "method selected");
+      "run_config::run_config_file exception: No propagation "
+      "method selected");
   }
 }
 
@@ -138,13 +144,15 @@ void post_process(Ephemeris ephem, nlohmann::json output) {
         if (ephem_json["FORMAT"] == "STK") {
           ephem.write_stk(filename.c_str());
         }
-      } else {
+      }
+      else {
         ephem.write_stk(filename.c_str());
       }
     }
-  } else {
+  }
+  else {
     throw ArcException(
-        "run_config::post_process exception: No output product types");
+      "run_config::post_process exception: No output product types");
   }
 }
 
@@ -162,11 +170,12 @@ void run_config_file(const char filepath[]) {
     ForceModel fm = parse_forces(prop);
     Ephemeris ephem = parse_propagate(prop, initial_state, fm);
     post_process(ephem, output);
-  } catch (ArcException err) {
+  }
+  catch (ArcException err) {
     std::cout << err.what() << std::endl;
     std::stringstream msg;
     msg << "InitialConditions constructor exception: Error parsing initial "
-        << "conditions file'" << filepath << "'";
+      << "conditions file'" << filepath << "'";
     throw ArcException(msg.str());
   }
 }

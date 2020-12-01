@@ -1,5 +1,6 @@
 #ifndef FORCE_MODEL_H
 #define FORCE_MODEL_H
+#include <drag.h>
 #include <gravity.h>
 #include <icrf.h>
 #include <vectors.h>
@@ -15,6 +16,8 @@ Determines physical forces acting upon a spacecraft at a given state
 class ForceModel {
   // Gravity sources to model
   std::vector<GravityModel> gravity_models;
+  // Atmospheric drag model to utilize
+  DragModel drag_model;
 
 public:
   /*
@@ -39,7 +42,7 @@ public:
 
   @param gravity_models Vector of GravityModels to include
   */
-  ForceModel(std::vector<GravityModel> gravity_models);
+  ForceModel(std::vector<GravityModel> gravity_models, DragModel drag_model);
 
   /*
   Add a new GravityModel to the list

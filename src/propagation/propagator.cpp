@@ -1,6 +1,7 @@
 #include <propagator.h>
 #include <ephemeris.h>
 #include <gravity.h>
+#include <drag.h>
 
 /*
 Base Propagator methods
@@ -29,7 +30,7 @@ NumericalPropagator::NumericalPropagator(ICRF initial_state) {
   this->cache_state = initial_state;
   this->step_size = 15.0;
   GravityModel central_grav {initial_state.central_body, false, 0, 0};
-  this->force_model = ForceModel {std::vector<GravityModel> {central_grav}};
+  this->force_model = ForceModel {std::vector<GravityModel> {central_grav}, DragModel{}};
 }
 
 // Direct constructor (full settings)

@@ -11,11 +11,13 @@ ForceModel::ForceModel() { this->gravity_models = std::vector<GravityModel>{}; }
 ForceModel::ForceModel(ICRF &state) {
   this->gravity_models =
       std::vector<GravityModel>{GravityModel{state.central_body, false, 0, 0}};
+  this->drag_model = DragModel{};
 }
 
 // Direct constructor
-ForceModel::ForceModel(std::vector<GravityModel> gravity_models) {
+ForceModel::ForceModel(std::vector<GravityModel> gravity_models, DragModel drag_model) {
   this->gravity_models = gravity_models;
+  this->drag_model = drag_model;
 }
 
 // Add a new GravityModel to the list
@@ -42,6 +44,9 @@ Vector3 ForceModel::acceleration(ICRF &state) {
     temp_accel = gm.acceleration(state);
     acceleration = acceleration.add(temp_accel);
   }
+  // Add drag acceleration
+  temp_accel = drag_model.acceleration(state);
+  acceleration = acceleration.add(temp_accel);
   return acceleration;
 }
 
