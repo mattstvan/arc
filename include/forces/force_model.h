@@ -52,6 +52,13 @@ public:
   void add_gravity(GravityModel model);
 
   /*
+  Change atmospheric drag model
+
+  @param model Drag model to use
+  */
+  void set_drag_model(DragModel model);
+
+  /*
   Get total acceleration force at a given state
 
   @param state ICRF state at which to determine acceleration force

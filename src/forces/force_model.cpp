@@ -36,6 +36,11 @@ void ForceModel::add_gravity(GravityModel model) {
   gravity_models.push_back(model);
 }
 
+// Change atmospheric drag model
+void ForceModel::set_drag_model(DragModel model) {
+  drag_model = model;
+}
+
 // Add a new GravityModel to the list
 Vector3 ForceModel::acceleration(ICRF &state) {
   Vector3 acceleration, temp_accel;
