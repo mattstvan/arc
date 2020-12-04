@@ -91,6 +91,25 @@ ForceModel parse_forces(nlohmann::json& prop) {
         fm.add_gravity(gm);
       }
     }
+    if (!models["ATMOSPHERE"].is_null()) {
+      nlohmann::json drag_settings = models["ATMOSPHERE"];
+      DragModel drag;
+      if (!drag_settings["MODEL"].is_null()) {
+        if (drag_settings["MODEL"] == "US_STANDARD_1976") {
+          drag.density_model = Standard1976;
+        }
+      }
+      if (!drag_settings["DRAG_COEFF"].is_null()) {
+        drag.cd = drag_settings["DRAG_COEFF"];
+      }
+      if (!drag_settings["AREA"].is_null()) {
+        drag.area = drag_settings["AREA"];
+      }
+      if (!drag_settings["MASS"].is_null()) {
+        drag.mass = drag_settings["MASS"];
+      }
+      fm.set_drag_model(drag);
+    }
   }
   return fm;
 }
@@ -114,7 +133,7 @@ Ephemeris parse_propagate(nlohmann::json& prop, ICRF& state, ForceModel fm) {
   }
   // Determine method of propagation and create the ephemeris
   if (!prop["METHOD"].is_null()) {
-    if (prop["METHOD"] == "RK4") {
+    if (prop["METHOD"] == "RUNGE_KUTTA_4") {
       RungeKutta4 propagator{ state, int_step, fm };
       return propagator.step(start, stop, prop_step);
     }
