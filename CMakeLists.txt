@@ -16,3 +16,8 @@ ADD_EXECUTABLE(arc ${Arc_SOURCE_DIR}/src/executables/arc.cpp)
 target_include_directories(arc PUBLIC ${Arc_SOURCE_DIR}/include/exceptions)
 
 add_subdirectory(src)
+
+## TESTS ##
+
+enable_testing()
+add_test(NAME leo_propagation COMMAND $<TARGET_FILE:arc> ${Arc_SOURCE_DIR}/tests/propagation_leo.json WORKING_DIRECTORY ${Arc_SOURCE_DIR})
