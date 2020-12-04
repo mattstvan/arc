@@ -25,7 +25,7 @@
       }
     },
     "PROPAGATION": {
-      "METHOD": "RK4",
+      "METHOD": "RUNGE_KUTTA_4",
       "START_TIME": "2020-11-22T00:00:00.000000",
       "STOP_TIME": "2020-11-23T00:00:00.000000",
       "INTEGRATION_STEP": 15,
@@ -39,6 +39,7 @@
           }
         },
         "ATMOSPHERE": {
+          "MODEL": "US_STANDARD_1976",
           "DRAG_COEFF": 1.2,
           "AREA": 10.0,
           "MASS": 1000.0
