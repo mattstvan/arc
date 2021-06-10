@@ -89,7 +89,6 @@ double CelestialBody::j2() {
   double rot_mag = rotation.mag();
   double fltng = flattening();
   double j2 = (2.0*fltng/3.0) - (pow(radius_equator, 3)*pow(rot_mag, 2))/(3*mu);
-  std::cout << j2 << std::endl;
   return j2;
 }
 
