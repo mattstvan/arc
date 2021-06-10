@@ -50,6 +50,14 @@ public:
   Vector3 scale(double scalar);
 
   /*
+  Scale by a vector using element-wise multiplication
+
+  @param v Vector to multiply element-wise
+  @returns (vectors::Vector3) scaled vector
+  */
+  Vector3 scale(Vector3& v);
+
+  /*
   Calculate the unit vector
 
   @returns (vectors::Vector3) unit vector

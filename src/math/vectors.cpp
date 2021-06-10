@@ -29,6 +29,14 @@ Vector3 Vector3::scale(double scalar) {
   return Vector3{ new_x, new_y, new_z };
 }
 
+// Scale by a vector using element-wise multiplication
+Vector3 Vector3::scale(Vector3& v) {
+  double mx = x * v.x;
+  double my = y * v.y;
+  double mz = z * v.z;
+  return Vector3{ mx, my, mz };
+}
+
 // Calculate the unit vector
 Vector3 Vector3::unit() { return scale(1.0 / mag()); }
 
