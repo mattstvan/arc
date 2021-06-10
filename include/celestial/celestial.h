@@ -36,12 +36,16 @@ public:
     std::string get_name();
 
     /*
-    Return the ratio between this body's polar and equatorial radii, calculated as 1
-    - (r_p/r_e)
+    Return the ratio between this body's polar and equatorial radii, calculated as (r_e - r_p) / r_e
 
     @returns (double) Flattening (oblateness) of this body
     */
     double flattening();
+
+    /*
+    Return J2 perturbation constant
+    */
+    double j2();
 
     /*
     Obtain the ICRF state of this body at an epoch
@@ -66,7 +70,7 @@ static CelestialBody SUN = CelestialBody{
     132712440018000003072.0,
     69570000000.0,
     69570000000.0,
-    Vector3 {0, 0, 0}
+    Vector3 {0, 0, 2.8653296490574722e-06}
 };
 
 // Mercury definition using parameters derived from:
@@ -76,7 +80,7 @@ static CelestialBody MERCURY = CelestialBody{
     22032000000000.0,
     2439700.0,
     2439700.0,
-    Vector3 {0, 0, 1.239932688e-6}
+    Vector3 {0, 0, 1.240013030109886e-06}
 };
 
 // Venus definition using parameters derived from:
@@ -86,7 +90,7 @@ static CelestialBody VENUS = CelestialBody{
     324859000000000.0,
     6051800.0,
     6051800.0,
-    Vector3 {0, 0, -2.992420492e-7}
+    Vector3 {0, 0, -2.992398738488947e-07}
 };
 
 // Earth definition using parameters derived from:
@@ -97,7 +101,7 @@ static CelestialBody EARTH = CelestialBody{
     398600441800000.0,
     6378137.0,
     6356752.3,
-    Vector3 {0, 0, 7.302632853e-5}
+    Vector3 {0, 0, 7.292115024135738e-05}
 };
 
 // Luna definition using parameters derived from:
@@ -107,7 +111,7 @@ static CelestialBody LUNA = CelestialBody{
     4904869500000.0,
     1738100.0,
     1736000.0,
-    Vector3 {0, 0, 2.661780161e-6}
+    Vector3 {0, 0, 2.6616995272150692e-06}
 };
 
 // Mars definition using parameters derived from:
@@ -117,7 +121,7 @@ static CelestialBody MARS = CelestialBody{
     42828370000000.0,
     3396200.0,
     3376200.0,
-    Vector3 {0, 0, 7.094834357e-5}
+    Vector3 {0, 0, 7.088218111185524e-05}
 };
 
 // Jupiter definition using parameters derived from:
@@ -127,7 +131,7 @@ static CelestialBody JUPITER = CelestialBody{
     126686534900000000.0,
     71492000.0,
     66854000.0,
-    Vector3 {0, 0, 1.762958840e-4}
+    Vector3 {0, 0, 0.00017734058128229425}
 };
 
 // Saturn definition using parameters derived from:
@@ -137,7 +141,7 @@ static CelestialBody SATURN = CelestialBody{
     37931187900000000.0,
     60268000.0,
     54364000.0,
-    Vector3 {0, 0, 1.631148833e-4}
+    Vector3 {0, 0, 0.00017070904264420285}
 };
 
 // Uranus definition using parameters derived from:
@@ -147,7 +151,7 @@ static CelestialBody URANUS = CelestialBody{
     5793939900000000.0,
     25559000.0,
     24973000.0,
-    Vector3 {0, 0, -1.014726309e-4}
+    Vector3 {0, 0, -0.00010123766537166816}
 };
 
 // Neptune definition using parameters derived from:
@@ -157,7 +161,7 @@ static CelestialBody NEPTUNE = CelestialBody{
     6836529900000000.0,
     24764000.0,
     24341000.0,
-    Vector3 {0, 0, 1.084055436e-4}
+    Vector3 {0, 0, 0.00010833825276190748}
 };
 
 /*

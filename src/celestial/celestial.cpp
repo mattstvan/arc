@@ -84,6 +84,15 @@ double CelestialBody::flattening() {
   return (radius_equator - radius_polar) / radius_equator;
 }
 
+// Return the ratio between this body's polar and equatorial radii
+double CelestialBody::j2() {
+  double rot_mag = rotation.mag();
+  double fltng = flattening();
+  double j2 = (2.0*fltng/3.0) - (pow(radius_equator, 3)*pow(rot_mag, 2))/(3*mu);
+  std::cout << j2 << std::endl;
+  return j2;
+}
+
 // Obtain the ICRF state of this body at an epoch
 ICRF CelestialBody::propagate(DateTime& epoch) {
   // Get the planet state from the body propagation handler

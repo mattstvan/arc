@@ -8,7 +8,7 @@
 // Return Earth's rotation vector, in radians per second
 Vector3 earth_rotation(DateTime &epoch) {
   // Earth rotation vector
-  return Vector3{0.0, 0.0, 7.2921158553e-5};
+  return EARTH.rotation;
   // return EARTH.rotation.scale(1.0 - finals.lod / 86400.0);
 };
 
