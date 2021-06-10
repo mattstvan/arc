@@ -11,6 +11,7 @@ Sets central body to Earth with aspherical effects disabled
 */
 GravityModel::GravityModel() {
   this->body = EARTH;
+  this->model = J2;
   this->is_aspherical = false;
   this->degree = 0;
   this->order = 0;
@@ -24,9 +25,10 @@ Direct constructor
 @param degree Geopotential model degree
 @param order Geopotential model order
 */
-GravityModel::GravityModel(CelestialBody &body, bool is_aspherical, int degree,
-                           int order) {
+GravityModel::GravityModel(CelestialBody &body, GeopotentialModel model,
+                           bool is_aspherical, int degree, int order) {
   this->body = body;
+  this->model = model;
   this->is_aspherical = is_aspherical;
   this->degree = degree;
   this->order = order;
@@ -66,10 +68,28 @@ Vector3 GravityModel::spherical(ICRF &sc_state) {
 Calculate the aspherical components of acceleration due to gravity
 
 @param sc_state Spacecraft ICRF state at which to calculate body gravity
-@returns Vector of acceleration due to spherical gravity at given state, in
+@returns Vector of acceleration due to aspherical gravity at given state, in
 m/s^2
 */
 Vector3 GravityModel::aspherical(ICRF &sc_state) {
+  // J2 Perturbation
+  // Ref: Curtis, H. (2013). Orbital mechanics for engineering students.
+  if (model == J2) {
+    // Body J2 value
+    double j2 = body.j2();
+    double rmag = sc_state.position.mag();
+    // Leading coefficient (same for all elements)
+    double coeff =
+        (3.0 / 2.0) * body.mu * j2 * pow(body.radius_equator, 2) / pow(rmag, 5);
+    // Initial acceleration vector elements
+    double a_x = 5.0 * pow(sc_state.position.z, 2) / pow(rmag, 2) - 1;
+    double a_y = 5.0 * pow(sc_state.position.z, 2) / pow(rmag, 2) - 1;
+    double a_z = 5.0 * pow(sc_state.position.z, 2) / pow(rmag, 2) - 3;
+    // Initial acceleration vector
+    Vector3 j2_vec{a_x, a_y, a_z};
+    // Scale by position and leading coefficient
+    return j2_vec.scale(coeff).scale(sc_state.position);
+  }
   // Placeholder
   return Vector3{};
 }

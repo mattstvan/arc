@@ -6,6 +6,11 @@
 
 #include <iostream>
 
+enum GeopotentialModel {
+    // Terms up to J2
+    J2,
+};
+
 // Gravity model
 class GravityModel {
   // Calculate acceleration due to gravity, assuming a spherical body
@@ -17,6 +22,8 @@ class GravityModel {
  public:
   // Body this model represents
   CelestialBody body;
+  // Model to use for gravity field
+  GeopotentialModel model;
   // Flag to determine if this model should include aspherical effects
   bool is_aspherical;
   // Geopotential degree
@@ -28,7 +35,7 @@ class GravityModel {
   GravityModel();
 
   // Direct constructor
-  GravityModel(CelestialBody &body, bool is_aspherical, int degree, int order);
+  GravityModel(CelestialBody &body, GeopotentialModel model, bool is_aspherical, int degree, int order);
 
   // Calculate acceleration on a spacecraft due to gravity, given its ICRF state
   Vector3 acceleration(ICRF &state);
