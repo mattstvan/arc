@@ -73,6 +73,7 @@ ForceModel parse_forces(nlohmann::json& prop) {
         CelestialBody grav_body = get_body_by_name(grav_model.key());
         // Gravity defaults
         bool grav_aspherical = false;
+        GeopotentialModel grav_geomodel = J2;
         int grav_deg = 0;
         int grav_order = 0;
         // Overwrite defaults if values exist
@@ -80,6 +81,11 @@ ForceModel parse_forces(nlohmann::json& prop) {
         if (!grav_settings["ASPHERICAL"].is_null()) {
           grav_aspherical = grav_settings["ASPHERICAL"];
         }
+        if (!grav_settings["GEOPOTENTIAL_MODEL"].is_null()) {
+          if (grav_settings["GEOPOTENTIAL_MODEL"] == "J2") {
+            grav_geomodel = J2;
+          }
+        }        
         if (!grav_settings["GEOPOTENTIAL_DEGREE"].is_null()) {
           grav_deg = grav_settings["GEOPOTENTIAL_DEGREE"];
         }
@@ -87,7 +93,7 @@ ForceModel parse_forces(nlohmann::json& prop) {
           grav_order = grav_settings["GEOPOTENTIAL_ORDER"];
         }
         // Build gravity model and add it to the force model
-        GravityModel gm{ grav_body, grav_aspherical, grav_deg, grav_order };
+        GravityModel gm{ grav_body, grav_geomodel, grav_aspherical, grav_deg, grav_order };
         fm.add_gravity(gm);
       }
     }
