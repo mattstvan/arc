@@ -33,7 +33,7 @@
       "MODELS": {
         "GRAVITY": {
           "EARTH": {
-            "ASPHERICAL": true,
+            "ASPHERICAL": false,
             "GEOPOTENTIAL_MODEL": "J2",
             "GEOPOTENTIAL_DEGREE": 21,
             "GEOPOTENTIAL_ORDER": 21

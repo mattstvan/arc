@@ -10,7 +10,7 @@ ForceModel::ForceModel() { this->gravity_models = std::vector<GravityModel>{}; }
 // Minimum constructor
 ForceModel::ForceModel(ICRF &state) {
   this->gravity_models =
-      std::vector<GravityModel>{GravityModel{state.central_body, false, 0, 0}};
+      std::vector<GravityModel>{GravityModel{state.central_body, J2, false, 0, 0}};
   this->drag_model = DragModel{};
 }
 

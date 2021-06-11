@@ -85,7 +85,7 @@ ForceModel parse_forces(nlohmann::json& prop) {
           if (grav_settings["GEOPOTENTIAL_MODEL"] == "J2") {
             grav_geomodel = J2;
           }
-        }        
+        }
         if (!grav_settings["GEOPOTENTIAL_DEGREE"].is_null()) {
           grav_deg = grav_settings["GEOPOTENTIAL_DEGREE"];
         }
