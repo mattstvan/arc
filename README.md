@@ -35,13 +35,25 @@ Arc is an astrodynamics toolkit aimed at providing high-accuracy numerical propa
 	 - [x] Leap second
  - [ ] Orbital state propagation
 	 - [x] Keplerian Approximation
-	 - [x] Ephemeris Interpolation
-	 - [x] Fixed-step Runge-Kutta integration
-	 - [ ] Dormand-Prince integration
-	 - [ ] Adams-Bashforth-Moulton integration
+	 - [ ] Ephemeris Interpolation
+	 	- [x] Keplerian
+	 	- [ ] Lagrange
+	 	- [ ] Hermite
+	 - [ ] Numerical integration
+		 - [x] 4th-order Runge-Kutta
+		 - [ ] Dormand-Prince
+		 - [ ] Adams-Bashforth-Moulton
  - [ ] Perturbing force models
-	 - [ ] Aspherical Earth gravity model (EGM-2008)
-	 - [ ] Atmospheric Drag (Harris-Preister)
+	 - [ ] Aspherical gravity models
+	 	- [x] J2
+	 	- [ ] J3
+	 	- [ ] EGM-2008
+	 	- [ ] GMM-3
+	 - [ ] Atmospheric Drag
+	 	- [x] U.S. Standard 1976
+		- [ ] Harris-Priester
+		- [ ] NASA Earth-GRAM
+		- [ ] NASA Mars-GRAM
 	 - [x] Third body gravity
 	 - [ ] Solar Radiation Pressure
 	 - [ ] Spacecraft Maneuvers
@@ -49,10 +61,14 @@ Arc is an astrodynamics toolkit aimed at providing high-accuracy numerical propa
 	 - [ ] Relativity
  - [ ] Data input
 	 - [x] JSON parsing
+	 - [ ] Python library
 	 - [ ] External library call
  - [ ] Data output
-	 - [ ] Spacecraft Ephemerides/Covariance
+	 - [ ] Spacecraft Ephemerides
 		 - [x] STK format
 		 - [ ] CCSDS OEM format
+	 - [ ] Spacecraft Covariance
+		 - [ ] STK format
+		 - [ ] CCSDS OEM format	 	
 	 - [ ] Two-line element set (TLE)
 
