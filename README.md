@@ -4,7 +4,7 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)](https://bitbucket.org/lbesson/ansi-colors)
 
 ### This project is no longer maintained.
-I used it to learn some of the principles of numerical orbit propagation and I ended up starting from scratch with something else. It is by no means supported or particularly useful in its current state, but it might be helpful to someone. A copy of Niels Lohmann's [JSON library](https://github.com/nlohmann/json) is included, which is licensed under MIT. Much of the original structure was inspired by David RC Dayton's [Pious Squid](https://github.com/david-rc-dayton/pious-squid), also under MIT.
+I used it to learn some of the principles of numerical orbit propagation and I ended up starting from scratch with something else. It is by no means supported or particularly useful in its current state, but it might be helpful to someone. A copy of Niels Lohmann's [JSON library](https://github.com/nlohmann/json) is included, which is licensed under MIT. Much of the original structure was inspired by David RC Dayton's [Pious Squid](https://github.com/david-rc-dayton/pious-squid), also under MIT. Additionally, the NetBSD version of the [strptime function](https://github.com/mattstvan/arc/blob/master/src/time/bsd_strptime.cpp) is included, which carries is own license.
 
 Arc is a toolkit aimed at providing high-accuracy numerical propagation and orbit/trajectory analysis on spacecraft. It started as a personal project to learn more about the mathematics used in orbit determination/propagation. I've attempted to keep three development goals in mind:
  - Simple, unobscured code with sane variable names and logic
