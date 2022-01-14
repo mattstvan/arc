@@ -1,18 +1,17 @@
 # Arc
 
-[![GitHub version](https://badge.fury.io/gh/Naereen%2FStrapDown.js.svg)](https://github.com/mattstvan/arc)
 ![CMake](https://github.com/mattstvan/arc/workflows/CMake/badge.svg?branch=master&event=push)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/mattstvan/arc/graphs/commit-activity)
-[![GitHub issues](https://img.shields.io/github/issues/Naereen/StrapDown.js.svg)](https://github.com/mattstvan/arc/issues/)
-[![GitHub pull-requests](https://img.shields.io/github/issues-pr/Naereen/StrapDown.js.svg)](https://github.com/mattstvan/arc/pull/)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)](https://bitbucket.org/lbesson/ansi-colors)
 
+### This project is no longer maintained.
+I used it to learn some of the principles of numerical orbit propagation and I ended up starting from scratch with something else. It is by no means supported or particularly useful in its current state, but it might be helpful to someone. A copy of Niels Lohmann's [JSON library](https://github.com/nlohmann/json) is included, which is licensed under MIT. Much of the original structure was inspired by David RC Dayton's [Pious Squid](https://github.com/david-rc-dayton/pious-squid), also under MIT.
 
-Arc is an astrodynamics toolkit aimed at providing high-accuracy numerical propagation and orbit/trajectory analysis on spacecraft. It started as a personal project to learn more about the mathematics used in orbit determination/propagation. I've attempted to keep three development goals in mind:
+Arc is a toolkit aimed at providing high-accuracy numerical propagation and orbit/trajectory analysis on spacecraft. It started as a personal project to learn more about the mathematics used in orbit determination/propagation. I've attempted to keep three development goals in mind:
  - Simple, unobscured code with sane variable names and logic
  - Adherence to as many international scientific standards as practical
  - No external dependencies outside the Standard Template Library
 
-## Planned Features
+## Features
 
  - [ ] Coordinate systems
 	 - [x] International Celestial Reference Frame (ICRF)
